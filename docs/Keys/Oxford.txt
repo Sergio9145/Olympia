@@ -1,0 +1,7 @@
+OURS:
+app_id 58eb508c
+key 2cf83b3069afab12a6d2f93038c0bcef
+
+NOT OURS:
+app_id 912edfa2
+key 0a67430a12a88508dc03cfc51937f28a
