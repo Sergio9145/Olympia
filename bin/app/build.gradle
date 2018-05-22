@@ -19,8 +19,8 @@ android {
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
-        buildConfigField "String", "APP_ID", "\"912edfa2\""
-        buildConfigField "String", "APP_KEY", "\"0a67430a12a88508dc03cfc51937f28a\""
+        buildConfigField "String", "APP_ID", "\"58eb508c\""
+        buildConfigField "String", "APP_KEY", "\"2cf83b3069afab12a6d2f93038c0bcef\""
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }

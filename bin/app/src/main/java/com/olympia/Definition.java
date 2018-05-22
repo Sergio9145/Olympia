@@ -1,4 +1,4 @@
-package com.olympia.oxforddictionarysample;
+package com.olympia;
 
 import com.olympia.oxfordapi.model.Entry;
 import com.olympia.oxfordapi.model.Sense;

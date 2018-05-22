@@ -1,4 +1,4 @@
-package com.olympia.oxforddictionarysample;
+package com.olympia;
 
 import android.app.Application;
 
