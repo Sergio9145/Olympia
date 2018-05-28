@@ -2,7 +2,7 @@ package com.olympia;
 
 import android.app.Application;
 
-import com.olympia.oxfordapi.ApiClient;
+import com.olympia.oxford_api.ApiClient;
 
 public class SampleApp extends Application {
     private ApiClient apiClient;

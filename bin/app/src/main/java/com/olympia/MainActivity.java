@@ -1,91 +1,81 @@
 package com.olympia;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.inputmethod.InputMethodManager;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.olympia.oxfordapi.api.DictionaryEntriesApi;
-import com.olympia.oxfordapi.model.Entry;
-import com.pedrogomez.renderers.ListAdapteeCollection;
-import com.pedrogomez.renderers.RVRendererAdapter;
-import com.pedrogomez.renderers.RendererBuilder;
+import com.olympia.cloud9_api.ApiUtils;
+import com.olympia.cloud9_api.ICloud9;
+import com.olympia.cloud9_api.User;
 
-import java.util.List;
-
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private TextView search;
-    private DictionaryEntriesApi entriesApi;
+    String TAG = "Olmp";
+
+    private EditText username_input, password_input;
+    private ICloud9 cloud9service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main_activity);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        entriesApi = ((SampleApp) getApplication()).apiClient().get(DictionaryEntriesApi.class);
-
-        search = (TextView) findViewById(R.id.search);
-        recyclerView = (RecyclerView) findViewById(R.id.list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        findViewById(R.id.fab).setOnClickListener(v -> performSearch(search.getText().toString()));
+        username_input = (EditText) findViewById(R.id.username);
+        password_input = (EditText) findViewById(R.id.password);
     }
 
-    private void performSearch(final String searchTerm) {
-        entriesApi.getDictionaryEntries("en", searchTerm, BuildConfig.APP_ID, BuildConfig.APP_KEY)
-                .doOnSubscribe(d -> hideKeyboard())
-                .flatMap(re -> Observable.fromIterable(re.getResults()))
-                .flatMap(he -> Observable.fromIterable(he.getLexicalEntries()))
-                .flatMap(le -> Observable.fromIterable(le.getEntries()).map(e -> new CategorizedEntry(searchTerm, le.getLexicalCategory(), e)))
-                .flatMap(ce -> Observable.fromIterable(ce.entry.getSenses()).map(s -> new Definition(ce.category, ce.word, ce.entry, s)))
-                .toList()
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(this::createAdapter)
-                .subscribe(this::updateRecyclerView);
+    public void onClickBtn(View v)
+    {
+        cloud9service = ApiUtils.getAPIService();
+
+        User user = new User();
+        user.setUsername(username_input.getText().toString());
+        user.setPassword(password_input.getText().toString());
+        sendPostRequest(user);
     }
 
-    private void hideKeyboard() {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(recyclerView.getWindowToken(), 0);
+    public void sendPostRequest(User user) {
+        cloud9service.createUser(user.getUsername(), user.getPassword(), 42).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()) {
+                    showResponse(response.body().toString());
+                    Log.i(TAG, "Submitted to API" + response.body().toString());
+                } else {
+                    showResponse(response.body().toString());
+                    Log.i(TAG, "Was not submitted to API" + response.body().toString());
+                }
+                Toast.makeText(getApplicationContext(), "Successfully logged in. Proceeding", Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(MainActivity.this, WordsList.class);
+//                    intent.putExtra(EXTRA_MESSAGE, message);
+                startActivity(intent);
+            }
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.e(TAG, "Unable to submit post to API");
+            }
+        });
     }
 
-    @NonNull
-    private RVRendererAdapter<Definition> createAdapter(List<Definition> definitions) {
-        RendererBuilder<Definition> builder = new RendererBuilder<Definition>()
-                .bind(Definition.class, new DefinitionRenderer());
-        ListAdapteeCollection<Definition> collection = new ListAdapteeCollection<>(definitions);
-        return new RVRendererAdapter<>(builder, collection);
-    }
-
-    private void updateRecyclerView(RVRendererAdapter<Definition> adapter) {
-        if (recyclerView.getAdapter() != null) {
-            recyclerView.swapAdapter(adapter, true);
-        } else {
-            recyclerView.setAdapter(adapter);
+    public void showResponse(String response) {
+        TextView tv = findViewById(R.id.log);
+        if(tv.getVisibility() == View.GONE) {
+            tv.setVisibility(View.VISIBLE);
         }
-    }
-
-    private static class CategorizedEntry {
-        final String word;
-        final String category;
-        final Entry entry;
-
-        CategorizedEntry(String word, String category, Entry entry) {
-            this.word = word;
-            this.category = category;
-            this.entry = entry;
-        }
+        tv.setText(response);
     }
 }

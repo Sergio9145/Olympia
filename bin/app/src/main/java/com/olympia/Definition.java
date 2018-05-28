@@ -1,7 +1,7 @@
 package com.olympia;
 
-import com.olympia.oxfordapi.model.Entry;
-import com.olympia.oxfordapi.model.Sense;
+import com.olympia.oxford_api.model.Entry;
+import com.olympia.oxford_api.model.Sense;
 
 public class Definition {
     private final String category;
