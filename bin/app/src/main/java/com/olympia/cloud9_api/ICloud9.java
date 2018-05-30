@@ -8,9 +8,18 @@ import retrofit2.http.POST;
 public interface ICloud9 {
     @FormUrlEncoded
     @POST("/register")
-    Call<User> createUser(
+    Call<User> registerUser(
+        @Field("firstName") String firstName,
+        @Field("lastName") String lastName,
+        @Field("email") String email,
         @Field("username") String username,
-        @Field("password") String password,
-        @Field("id") long id
+        @Field("password") String password
+    );
+
+    @FormUrlEncoded
+    @POST("/login")
+    Call<User> signUserIn(
+            @Field("username") String username,
+            @Field("password") String password
     );
 }

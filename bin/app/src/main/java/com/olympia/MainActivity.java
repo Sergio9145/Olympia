@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         if (!TextUtils.isEmpty(username.getText())
             &&!TextUtils.isEmpty(password.getText()))
         {
-            sendPostRequest(user);
+            sendLoginRequest(user);
         }
     }
 
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
             &&!TextUtils.isEmpty(username.getText())
             &&!TextUtils.isEmpty(password.getText()))
         {
-            sendPostRequest(user);
+            sendRegisterRequest(user);
         }
     }
 
@@ -104,8 +104,14 @@ public class MainActivity extends AppCompatActivity {
         switchViews(registrationView, loginView);
     }
 
-    public void sendPostRequest(User user) {
-        cloud9service.createUser(user.getUsername(), user.getPassword(), 42).enqueue(new Callback<User>() {
+    public void sendRegisterRequest(User user) {
+        cloud9service.registerUser(user.getFirstName(),
+                user.getLastName(),
+                user.getEmail(),
+                user.getUsername(),
+                user.getPassword())
+            .enqueue(new Callback<User>() {
+
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
@@ -115,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                     showResponse(response.body().toString());
                     Log.i(TAG, "Was not submitted to API" + response.body().toString());
                 }
-                Toast.makeText(getApplicationContext(), "Successfully logged in. Proceeding", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "User successfully registered. Proceeding", Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(MainActivity.this, WordsList.class);
 //                    intent.putExtra(EXTRA_MESSAGE, message);
@@ -126,6 +132,33 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "Unable to submit post to API");
             }
         });
+    }
+
+    public void sendLoginRequest(User user) {
+        cloud9service.signUserIn(user.getUsername(),
+                user.getPassword())
+                .enqueue(new Callback<User>() {
+
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        if (response.isSuccessful()) {
+                            showResponse(response.body().toString());
+                            Log.i(TAG, "Submitted to API" + response.body().toString());
+                        } else {
+                            showResponse(response.body().toString());
+                            Log.i(TAG, "Was not submitted to API" + response.body().toString());
+                        }
+                        Toast.makeText(getApplicationContext(), "User has successfully logged in. Proceeding", Toast.LENGTH_LONG).show();
+
+                        Intent intent = new Intent(MainActivity.this, WordsList.class);
+//                    intent.putExtra(EXTRA_MESSAGE, message);
+                        startActivity(intent);
+                    }
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+                        Log.e(TAG, "Unable to submit post to API");
+                    }
+                });
     }
 
     public void showResponse(String response) {
