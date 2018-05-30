@@ -1,5 +1,14 @@
 <resources>
     <string name="app_name">Olympia</string>
-    <string name="action_settings">Settings</string>
+    <string name="settings">Settings</string>
     <string name="search_term">Search Term</string>
+    <string name="register">Register</string>
+    <string name="registration">Registration</string>
+    <string name="signin">Sign in</string>
+    <string name="back">Back</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="email">Email (will be private by default)</string>
+    <string name="firstName">First name</string>
+    <string name="lastName">Last name</string>
 </resources>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -22,29 +23,85 @@ public class MainActivity extends AppCompatActivity {
 
     String TAG = "Olmp";
 
-    private EditText username_input, password_input;
     private ICloud9 cloud9service;
+
+    private View loginView;
+    private View registrationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        username_input = (EditText) findViewById(R.id.username);
-        password_input = (EditText) findViewById(R.id.password);
+        loginView = findViewById(R.id.login_view);
+        registrationView = findViewById(R.id.registration_view);
+
+        cloud9service = ApiUtils.getAPIService();
     }
 
-    public void onClickBtn(View v)
+    private void switchViews(View v1, View v2) {
+        v1.setVisibility(View.GONE);
+        v2.setVisibility(View.VISIBLE);
+    }
+
+    public void onLogin(View v)
     {
-        cloud9service = ApiUtils.getAPIService();
+        EditText username, password;
+
+        username = findViewById(R.id.username1);
+        password = findViewById(R.id.password1);
 
         User user = new User();
-        user.setUsername(username_input.getText().toString());
-        user.setPassword(password_input.getText().toString());
-        sendPostRequest(user);
+
+        user.setUsername(username.getText().toString());
+        user.setPassword(password.getText().toString());
+
+        if (!TextUtils.isEmpty(username.getText())
+            &&!TextUtils.isEmpty(password.getText()))
+        {
+            sendPostRequest(user);
+        }
+    }
+
+    public void onRegistration(View v)
+    {
+        EditText firstName, lastName, username, email, password;
+
+        firstName = findViewById(R.id.firstName);
+        lastName = findViewById(R.id.lastName);
+        email = findViewById(R.id.email);
+        username = findViewById(R.id.username2);
+        password = findViewById(R.id.password2);
+
+        User user = new User();
+
+        user.setFirstName(firstName.getText().toString());
+        user.setLastName(lastName.getText().toString());
+        user.setEmail(email.getText().toString());
+        user.setUsername(username.getText().toString());
+        user.setPassword(password.getText().toString());
+
+        if (!TextUtils.isEmpty(firstName.getText())
+            &&!TextUtils.isEmpty(lastName.getText())
+            &&!TextUtils.isEmpty(email.getText())
+            &&!TextUtils.isEmpty(username.getText())
+            &&!TextUtils.isEmpty(password.getText()))
+        {
+            sendPostRequest(user);
+        }
+    }
+
+    public void gotoRegistration(View v)
+    {
+        switchViews(loginView, registrationView);
+    }
+
+    public void gotoLogin(View v)
+    {
+        switchViews(registrationView, loginView);
     }
 
     public void sendPostRequest(User user) {
