@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.olympia.cloud9_api.ApiUtils;
@@ -25,8 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ICloud9 cloud9service;
 
-    private View loginView;
-    private View registrationView;
+    private View loginView, registrationView, resetPasswordView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +36,9 @@ public class MainActivity extends AppCompatActivity {
 
         loginView = findViewById(R.id.login_view);
         registrationView = findViewById(R.id.registration_view);
+        resetPasswordView = findViewById(R.id.reset_password_view);
 
         cloud9service = ApiUtils.getAPIService();
-    }
-
-    private void switchViews(View v1, View v2) {
-        v1.setVisibility(View.GONE);
-        v2.setVisibility(View.VISIBLE);
     }
 
     public void onLogin(View v)
@@ -94,14 +88,44 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void onPasswordReset(View v)
+    {
+        EditText email, password;
+
+        email = findViewById(R.id.email3);
+        password = findViewById(R.id.password3);
+
+        User user = new User();
+
+        user.setEmail(email.getText().toString());
+        user.setPassword(password.getText().toString());
+
+        if (!TextUtils.isEmpty(email.getText())
+                &&!TextUtils.isEmpty(password.getText()))
+        {
+            sendResetPasswordRequest(user);
+        }
+    }
+
     public void gotoRegistration(View v)
     {
-        switchViews(loginView, registrationView);
+        loginView.setVisibility(View.GONE);
+        resetPasswordView.setVisibility(View.GONE);
+        registrationView.setVisibility(View.VISIBLE);
     }
 
     public void gotoLogin(View v)
     {
-        switchViews(registrationView, loginView);
+        registrationView.setVisibility(View.GONE);
+        resetPasswordView.setVisibility(View.GONE);
+        loginView.setVisibility(View.VISIBLE);
+    }
+
+    public void gotoResetPassword(View v)
+    {
+        loginView.setVisibility(View.GONE);
+        registrationView.setVisibility(View.GONE);
+        resetPasswordView.setVisibility(View.VISIBLE);
     }
 
     public void sendRegisterRequest(User user) {
@@ -115,21 +139,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
-                    showResponse(response.body().toString());
-                    Log.i(TAG, "Submitted to API" + response.body().toString());
-                } else {
-                    showResponse(response.body().toString());
-                    Log.i(TAG, "Was not submitted to API" + response.body().toString());
-                }
-                Toast.makeText(getApplicationContext(), "User successfully registered. Proceeding", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "User successfully registered. Proceeding", Toast.LENGTH_LONG).show();
 
-                Intent intent = new Intent(MainActivity.this, WordsList.class);
-//                    intent.putExtra(EXTRA_MESSAGE, message);
-                startActivity(intent);
+                    Intent intent = new Intent(MainActivity.this, WordsList.class);
+                    startActivity(intent);
+                } else {
+                    Log.e(TAG, "User was cannot be registered or other error");
+                    Toast.makeText(getApplicationContext(), "User was cannot be registered or other error", Toast.LENGTH_LONG).show();
+                }
+
             }
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Log.e(TAG, "Unable to submit post to API");
+                Log.e(TAG, "Unable to submit Register request to the server");
+                Toast.makeText(getApplicationContext(), "Unable to submit Register request to the server", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -142,30 +165,42 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         if (response.isSuccessful()) {
-                            showResponse(response.body().toString());
-                            Log.i(TAG, "Submitted to API" + response.body().toString());
-                        } else {
-                            showResponse(response.body().toString());
-                            Log.i(TAG, "Was not submitted to API" + response.body().toString());
-                        }
-                        Toast.makeText(getApplicationContext(), "User has successfully logged in. Proceeding", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "User has successfully logged in. Proceeding", Toast.LENGTH_LONG).show();
 
-                        Intent intent = new Intent(MainActivity.this, WordsList.class);
-//                    intent.putExtra(EXTRA_MESSAGE, message);
-                        startActivity(intent);
+                            Intent intent = new Intent(MainActivity.this, WordsList.class);
+                            startActivity(intent);
+                        } else {
+                            Log.e(TAG, "Incorrect password or other error");
+                            Toast.makeText(getApplicationContext(), "Incorrect password or other error", Toast.LENGTH_LONG).show();
+                        }
                     }
                     @Override
                     public void onFailure(Call<User> call, Throwable t) {
-                        Log.e(TAG, "Unable to submit post to API");
+                        Log.e(TAG, "Unable to submit Login request to the server");
+                        Toast.makeText(getApplicationContext(), "Unable to submit Login request to the server", Toast.LENGTH_LONG).show();
                     }
                 });
     }
 
-    public void showResponse(String response) {
-        TextView tv = findViewById(R.id.log);
-        if(tv.getVisibility() == View.GONE) {
-            tv.setVisibility(View.VISIBLE);
-        }
-        tv.setText(response);
+    public void sendResetPasswordRequest(User user) {
+        cloud9service.resetPassword(user.getEmail(),
+                user.getPassword())
+                .enqueue(new Callback<User>() {
+
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "Check the mail for password reset link", Toast.LENGTH_LONG).show();
+                        } else {
+                            Log.e(TAG, "Password was not reset or other error");
+                            Toast.makeText(getApplicationContext(), "Password was not reset or other error", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+                        Log.e(TAG, "Unable to submit ResetPassword request to the server");
+                        Toast.makeText(getApplicationContext(), "Unable to submit ResetPassword request to the server", Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 }

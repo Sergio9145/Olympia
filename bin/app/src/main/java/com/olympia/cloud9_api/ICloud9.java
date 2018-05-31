@@ -22,4 +22,11 @@ public interface ICloud9 {
             @Field("username") String username,
             @Field("password") String password
     );
+
+    @FormUrlEncoded
+    @POST("/passwordreset")
+    Call<User> resetPassword(
+            @Field("email") String email,
+            @Field("password") String password
+    );
 }

@@ -74,11 +74,11 @@
         android:inputType="textPassword" />
 
     <Button
-        android:id="@+id/registration_btn"
+        android:id="@+id/register_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onRegistration"
-        android:text="@string/registration" />
+        android:text="@string/register" />
 
     <Button
         android:background="?android:attr/selectableItemBackground"
@@ -88,8 +88,4 @@
         android:onClick="gotoLogin"
         android:text="@string/back" />
 
-    <TextView
-        android:id="@+id/log"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 </LinearLayout>
