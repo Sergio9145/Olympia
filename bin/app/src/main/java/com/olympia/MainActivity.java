@@ -21,6 +21,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
+    //* Skip login:
+    final static boolean QUICK_LAUNCH = false;
 
     String TAG = "Olmp";
 
@@ -43,6 +45,12 @@ public class MainActivity extends AppCompatActivity {
         resetPasswordView = findViewById(R.id.reset_password_view);
 
         cloud9service = ApiUtils.getAPIService();
+
+        //* Skip login:
+        if (QUICK_LAUNCH) {
+            Intent intent = new Intent(MainActivity.this, WordsList.class);
+            startActivity(intent);
+        }
     }
 
     public void onLogin(View v)

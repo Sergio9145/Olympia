@@ -7,6 +7,15 @@
     tools:context="com.olympia.MainActivity">
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_of_recent_words"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="88dp"
+        android:paddingTop="88dp" />
+
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

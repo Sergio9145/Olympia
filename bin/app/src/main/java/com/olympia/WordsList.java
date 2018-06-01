@@ -1,62 +1,86 @@
 package com.olympia;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.olympia.oxford_api.api.DictionaryEntriesApi;
 import com.olympia.oxford_api.model.Entry;
 import com.olympia.oxford_api.model.HeadwordEntry;
+import com.olympia.oxford_api.model.Sense;
 import com.pedrogomez.renderers.ListAdapteeCollection;
 import com.pedrogomez.renderers.RVRendererAdapter;
 import com.pedrogomez.renderers.RendererBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class WordsList extends AppCompatActivity {
+    final static String EXTRA_DEF = "EXTRA_DEF";
+    final static int WORD_CARD_ACTIVITY = 42;
+
     private RecyclerView recyclerView;
     private TextView search;
     private DictionaryEntriesApi entriesApi;
     public List<HeadwordEntry> lastEntrySearched;
+    public ArrayList<String> vocabulary;
+    public ArrayList<Definition> definitions;
+    public ArrayList<Sense> senses;
+    WordsListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tabs_activity);
 
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
         entriesApi = ((SampleApp) getApplication()).apiClient().get(DictionaryEntriesApi.class);
 
         search = (TextView) findViewById(R.id.search);
 
+        vocabulary = new ArrayList<>();
+        definitions = new ArrayList<>();
+        senses = new ArrayList<>();
+
         recyclerView = (RecyclerView) findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-        findViewById(R.id.fab).setOnClickListener(v -> performSearch(search.getText().toString()));
+        RecyclerView recentWordsList = (RecyclerView) findViewById(R.id.list_of_recent_words);
+        recentWordsList.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new WordsListAdapter(vocabulary);
+        recentWordsList.setAdapter(adapter);
 
-        // Get the Intent that started this activity and extract the string
-//        Intent intent = getIntent();
-//        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        findViewById(R.id.fab).setOnClickListener(v -> performSearch(search.getText().toString()));
     }
 
     private void performSearch(final String searchTerm) {
+        adapter.notifyDataSetChanged();
         entriesApi.getDictionaryEntries("en", searchTerm, BuildConfig.APP_ID, BuildConfig.APP_KEY)
                 .doOnSubscribe(d -> hideKeyboard())
-                .flatMap(re -> { lastEntrySearched = re.getResults(); return Observable.fromIterable(re.getResults()); })
+                .flatMap(re -> {
+                    lastEntrySearched = re.getResults();
+                    if (lastEntrySearched.size() > 0) {
+                        vocabulary.add(lastEntrySearched.get(0).getWord());
+                    }
+                    return Observable.fromIterable(lastEntrySearched);
+                })
                 .flatMap(he -> Observable.fromIterable(he.getLexicalEntries()))
                 .flatMap(le -> Observable.fromIterable(le.getEntries()).map(e -> new CategorizedEntry(searchTerm, le.getLexicalCategory(), e)))
-                .flatMap(ce -> Observable.fromIterable(ce.entry.getSenses()).map(s -> new Definition(ce.category, ce.word, ce.entry, s)))
+                .flatMap(ce -> {
+                    if (ce.entry.getSenses().size() > 0) {
+                        senses.add(ce.entry.getSenses().get(0));
+                        definitions.add(new Definition(ce.category, ce.word, ce.entry, ce.entry.getSenses().get(0)));
+                    }
+                    return Observable.fromIterable(ce.entry.getSenses()).map(s -> new Definition(ce.category, ce.word, ce.entry, s));
+                })
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(WordsList.this::createAdapter)
@@ -77,14 +101,25 @@ public class WordsList extends AppCompatActivity {
     }
 
     private void updateRecyclerView(RVRendererAdapter<Definition> adapter) {
-        if (recyclerView.getAdapter() != null) {
-            recyclerView.swapAdapter(adapter, true);
-        } else {
-            recyclerView.setAdapter(adapter);
-        }
+//        if (recyclerView.getAdapter() != null) {
+//            recyclerView.swapAdapter(adapter, true);
+//        } else {
+//            recyclerView.setAdapter(adapter);
+//        }
 
-        for (HeadwordEntry e : lastEntrySearched) {
-            Log.d("Olmp", e.getWord());
+        Intent intent = new Intent(WordsList.this, WordCard.class);
+        intent.putExtra(EXTRA_DEF, senses.get(senses.size() - 1).getDefinitions()[0]);
+        startActivityForResult(intent, WORD_CARD_ACTIVITY);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == WORD_CARD_ACTIVITY) {
+            if (resultCode == RESULT_OK) {
+                if (lastEntrySearched.size() > 0) {
+                    adapter.notifyDataSetChanged();
+                }
+            }
         }
     }
 

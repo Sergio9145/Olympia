@@ -25,6 +25,9 @@
         <activity android:name=".WordsList"
             android:parentActivityName=".MainActivity">
         </activity>
+        <activity android:name=".WordCard"
+            android:parentActivityName=".WordsList">
+        </activity>
     </application>
 
 </manifest>
