@@ -1,8 +1,5 @@
 package com.olympia.cloud9_api;
 
-import com.olympia.cloud9_api.ICloud9;
-import com.olympia.cloud9_api.RetrofitClient;
-
 public class ApiUtils {
 
     private ApiUtils() {}

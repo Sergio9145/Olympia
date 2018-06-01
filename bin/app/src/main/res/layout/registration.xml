@@ -3,7 +3,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/firstNameLabel"
+        android:id="@+id/firstNameLabel2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
@@ -11,42 +11,42 @@
         android:text="@string/firstName" />
 
     <EditText
-        android:id="@+id/firstName"
+        android:id="@+id/firstName2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textEmailAddress" />
 
     <TextView
-        android:id="@+id/lastNameLabel"
+        android:id="@+id/lastNameLabel2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="@string/lastName" />
 
     <EditText
-        android:id="@+id/lastName"
+        android:id="@+id/lastName2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textEmailAddress" />
 
     <TextView
-        android:id="@+id/emailLabel"
+        android:id="@+id/emailLabel2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="@string/email" />
 
     <EditText
-        android:id="@+id/email"
+        android:id="@+id/email2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textEmailAddress" />
 
     <TextView
-        android:id="@+id/usernameLabel"
+        android:id="@+id/usernameLabel2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -60,7 +60,7 @@
         android:inputType="textEmailAddress" />
 
     <TextView
-        android:id="@+id/passwordLabel"
+        android:id="@+id/passwordLabel2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -68,6 +68,20 @@
 
     <EditText
         android:id="@+id/password2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword" />
+
+    <TextView
+        android:id="@+id/repeatPasswordLabel2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/repeat_password" />
+
+    <EditText
+        android:id="@+id/repeatPassword2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"

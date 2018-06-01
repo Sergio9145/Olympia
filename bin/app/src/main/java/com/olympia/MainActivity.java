@@ -14,6 +14,8 @@ import com.olympia.cloud9_api.ApiUtils;
 import com.olympia.cloud9_api.ICloud9;
 import com.olympia.cloud9_api.User;
 
+import java.util.Locale;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private ICloud9 cloud9service;
 
     private View loginView, registrationView, resetPasswordView;
+    final int MIN_USERNAME_LENGTH = 5,
+        MIN_PASSWORD_LENGTH = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,66 +47,57 @@ public class MainActivity extends AppCompatActivity {
 
     public void onLogin(View v)
     {
-        EditText username, password;
+        if (loginInputIsValid()) {
+            EditText username, password;
 
-        username = findViewById(R.id.username1);
-        password = findViewById(R.id.password1);
+            username = findViewById(R.id.username1);
+            password = findViewById(R.id.password1);
 
-        User user = new User();
+            User user = new User();
 
-        user.setUsername(username.getText().toString());
-        user.setPassword(password.getText().toString());
+            user.setUsername(username.getText().toString());
+            user.setPassword(password.getText().toString());
 
-        if (!TextUtils.isEmpty(username.getText())
-            &&!TextUtils.isEmpty(password.getText()))
-        {
             sendLoginRequest(user);
         }
     }
 
     public void onRegistration(View v)
     {
-        EditText firstName, lastName, username, email, password;
+        if (registrationInputIsValid()) {
+            EditText firstName, lastName, username, email, password;
 
-        firstName = findViewById(R.id.firstName);
-        lastName = findViewById(R.id.lastName);
-        email = findViewById(R.id.email);
-        username = findViewById(R.id.username2);
-        password = findViewById(R.id.password2);
+            firstName = findViewById(R.id.firstName2);
+            lastName = findViewById(R.id.lastName2);
+            email = findViewById(R.id.email2);
+            username = findViewById(R.id.username2);
+            password = findViewById(R.id.password2);
 
-        User user = new User();
+            User user = new User();
 
-        user.setFirstName(firstName.getText().toString());
-        user.setLastName(lastName.getText().toString());
-        user.setEmail(email.getText().toString());
-        user.setUsername(username.getText().toString());
-        user.setPassword(password.getText().toString());
+            user.setFirstName(firstName.getText().toString());
+            user.setLastName(lastName.getText().toString());
+            user.setEmail(email.getText().toString());
+            user.setUsername(username.getText().toString());
+            user.setPassword(password.getText().toString());
 
-        if (!TextUtils.isEmpty(firstName.getText())
-            &&!TextUtils.isEmpty(lastName.getText())
-            &&!TextUtils.isEmpty(email.getText())
-            &&!TextUtils.isEmpty(username.getText())
-            &&!TextUtils.isEmpty(password.getText()))
-        {
             sendRegisterRequest(user);
         }
     }
 
     public void onPasswordReset(View v)
     {
-        EditText email, password;
+        if (resetPasswordInputIsValid()) {
+            EditText email, password;
 
-        email = findViewById(R.id.email3);
-        password = findViewById(R.id.password3);
+            email = findViewById(R.id.email3);
+            password = findViewById(R.id.password3);
 
-        User user = new User();
+            User user = new User();
 
-        user.setEmail(email.getText().toString());
-        user.setPassword(password.getText().toString());
+            user.setEmail(email.getText().toString());
+            user.setPassword(password.getText().toString());
 
-        if (!TextUtils.isEmpty(email.getText())
-                &&!TextUtils.isEmpty(password.getText()))
-        {
             sendResetPasswordRequest(user);
         }
     }
@@ -128,6 +123,78 @@ public class MainActivity extends AppCompatActivity {
         resetPasswordView.setVisibility(View.VISIBLE);
     }
 
+    boolean loginInputIsValid() {
+        boolean result = false;
+        if (loginView.getVisibility() == View.VISIBLE) {
+            EditText username, password;
+
+            username = findViewById(R.id.username1);
+            password = findViewById(R.id.password1);
+
+            if (username.getText().length() >= MIN_USERNAME_LENGTH
+                && password.getText().length() >= MIN_PASSWORD_LENGTH) {
+                result = true;
+            } else {
+                Toast.makeText(getApplicationContext(), String.format(Locale.ENGLISH,
+                    "Username and password cannot be empty. Username must be unique and have at least %d characters. Password must be of at least %d characters",
+                    MIN_USERNAME_LENGTH, MIN_PASSWORD_LENGTH), Toast.LENGTH_LONG).show();
+            }
+        }
+        return result;
+    }
+
+    boolean registrationInputIsValid() {
+        boolean result = false;
+        if (registrationView.getVisibility() == View.VISIBLE) {
+            EditText firstName, lastName, username, email, password, repeatPassword;
+
+            firstName = findViewById(R.id.firstName2);
+            lastName = findViewById(R.id.lastName2);
+            email = findViewById(R.id.email2);
+            username = findViewById(R.id.username2);
+            password = findViewById(R.id.password2);
+            repeatPassword = findViewById(R.id.repeatPassword2);
+
+            if (!TextUtils.isEmpty(firstName.getText())
+                && !TextUtils.isEmpty(lastName.getText())
+                && email.getText().toString().contains("@")
+                && username.getText().length() >= MIN_USERNAME_LENGTH
+                && password.getText().length() >= MIN_PASSWORD_LENGTH
+                && repeatPassword.getText().length() >= MIN_PASSWORD_LENGTH
+                && password.getText().toString().equals(repeatPassword.getText().toString())) {
+                result = true;
+            } else {
+                Toast.makeText(getApplicationContext(), String.format(Locale.ENGLISH,
+                    "None of the fields can be empty. Username must be unique and have at least %d characters. Email must contain @. Password must be of at least %d characters. Passwords must match",
+                    MIN_USERNAME_LENGTH, MIN_PASSWORD_LENGTH), Toast.LENGTH_LONG).show();
+            }
+        }
+        return result;
+    }
+
+    boolean resetPasswordInputIsValid() {
+        boolean result = false;
+        if (resetPasswordView.getVisibility() == View.VISIBLE) {
+            EditText email, password, repeatPassword;
+
+            email = findViewById(R.id.email3);
+            password = findViewById(R.id.password3);
+            repeatPassword = findViewById(R.id.repeatPassword3);
+
+            if (!TextUtils.isEmpty(email.getText())
+                && email.getText().toString().contains("@")
+                && password.getText().length() >= MIN_PASSWORD_LENGTH
+                && repeatPassword.getText().length() >= MIN_PASSWORD_LENGTH
+                && password.getText().toString().equals(repeatPassword.getText().toString())) {
+                result = true;
+            } else {
+                Toast.makeText(getApplicationContext(), String.format(Locale.ENGLISH,
+                        "Email must contain @. Password must be of at least %d characters. Passwords must match",
+                        MIN_PASSWORD_LENGTH), Toast.LENGTH_LONG).show();
+            }
+        }
+        return result;
+    }
     public void sendRegisterRequest(User user) {
         cloud9service.registerUser(user.getFirstName(),
                 user.getLastName(),

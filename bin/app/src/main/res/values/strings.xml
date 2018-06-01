@@ -10,6 +10,7 @@
     <string name="back">Back</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
+    <string name="repeat_password">Repeat password</string>
     <string name="new_password">New password</string>
     <string name="email">Email (will be private by default)</string>
     <string name="firstName">First name</string>
