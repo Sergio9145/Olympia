@@ -12,7 +12,7 @@ public class WordCard extends AppCompatActivity {
         setContentView(R.layout.word_card);
 
         Intent intent = getIntent();
-        String message = intent.getStringExtra(WordsList.EXTRA_DEF);
+        String message = intent.getStringExtra(TabFragment1.EXTRA_DEF);
 
         TextView entry = findViewById(R.id.wordDefinition);
         entry.setText(message);
