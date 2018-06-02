@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         //* Skip login:
         if (QUICK_LAUNCH) {
-            Intent intent = new Intent(MainActivity.this, WordsList.class);
+            Intent intent = new Intent(MainActivity.this, WordsListActivity.class);
             startActivity(intent);
         }
     }
@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "User successfully registered. Proceeding", Toast.LENGTH_LONG).show();
 
-                    Intent intent = new Intent(MainActivity.this, WordsList.class);
+                    Intent intent = new Intent(MainActivity.this, WordsListActivity.class);
                     startActivity(intent);
                 } else {
                     Log.e(TAG, "User was cannot be registered or other error");
@@ -242,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "User has successfully logged in. Proceeding", Toast.LENGTH_LONG).show();
 
-                            Intent intent = new Intent(MainActivity.this, WordsList.class);
+                            Intent intent = new Intent(MainActivity.this, WordsListActivity.class);
                             startActivity(intent);
                         } else {
                             Log.e(TAG, "Incorrect password or other error");

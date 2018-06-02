@@ -26,9 +26,6 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class TabFragment1 extends Fragment {
-    final static String EXTRA_DEF = "EXTRA_DEF";
-    final static int WORD_CARD_ACTIVITY = 42;
-
     private RecyclerView recyclerView;
     private TextView search;
     private DictionaryEntriesApi entriesApi;
@@ -115,14 +112,14 @@ public class TabFragment1 extends Fragment {
 //        }
         wordsListAdapter.notifyDataSetChanged();
 
-        Intent intent = new Intent(getActivity(), WordCard.class);
-        intent.putExtra(EXTRA_DEF, Vocabulary.getInstance().senses.get(Vocabulary.getInstance().senses.size() - 1).getDefinitions()[0]);
-        startActivityForResult(intent, WORD_CARD_ACTIVITY);
+        Intent intent = new Intent(getActivity(), WordCardActivity.class);
+        intent.putExtra(Globals.WORD_CARD_EXTRA, Vocabulary.getInstance().senses.get(Vocabulary.getInstance().senses.size() - 1).getDefinitions()[0]);
+        startActivityForResult(intent, Globals.WORD_CARD_ACTIVITY);
     }
 
 //    @Override
 //    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == WORD_CARD_ACTIVITY) {
+//        if (requestCode == Globals.WORD_CARD_ACTIVITY) {
 //            if (resultCode == RESULT_OK) {
 //                if (lastEntrySearched.size() > 0) {
 //                    wordsListAdapter.notifyDataSetChanged();
