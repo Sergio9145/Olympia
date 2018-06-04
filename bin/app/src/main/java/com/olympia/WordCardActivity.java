@@ -12,10 +12,23 @@ public class WordCardActivity extends AppCompatActivity {
         setContentView(R.layout.word_card);
 
         Intent intent = getIntent();
-        String message = intent.getStringExtra(Globals.WORD_CARD_EXTRA);
+        int word_id = intent.getIntExtra(Globals.WORD_CARD_EXTRA, 0);
+
+        StringBuffer toSet = new StringBuffer();
+
+        toSet.append(Vocabulary.nodes.get(word_id).definitions.get(0).getWord().toUpperCase())
+            .append("\n\n");
+        for (Definition s : Vocabulary.nodes.get(word_id).definitions) {
+            if (s.getDefiniton() != null) {
+                toSet.append(s.getCategory())
+                    .append(":\n")
+                    .append(s.getDefiniton())
+                    .append("\n\n");
+            }
+        }
 
         TextView entry = findViewById(R.id.wordDefinition);
-        entry.setText(message);
+        entry.setText(toSet);
     }
 
     @Override

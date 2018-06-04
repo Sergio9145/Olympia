@@ -1,26 +1,20 @@
 package com.olympia;
 
-import com.olympia.oxford_api.model.Sense;
-
 import java.util.ArrayList;
 
 public class Vocabulary {
-    public ArrayList<String> vocabulary;
-    public ArrayList<Definition> definitions;
-    public ArrayList<Sense> senses;
+    public static ArrayList<Node> nodes = new ArrayList<>();
+    public static ArrayList<String> keywords = new ArrayList<>();
 
-    private static Vocabulary instance;
+    private Vocabulary(){}
 
-    private Vocabulary(){
-        vocabulary = new ArrayList<>();
-        definitions = new ArrayList<>();
-        senses = new ArrayList<>();
-    }
-
-    public static synchronized Vocabulary getInstance(){
-        if(instance == null){
-            instance = new Vocabulary();
+    public static Node getNode(String word) {
+        int currentPosition = -1;
+        for (int i = 0; i < keywords.size(); i++) {
+            if (keywords.get(i).equalsIgnoreCase(word)) {
+                currentPosition = i;
+            }
         }
-        return instance;
+        return nodes.get(currentPosition);
     }
 }

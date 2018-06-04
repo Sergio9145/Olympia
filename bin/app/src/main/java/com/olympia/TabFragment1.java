@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.olympia.oxford_api.api.DictionaryEntriesApi;
 import com.olympia.oxford_api.model.Entry;
-import com.olympia.oxford_api.model.HeadwordEntry;
 import com.pedrogomez.renderers.ListAdapteeCollection;
 import com.pedrogomez.renderers.RVRendererAdapter;
 import com.pedrogomez.renderers.RendererBuilder;
@@ -31,7 +30,6 @@ public class TabFragment1 extends Fragment {
     private DictionaryEntriesApi entriesApi;
 
     WordsListAdapter wordsListAdapter;
-    public List<HeadwordEntry> lastEntrySearched;
 
     public TabFragment1() {
         // Required empty public constructor
@@ -56,7 +54,7 @@ public class TabFragment1 extends Fragment {
 
         RecyclerView recentWordsList = (RecyclerView) v.findViewById(R.id.list_of_recent_words);
         recentWordsList.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        wordsListAdapter = new WordsListAdapter(Vocabulary.getInstance().vocabulary);
+        wordsListAdapter = new WordsListAdapter(Vocabulary.keywords);
         recentWordsList.setAdapter(wordsListAdapter);
 
         v.findViewById(R.id.fab).setOnClickListener(v1 -> performSearch(search.getText().toString()));
@@ -68,22 +66,10 @@ public class TabFragment1 extends Fragment {
         if (!searchTerm.isEmpty()) {
             entriesApi.getDictionaryEntries("en", searchTerm, BuildConfig.APP_ID, BuildConfig.APP_KEY)
                     .doOnSubscribe(d -> hideKeyboard())
-                    .flatMap(re -> {
-                        lastEntrySearched = re.getResults();
-                        if (lastEntrySearched.size() > 0) {
-                            Vocabulary.getInstance().vocabulary.add(lastEntrySearched.get(0).getWord());
-                        }
-                        return Observable.fromIterable(lastEntrySearched);
-                    })
+                    .flatMap(re -> Observable.fromIterable(re.getResults()))
                     .flatMap(he -> Observable.fromIterable(he.getLexicalEntries()))
                     .flatMap(le -> Observable.fromIterable(le.getEntries()).map(e -> new CategorizedEntry(searchTerm, le.getLexicalCategory(), e)))
-                    .flatMap(ce -> {
-                        if (ce.entry.getSenses().size() > 0) {
-                            Vocabulary.getInstance().senses.add(ce.entry.getSenses().get(0));
-                            Vocabulary.getInstance().definitions.add(new Definition(ce.category, ce.word, ce.entry, ce.entry.getSenses().get(0)));
-                        }
-                        return Observable.fromIterable(ce.entry.getSenses()).map(s -> new Definition(ce.category, ce.word, ce.entry, s));
-                    })
+                    .flatMap(ce -> Observable.fromIterable(ce.entry.getSenses()).map(s -> new Definition(ce.category, ce.word, ce.entry, s)))
                     .toList()
                     .observeOn(AndroidSchedulers.mainThread())
                     .map(this::createAdapter)
@@ -98,6 +84,11 @@ public class TabFragment1 extends Fragment {
 
     @NonNull
     private RVRendererAdapter<Definition> createAdapter(List<Definition> definitions) {
+        Node node = new Node();
+        node.definitions = definitions;
+        Vocabulary.nodes.add(node);
+        Vocabulary.keywords.add(definitions.get(0).getWord());
+
         RendererBuilder<Definition> builder = new RendererBuilder<Definition>()
                 .bind(Definition.class, new DefinitionRenderer());
         ListAdapteeCollection<Definition> collection = new ListAdapteeCollection<>(definitions);
@@ -113,7 +104,7 @@ public class TabFragment1 extends Fragment {
         wordsListAdapter.notifyDataSetChanged();
 
         Intent intent = new Intent(getActivity(), WordCardActivity.class);
-        intent.putExtra(Globals.WORD_CARD_EXTRA, Vocabulary.getInstance().senses.get(Vocabulary.getInstance().senses.size() - 1).getDefinitions()[0]);
+        intent.putExtra(Globals.WORD_CARD_EXTRA, Vocabulary.keywords.size()-1);
         startActivityForResult(intent, Globals.WORD_CARD_ACTIVITY);
     }
 
