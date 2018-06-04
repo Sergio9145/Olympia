@@ -84,10 +84,19 @@ public class TabFragment1 extends Fragment {
 
     @NonNull
     private RVRendererAdapter<Definition> createAdapter(List<Definition> definitions) {
-        Node node = new Node();
-        node.definitions = definitions;
-        Vocabulary.nodes.add(node);
-        Vocabulary.keywords.add(definitions.get(0).getWord());
+        if (Vocabulary.keywords.size() > 0) {
+            if (!Vocabulary.keywords.get(Vocabulary.keywords.size() - 1).equalsIgnoreCase(definitions.get(0).getWord())) {
+                Node node = new Node();
+                node.definitions = definitions;
+                Vocabulary.nodes.add(node);
+                Vocabulary.keywords.add(definitions.get(0).getWord());
+            }
+        } else {
+            Node node = new Node();
+            node.definitions = definitions;
+            Vocabulary.nodes.add(node);
+            Vocabulary.keywords.add(definitions.get(0).getWord());
+        }
 
         RendererBuilder<Definition> builder = new RendererBuilder<Definition>()
                 .bind(Definition.class, new DefinitionRenderer());
