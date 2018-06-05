@@ -64,6 +64,7 @@ public class TabFragment1 extends Fragment {
 
     private void performSearch(final String searchTerm) {
         if (!searchTerm.isEmpty()) {
+            search.setText("");
             entriesApi.getDictionaryEntries("en", searchTerm, BuildConfig.APP_ID, BuildConfig.APP_KEY)
                     .doOnSubscribe(d -> hideKeyboard())
                     .flatMap(re -> Observable.fromIterable(re.getResults()))

@@ -41,8 +41,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-        TextView textView = findViewById(R.id.textView);
-        ImageView imageView = findViewById(R.id.imageView);
+
+        TextView textView = findViewById(R.id.splash_screen_text);
+        ImageView imageView = findViewById(R.id.splash_screen_img);
         Animation splashAnimate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.splash_screen_transition);
         textView.startAnimation(splashAnimate);
         imageView.startAnimation(splashAnimate);
