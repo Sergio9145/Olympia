@@ -5,8 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,9 +35,27 @@ public class TabFragment2 extends Fragment {
 
         RecyclerView categoryList = v.findViewById(R.id.categories_list);
         ArrayList<String> categoryArrayList = new ArrayList<String>(); // TODO: move to vocabulary
-        categoryList.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        categoryList.setLayoutManager(new GridLayoutManager(getActivity(), 1));
         CategoriesListAdapter adapter = new CategoriesListAdapter(categoryArrayList);
         categoryList.setAdapter(adapter);
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView,
+                                  RecyclerView.ViewHolder viewHolder,
+                                  RecyclerView.ViewHolder target) {
+                adapter.onItemMove(viewHolder.getAdapterPosition(),
+                        target.getAdapterPosition());
+                return true;
+            }
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder,
+                                 int direction) {
+                adapter.onItemDismiss(viewHolder.getAdapterPosition());
+            }
+        });
+
+        itemTouchHelper.attachToRecyclerView(categoryList);
 
         FloatingActionButton fabAdd = v.findViewById(R.id.fab_add);
         fabAdd.setOnClickListener(new View.OnClickListener(){
