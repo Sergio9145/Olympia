@@ -22,21 +22,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".WordsListActivity"
             android:parentActivityName=".MainActivity">
         </activity>
+
         <activity android:name=".WordCardActivity"
             android:parentActivityName=".WordsListActivity">
         </activity>
+
         <activity android:name=".SettingsActivity"
             android:parentActivityName=".WordsListActivity">
         </activity>
+
         <activity android:name=".LegalActivity"
             android:parentActivityName=".WordsListActivity">
         </activity>
+
         <activity android:name=".AboutActivity"
             android:parentActivityName=".WordsListActivity">
         </activity>
-    </application>
 
+    </application>
 </manifest>

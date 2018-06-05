@@ -2,12 +2,17 @@ package com.olympia;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.olympia.cloud9_api.ApiUtils;
@@ -35,22 +40,37 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        loginView = findViewById(R.id.login_view);
-        registrationView = findViewById(R.id.registration_view);
-        resetPasswordView = findViewById(R.id.reset_password_view);
+        setContentView(R.layout.activity_splash_screen);
+        TextView textView = findViewById(R.id.textView);
+        ImageView imageView = findViewById(R.id.imageView);
+        Animation splashAnimate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.splash_screen_transition);
+        textView.startAnimation(splashAnimate);
+        imageView.startAnimation(splashAnimate);
 
         cloud9service = ApiUtils.getAPIService();
 
-        //* Skip login:
-        if (QUICK_LAUNCH) {
-            Intent intent = new Intent(MainActivity.this, WordsListActivity.class);
-            startActivity(intent);
-        }
+        Handler handler = new Handler();
+
+        final Runnable r = new Runnable() {
+            public void run() {
+                setContentView(R.layout.main_activity);
+
+                Toolbar toolbar = findViewById(R.id.toolbar);
+                setSupportActionBar(toolbar);
+
+                loginView = findViewById(R.id.login_view);
+                registrationView = findViewById(R.id.registration_view);
+                resetPasswordView = findViewById(R.id.reset_password_view);
+
+                //* Skip login:
+                if (QUICK_LAUNCH) {
+                    Intent intent = new Intent(MainActivity.this, WordsListActivity.class);
+                    startActivity(intent);
+                }
+            }
+        };
+
+        handler.postDelayed(r, 3000);
     }
 
     public void onLogin(View v)
