@@ -59,6 +59,7 @@ public class WordsListAdapter extends RecyclerView.Adapter<WordsListAdapter.View
 
     @Override
     public void onItemDismiss(int position) {
+        Vocabulary.map.remove(mDataset.get(position));
         mDataset.remove(position);
         notifyItemRemoved(position);
     }

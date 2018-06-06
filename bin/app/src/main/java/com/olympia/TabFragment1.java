@@ -61,13 +61,12 @@ public class TabFragment1 extends Fragment {
                         performSearch(Vocabulary.keywords.get(position));
                     }
 
-                    @Override public void onLongItemClick(View view, int position) {
+                    @Override public void onLongItemClick(View view, int pos) {
                         AlertDialog.Builder categoryBuilder = new AlertDialog.Builder(view.getContext());
                         View w = getLayoutInflater().inflate(R.layout.categories_selection_dialog, null);
                         categoryBuilder.setView(w);
 
                         boolean[] selectedCategories = new boolean[Vocabulary.categories.size()];
-
                         RecyclerView categories = w.findViewById(R.id.categories_selection_list);
                         categories.setLayoutManager(new GridLayoutManager(getContext(), 1));
                         categories.addOnItemTouchListener(
@@ -78,7 +77,7 @@ public class TabFragment1 extends Fragment {
                                         if (selectedCategories[position]) {
                                             view.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                                         } else {
-                                            view.setBackgroundColor(getResources().getColor(R.color.dark_grey));
+                                            view.setBackgroundColor(getResources().getColor(R.color.light_grey));
                                         }
                                     }
                                     @Override public void onLongItemClick(View view, int position) {
@@ -89,6 +88,19 @@ public class TabFragment1 extends Fragment {
                         CategoriesSelectAdapter categoriesAdapter = new CategoriesSelectAdapter(Vocabulary.categories);
                         categories.setAdapter(categoriesAdapter);
 
+                        //* IMPORTANT! DO NOT PLACE BEFORE SETTING ADAPTER!
+                        categories.measure(0, 0);
+
+                        //* Restore previously picked categories if any
+                        ArrayList<Integer> pickedCategories = Vocabulary.map.get(Vocabulary.keywords.get(pos));
+                        if (pickedCategories != null && !pickedCategories.isEmpty()) {
+                            for (int i = 0; i < pickedCategories.size(); i++) {
+                                selectedCategories[pickedCategories.get(i)] = true;
+                                View v1 = categories.getChildAt(pickedCategories.get(i));
+                                v1.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                            }
+                        }
+
                         AlertDialog dialog = categoryBuilder.create();
 
                         Button positiveBtn = w.findViewById(R.id.button_positive);
@@ -97,12 +109,13 @@ public class TabFragment1 extends Fragment {
                         positiveBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                ArrayList<String> pickedCategories = new ArrayList<>();
+                                ArrayList<Integer> pickedCategories = new ArrayList<>();
                                 for (int i = 0; i < selectedCategories.length; i++) {
                                     if (selectedCategories[i]) {
-                                        pickedCategories.add(Vocabulary.categories.get(i));
+                                        pickedCategories.add(i);
                                     }
                                 }
+                                Vocabulary.map.put(Vocabulary.keywords.get(pos), pickedCategories);
                                 dialog.dismiss();
                             }
                         });
