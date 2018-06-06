@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.olympia.activities.WordCardActivity;
@@ -21,6 +23,7 @@ import com.pedrogomez.renderers.ListAdapteeCollection;
 import com.pedrogomez.renderers.RVRendererAdapter;
 import com.pedrogomez.renderers.RendererBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -53,13 +56,64 @@ public class TabFragment1 extends Fragment {
         wordsList = v.findViewById(R.id.list_of_recent_words);
         wordsList.setLayoutManager(new GridLayoutManager(getContext(), 1));
         wordsList.addOnItemTouchListener(
-                new RecyclerItemClickListener(getContext(), wordsList,new RecyclerItemClickListener.OnItemClickListener() {
+                new RecyclerItemClickListener(getContext(), wordsList, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
                         performSearch(Vocabulary.keywords.get(position));
                     }
 
                     @Override public void onLongItemClick(View view, int position) {
+                        AlertDialog.Builder categoryBuilder = new AlertDialog.Builder(view.getContext());
+                        View w = getLayoutInflater().inflate(R.layout.categories_selection_dialog, null);
+                        categoryBuilder.setView(w);
 
+                        boolean[] selectedCategories = new boolean[Vocabulary.categories.size()];
+
+                        RecyclerView categories = w.findViewById(R.id.categories_selection_list);
+                        categories.setLayoutManager(new GridLayoutManager(getContext(), 1));
+                        categories.addOnItemTouchListener(
+                                new RecyclerItemClickListener(getContext(), categories, new RecyclerItemClickListener.OnItemClickListener() {
+                                    @Override public void onItemClick(View view, int position) {
+                                        //* Switch between enabled/disabled
+                                        selectedCategories[position] = !selectedCategories[position];
+                                        if (selectedCategories[position]) {
+                                            view.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                                        } else {
+                                            view.setBackgroundColor(getResources().getColor(R.color.dark_grey));
+                                        }
+                                    }
+                                    @Override public void onLongItemClick(View view, int position) {
+                                        //* Do nothing
+                                    }
+                                })
+                        );
+                        CategoriesSelectAdapter categoriesAdapter = new CategoriesSelectAdapter(Vocabulary.categories);
+                        categories.setAdapter(categoriesAdapter);
+
+                        AlertDialog dialog = categoryBuilder.create();
+
+                        Button positiveBtn = w.findViewById(R.id.button_positive);
+                        Button negativeBtn = w.findViewById(R.id.button_negative);
+
+                        positiveBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ArrayList<String> pickedCategories = new ArrayList<>();
+                                for (int i = 0; i < selectedCategories.length; i++) {
+                                    if (selectedCategories[i]) {
+                                        pickedCategories.add(Vocabulary.categories.get(i));
+                                    }
+                                }
+                                dialog.dismiss();
+                            }
+                        });
+                        negativeBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        dialog.show();
                     }
                 })
         );
@@ -82,7 +136,7 @@ public class TabFragment1 extends Fragment {
                 wordsAdapter.onItemDismiss(viewHolder.getAdapterPosition());
             }
         });
-        
+
         itemTouchHelper.attachToRecyclerView(wordsList);
         
         v.findViewById(R.id.fab).setOnClickListener(v1 -> performSearch(search.getText().toString()));
