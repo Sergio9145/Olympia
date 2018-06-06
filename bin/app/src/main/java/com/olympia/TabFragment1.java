@@ -5,13 +5,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.olympia.activities.WordCardActivity;
 import com.olympia.oxford_api.api.DictionaryEntriesApi;
@@ -21,6 +24,7 @@ import com.pedrogomez.renderers.RVRendererAdapter;
 import com.pedrogomez.renderers.RendererBuilder;
 
 import java.util.List;
+import java.util.Locale;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -30,7 +34,7 @@ public class TabFragment1 extends Fragment {
     private TextView search;
     private DictionaryEntriesApi entriesApi;
 
-    WordsListAdapter wordsListAdapter;
+    WordsListAdapter wordsAdapter;
 
     public TabFragment1() {
         // Required empty public constructor
@@ -48,16 +52,46 @@ public class TabFragment1 extends Fragment {
 
         entriesApi = ((SampleApp) this.getActivity().getApplication()).apiClient().get(DictionaryEntriesApi.class);
 
-        search = (TextView) v.findViewById(R.id.search);
+        search = v.findViewById(R.id.search);
 
-        recyclerView = (RecyclerView) v.findViewById(R.id.list);
+        recyclerView = v.findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
-        RecyclerView recentWordsList = (RecyclerView) v.findViewById(R.id.list_of_recent_words);
-        recentWordsList.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        wordsListAdapter = new WordsListAdapter(Vocabulary.keywords);
-        recentWordsList.setAdapter(wordsListAdapter);
+        RecyclerView recentWordsList = v.findViewById(R.id.list_of_recent_words);
+        recentWordsList.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        recentWordsList.addOnItemTouchListener(
+                new RecyclerItemClickListener(getContext(), recentWordsList ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+//                        Toast.makeText(getContext(), String.format(Locale.ENGLISH,"Item's position: %d", position), Toast.LENGTH_SHORT).show();
+                    }
 
+                    @Override public void onLongItemClick(View view, int position) {
+//                        Toast.makeText(getContext(), String.format(Locale.ENGLISH,"Item's loooong: %d", position), Toast.LENGTH_SHORT).show();
+                    }
+                })
+        );
+
+        wordsAdapter = new WordsListAdapter(Vocabulary.keywords);
+        recentWordsList.setAdapter(wordsAdapter);
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView,
+                                  RecyclerView.ViewHolder viewHolder,
+                                  RecyclerView.ViewHolder target) {
+                wordsAdapter.onItemMove(viewHolder.getAdapterPosition(),
+                        target.getAdapterPosition());
+                return true;
+            }
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder,
+                                 int direction) {
+                wordsAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+            }
+        });
+
+        itemTouchHelper.attachToRecyclerView(recentWordsList);
+        
         v.findViewById(R.id.fab).setOnClickListener(v1 -> performSearch(search.getText().toString()));
 
         return v;
@@ -108,11 +142,11 @@ public class TabFragment1 extends Fragment {
 
     private void updateRecyclerView(RVRendererAdapter<Definition> adapter) {
 //        if (recyclerView.getAdapter() != null) {
-//            recyclerView.swapAdapter(adapter, true);
+//            recyclerView.swapAdapter(wordsAdapter, true);
 //        } else {
-//            recyclerView.setAdapter(adapter);
+//            recyclerView.setAdapter(wordsAdapter);
 //        }
-        wordsListAdapter.notifyDataSetChanged();
+        wordsAdapter.notifyDataSetChanged();
 
         Intent intent = new Intent(getActivity(), WordCardActivity.class);
         intent.putExtra(Globals.WORD_CARD_EXTRA, Vocabulary.keywords.size()-1);

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class CategoriesListAdapter extends RecyclerView.Adapter<com.olympia.CategoriesListAdapter.ViewHolder>
-    implements ItemTouchHelperAdapter{
+    implements ItemTouchHelperAdapter {
     private ArrayList<String> mDataset;
 
     // Provide a reference to the views for each data item

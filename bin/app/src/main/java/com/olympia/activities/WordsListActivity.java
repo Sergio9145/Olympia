@@ -64,4 +64,10 @@ public class WordsListActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    @Override
+    public void onBackPressed()
+    {
+        // Suppressing navigating to login screen!
+    }
 }

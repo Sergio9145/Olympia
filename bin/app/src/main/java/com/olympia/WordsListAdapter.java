@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class WordsListAdapter extends RecyclerView.Adapter<WordsListAdapter.ViewHolder> {
+public class WordsListAdapter extends RecyclerView.Adapter<WordsListAdapter.ViewHolder>
+        implements ItemTouchHelperAdapter {
     private ArrayList<String> mDataset;
 
     // Provide a reference to the views for each data item
@@ -53,5 +55,25 @@ public class WordsListAdapter extends RecyclerView.Adapter<WordsListAdapter.View
     @Override
     public int getItemCount() {
         return mDataset.size();
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        mDataset.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(mDataset, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(mDataset, i, i - 1);
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition);
     }
 }

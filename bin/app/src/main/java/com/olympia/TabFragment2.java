@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class TabFragment2 extends Fragment {
 
@@ -35,23 +36,35 @@ public class TabFragment2 extends Fragment {
 
         RecyclerView categoryList = v.findViewById(R.id.categories_list);
         ArrayList<String> categoryArrayList = new ArrayList<String>(); // TODO: move to vocabulary
-        categoryList.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-        CategoriesListAdapter adapter = new CategoriesListAdapter(categoryArrayList);
-        categoryList.setAdapter(adapter);
+        categoryList.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        categoryList.addOnItemTouchListener(
+                new RecyclerItemClickListener(getContext(), categoryList ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+//                        Toast.makeText(getContext(), String.format(Locale.ENGLISH,"Item's position: %d", position), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+//                        Toast.makeText(getContext(), String.format(Locale.ENGLISH,"Item's loooong: %d", position), Toast.LENGTH_SHORT).show();
+                    }
+                })
+        );
+
+        CategoriesListAdapter categoriesAdapter = new CategoriesListAdapter(categoryArrayList);
+        categoryList.setAdapter(categoriesAdapter);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView,
                                   RecyclerView.ViewHolder viewHolder,
                                   RecyclerView.ViewHolder target) {
-                adapter.onItemMove(viewHolder.getAdapterPosition(),
+                categoriesAdapter.onItemMove(viewHolder.getAdapterPosition(),
                         target.getAdapterPosition());
                 return true;
             }
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder,
                                  int direction) {
-                adapter.onItemDismiss(viewHolder.getAdapterPosition());
+                categoriesAdapter.onItemDismiss(viewHolder.getAdapterPosition());
             }
         });
 
@@ -67,9 +80,9 @@ public class TabFragment2 extends Fragment {
                 categoryBuilder.setView(mView);
                 AlertDialog dialog = categoryBuilder.create();
 
-                EditText categoryText = (EditText) mView.findViewById(R.id.category_name);
-                Button createCategory = (Button) mView.findViewById(R.id.button_positive);
-                Button cancelDialog = (Button) mView.findViewById(R.id.button_negative);
+                EditText categoryText = mView.findViewById(R.id.category_name);
+                Button createCategory = mView.findViewById(R.id.button_positive);
+                Button cancelDialog = mView.findViewById(R.id.button_negative);
 
                 createCategory.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -81,7 +94,7 @@ public class TabFragment2 extends Fragment {
                         }
                         else {
                             categoryArrayList.add(categoryName);
-                            adapter.notifyDataSetChanged();
+                            categoriesAdapter.notifyDataSetChanged();
                             Toast.makeText(getContext(),"Category added",Toast.LENGTH_SHORT).show();
                         }
                         dialog.dismiss();
