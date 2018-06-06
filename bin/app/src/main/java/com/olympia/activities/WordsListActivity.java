@@ -1,4 +1,4 @@
-package com.olympia;
+package com.olympia.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.olympia.Globals;
+import com.olympia.R;
+import com.olympia.TabFragment1;
+import com.olympia.TabFragment2;
+import com.olympia.TabFragment3;
+import com.olympia.ViewPagerAdapter;
+
 public class WordsListActivity extends AppCompatActivity {
 
     @Override

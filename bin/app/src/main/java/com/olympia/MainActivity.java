@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.olympia.activities.WordsListActivity;
 import com.olympia.cloud9_api.ApiUtils;
 import com.olympia.cloud9_api.ICloud9;
 import com.olympia.cloud9_api.User;
@@ -40,38 +41,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash_screen);
-
-        TextView textView = findViewById(R.id.splash_screen_text);
-        ImageView imageView = findViewById(R.id.splash_screen_img);
-        Animation splashAnimate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.splash_screen_transition);
-        textView.startAnimation(splashAnimate);
-        imageView.startAnimation(splashAnimate);
 
         cloud9service = ApiUtils.getAPIService();
 
-        Handler handler = new Handler();
+        setContentView(R.layout.main_activity);
 
-        final Runnable r = new Runnable() {
-            public void run() {
-                setContentView(R.layout.main_activity);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-                Toolbar toolbar = findViewById(R.id.toolbar);
-                setSupportActionBar(toolbar);
+        loginView = findViewById(R.id.login_view);
+        registrationView = findViewById(R.id.registration_view);
+        resetPasswordView = findViewById(R.id.reset_password_view);
 
-                loginView = findViewById(R.id.login_view);
-                registrationView = findViewById(R.id.registration_view);
-                resetPasswordView = findViewById(R.id.reset_password_view);
-
-                //* Skip login:
-                if (QUICK_LAUNCH) {
-                    Intent intent = new Intent(MainActivity.this, WordsListActivity.class);
-                    startActivity(intent);
-                }
-            }
-        };
-
-        handler.postDelayed(r, 3000);
+        //* Skip login:
+        if (QUICK_LAUNCH) {
+            Intent intent = new Intent(MainActivity.this, WordsListActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void onLogin(View v)
@@ -298,5 +284,11 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Unable to submit ResetPassword request to the server", Toast.LENGTH_LONG).show();
                     }
                 });
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        // Suppressing navigating to splash screen!
     }
 }

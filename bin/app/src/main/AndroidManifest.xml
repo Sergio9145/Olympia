@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.olympia.MainActivity"
+            android:name="com.olympia.activities.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -23,24 +23,29 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".WordsListActivity"
+        <activity android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activities.SplashActivity">
+        </activity>
+
+        <activity android:name=".activities.WordsListActivity"
             android:parentActivityName=".MainActivity">
         </activity>
 
-        <activity android:name=".WordCardActivity"
-            android:parentActivityName=".WordsListActivity">
+        <activity android:name=".activities.WordCardActivity"
+            android:parentActivityName=".activities.WordsListActivity">
         </activity>
 
-        <activity android:name=".SettingsActivity"
-            android:parentActivityName=".WordsListActivity">
+        <activity android:name=".activities.SettingsActivity"
+            android:parentActivityName=".activities.WordsListActivity">
         </activity>
 
-        <activity android:name=".LegalActivity"
-            android:parentActivityName=".WordsListActivity">
+        <activity android:name=".activities.LegalActivity"
+            android:parentActivityName=".activities.WordsListActivity">
         </activity>
 
-        <activity android:name=".AboutActivity"
-            android:parentActivityName=".WordsListActivity">
+        <activity android:name=".activities.AboutActivity"
+            android:parentActivityName=".activities.WordsListActivity">
         </activity>
 
     </application>

@@ -1,9 +1,14 @@
-package com.olympia;
+package com.olympia.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
+
+import com.olympia.Definition;
+import com.olympia.Globals;
+import com.olympia.R;
+import com.olympia.Vocabulary;
 
 public class WordCardActivity extends AppCompatActivity {
     @Override
