@@ -11,14 +11,14 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Locale;
-
 public class TabFragment2 extends Fragment {
+
+    private CategoriesListAdapter categoriesAdapter;
 
     public TabFragment2() {
         // Required empty public constructor
@@ -35,21 +35,52 @@ public class TabFragment2 extends Fragment {
         View v = inflater.inflate(R.layout.tab_fragment_2, container, false);
 
         RecyclerView categoryList = v.findViewById(R.id.categories_list);
-        ArrayList<String> categoryArrayList = new ArrayList<String>(); // TODO: move to vocabulary
         categoryList.setLayoutManager(new GridLayoutManager(getContext(), 1));
         categoryList.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), categoryList ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-//                        Toast.makeText(getContext(), String.format(Locale.ENGLISH,"Item's position: %d", position), Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override public void onLongItemClick(View view, int position) {
-//                        Toast.makeText(getContext(), String.format(Locale.ENGLISH,"Item's loooong: %d", position), Toast.LENGTH_SHORT).show();
+                        AlertDialog.Builder categoryBuilder = new AlertDialog.Builder(view.getContext());
+                        View mView = getLayoutInflater().inflate(R.layout.rename_category_dialog, null);
+                        categoryBuilder.setView(mView);
+                        AlertDialog dialog = categoryBuilder.create();
+                        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+                        EditText renamedCategory = mView.findViewById(R.id.category_name);
+                        renamedCategory.setText(Vocabulary.categories.get(position));
+
+                        Button positiveBtn = mView.findViewById(R.id.button_positive);
+                        Button negativeBtn = mView.findViewById(R.id.button_negative);
+
+                        positiveBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                String categoryName = renamedCategory.getText().toString();
+                                if (Vocabulary.categories.contains(categoryName)) {
+                                    Toast.makeText(getContext(),"Category already exists",Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Vocabulary.categories.set(position, categoryName);
+                                    categoriesAdapter.notifyDataSetChanged();
+                                    dialog.dismiss();
+                                }
+                            }
+                        });
+                        negativeBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        dialog.show();
                     }
                 })
         );
 
-        CategoriesListAdapter categoriesAdapter = new CategoriesListAdapter(categoryArrayList);
+        categoriesAdapter = new CategoriesListAdapter(Vocabulary.categories);
         categoryList.setAdapter(categoriesAdapter);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -72,35 +103,32 @@ public class TabFragment2 extends Fragment {
 
         FloatingActionButton fabAdd = v.findViewById(R.id.fab_add);
         fabAdd.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public  void onClick(View view){
                 AlertDialog.Builder categoryBuilder = new AlertDialog.Builder(view.getContext());
                 View mView = getLayoutInflater().inflate(R.layout.add_category_dialog, null);
                 categoryBuilder.setView(mView);
                 AlertDialog dialog = categoryBuilder.create();
+                dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
-                EditText categoryText = mView.findViewById(R.id.category_name);
-                Button createCategory = mView.findViewById(R.id.button_positive);
-                Button cancelDialog = mView.findViewById(R.id.button_negative);
+                EditText addedCategory = mView.findViewById(R.id.category_name);
+                Button positiveBtn = mView.findViewById(R.id.button_positive);
+                Button negativeBtn = mView.findViewById(R.id.button_negative);
 
-                createCategory.setOnClickListener(new View.OnClickListener() {
+                positiveBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String categoryName = categoryText.getText().toString();
-
-                        if (categoryArrayList.contains(categoryName)) {
+                        String categoryName = addedCategory.getText().toString();
+                        if (Vocabulary.categories.contains(categoryName)) {
                             Toast.makeText(getContext(),"Category already exists",Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            categoryArrayList.add(categoryName);
+                        } else {
+                            Vocabulary.categories.add(categoryName);
                             categoriesAdapter.notifyDataSetChanged();
-                            Toast.makeText(getContext(),"Category added",Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
                         }
-                        dialog.dismiss();
                     }
                 });
-                cancelDialog.setOnClickListener(new View.OnClickListener() {
+                negativeBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         dialog.dismiss();

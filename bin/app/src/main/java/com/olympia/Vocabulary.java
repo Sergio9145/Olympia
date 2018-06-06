@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Vocabulary {
     public static ArrayList<Node> nodes = new ArrayList<>();
     public static ArrayList<String> keywords = new ArrayList<>();
+    public static ArrayList<String> categories = new ArrayList<>();
 
     private Vocabulary(){}
 

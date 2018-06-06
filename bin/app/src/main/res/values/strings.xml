@@ -30,7 +30,9 @@
     <string name="logo_descr">Olympia logo</string>
 
     <string name="create_category">Create category</string>
+    <string name="rename_category">Rename category</string>
     <string name="category_name">Category name</string>
     <string name="create">Create</string>
+    <string name="rename">Rename</string>
     <string name="cancel">Cancel</string>
 </resources>

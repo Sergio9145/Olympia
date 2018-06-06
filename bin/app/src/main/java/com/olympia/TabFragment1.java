@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
@@ -14,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.olympia.activities.WordCardActivity;
 import com.olympia.oxford_api.api.DictionaryEntriesApi;
@@ -24,13 +22,12 @@ import com.pedrogomez.renderers.RVRendererAdapter;
 import com.pedrogomez.renderers.RendererBuilder;
 
 import java.util.List;
-import java.util.Locale;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class TabFragment1 extends Fragment {
-    private RecyclerView recyclerView;
+    private RecyclerView wordsList;
     private TextView search;
     private DictionaryEntriesApi entriesApi;
 
@@ -51,28 +48,24 @@ public class TabFragment1 extends Fragment {
         View v = inflater.inflate(R.layout.tab_fragment_1, container, false);
 
         entriesApi = ((SampleApp) this.getActivity().getApplication()).apiClient().get(DictionaryEntriesApi.class);
-
         search = v.findViewById(R.id.search);
 
-        recyclerView = v.findViewById(R.id.list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-
-        RecyclerView recentWordsList = v.findViewById(R.id.list_of_recent_words);
-        recentWordsList.setLayoutManager(new GridLayoutManager(getContext(), 1));
-        recentWordsList.addOnItemTouchListener(
-                new RecyclerItemClickListener(getContext(), recentWordsList ,new RecyclerItemClickListener.OnItemClickListener() {
+        wordsList = v.findViewById(R.id.list_of_recent_words);
+        wordsList.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        wordsList.addOnItemTouchListener(
+                new RecyclerItemClickListener(getContext(), wordsList,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
                         performSearch(Vocabulary.keywords.get(position));
                     }
 
                     @Override public void onLongItemClick(View view, int position) {
-//                        Toast.makeText(getContext(), String.format(Locale.ENGLISH,"Item's loooong: %d", position), Toast.LENGTH_SHORT).show();
+
                     }
                 })
         );
 
         wordsAdapter = new WordsListAdapter(Vocabulary.keywords);
-        recentWordsList.setAdapter(wordsAdapter);
+        wordsList.setAdapter(wordsAdapter);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -89,8 +82,8 @@ public class TabFragment1 extends Fragment {
                 wordsAdapter.onItemDismiss(viewHolder.getAdapterPosition());
             }
         });
-
-        itemTouchHelper.attachToRecyclerView(recentWordsList);
+        
+        itemTouchHelper.attachToRecyclerView(wordsList);
         
         v.findViewById(R.id.fab).setOnClickListener(v1 -> performSearch(search.getText().toString()));
 
@@ -115,7 +108,7 @@ public class TabFragment1 extends Fragment {
 
     private void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(recyclerView.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(wordsList.getWindowToken(), 0);
     }
 
     @NonNull
@@ -142,11 +135,6 @@ public class TabFragment1 extends Fragment {
     }
 
     private void updateRecyclerView(RVRendererAdapter<Definition> adapter) {
-//        if (recyclerView.getAdapter() != null) {
-//            recyclerView.swapAdapter(wordsAdapter, true);
-//        } else {
-//            recyclerView.setAdapter(wordsAdapter);
-//        }
         wordsAdapter.notifyDataSetChanged();
 
         Intent intent = new Intent(getActivity(), WordCardActivity.class);
