@@ -62,7 +62,7 @@ public class TabFragment1 extends Fragment {
         recentWordsList.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), recentWordsList ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-//                        Toast.makeText(getContext(), String.format(Locale.ENGLISH,"Item's position: %d", position), Toast.LENGTH_SHORT).show();
+                        performSearch(Vocabulary.keywords.get(position));
                     }
 
                     @Override public void onLongItemClick(View view, int position) {
@@ -121,7 +121,8 @@ public class TabFragment1 extends Fragment {
     @NonNull
     private RVRendererAdapter<Definition> createAdapter(List<Definition> definitions) {
         if (Vocabulary.keywords.size() > 0) {
-            if (!Vocabulary.keywords.get(Vocabulary.keywords.size() - 1).equalsIgnoreCase(definitions.get(0).getWord())) {
+            if (!Vocabulary.keywords.get(Vocabulary.keywords.size() - 1).equalsIgnoreCase(definitions.get(0).getWord())
+                    &&!Vocabulary.keywords.contains(definitions.get(0).getWord())) {
                 Node node = new Node();
                 node.definitions = definitions;
                 Vocabulary.nodes.add(node);
