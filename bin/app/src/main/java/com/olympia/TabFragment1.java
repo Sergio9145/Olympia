@@ -26,7 +26,6 @@ import com.pedrogomez.renderers.RendererBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -81,9 +80,9 @@ public class TabFragment1 extends Fragment {
                                         //* Switch between enabled/disabled
                                         selectedCategories[position] = !selectedCategories[position];
                                         if (selectedCategories[position]) {
-                                            view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                                            view.setBackground(getResources().getDrawable(R.drawable.bordered_button_yellow));
                                         } else {
-                                            view.setBackgroundColor(getResources().getColor(R.color.light_grey));
+                                            view.setBackground(getResources().getDrawable(R.drawable.bordered_button_grey));
                                         }
                                     }
                                     @Override public void onLongItemClick(View view, int position) {
@@ -105,7 +104,7 @@ public class TabFragment1 extends Fragment {
                                     if (pickedCategories.get(i).name.equalsIgnoreCase(Vocabulary.categories.get(j).name)) {
                                         selectedCategories[j] = true;
                                         View v1 = categories.getChildAt(j);
-                                        v1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                                        v1.setBackground(getResources().getDrawable(R.drawable.bordered_button_yellow));
                                     }
                                 }
                             }
