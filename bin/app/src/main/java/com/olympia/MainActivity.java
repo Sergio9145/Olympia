@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                 result = true;
             } else {
                 Toast.makeText(getApplicationContext(), String.format(Locale.ENGLISH,
-                    "Username and password cannot be empty. Username must be unique and have at least %d characters. Password must be of at least %d characters",
+                    getResources().getString(R.string.login_field_invalid),
                     MIN_USERNAME_LENGTH, MIN_PASSWORD_LENGTH), Toast.LENGTH_LONG).show();
             }
         }
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
                 result = true;
             } else {
                 Toast.makeText(getApplicationContext(), String.format(Locale.ENGLISH,
-                    "None of the fields can be empty. Username must be unique and have at least %d characters. Email must contain @. Password must be of at least %d characters. Passwords must match",
+                        getResources().getString(R.string.registration_field_invalid),
                     MIN_USERNAME_LENGTH, MIN_PASSWORD_LENGTH), Toast.LENGTH_LONG).show();
             }
         }
@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
                 result = true;
             } else {
                 Toast.makeText(getApplicationContext(), String.format(Locale.ENGLISH,
-                        "Email must contain @. Password must be of at least %d characters. Passwords must match",
+                        getResources().getString(R.string.reset_password_field_invalid),
                         MIN_PASSWORD_LENGTH), Toast.LENGTH_LONG).show();
             }
         }
@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                 } else {
                     Log.e(TAG, "User was cannot be registered or other error");
-                    Toast.makeText(getApplicationContext(), "User was cannot be registered or other error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "User cannot be registered or other error", Toast.LENGTH_LONG).show();
                 }
 
             }

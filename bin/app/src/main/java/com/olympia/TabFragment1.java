@@ -33,8 +33,8 @@ public class TabFragment1 extends Fragment {
     private RecyclerView wordsList;
     private TextView search;
     private DictionaryEntriesApi entriesApi;
-
-    WordsListAdapter wordsAdapter;
+    private View v;
+    private WordsListAdapter wordsAdapter;
 
     public TabFragment1() {
         // Required empty public constructor
@@ -48,7 +48,7 @@ public class TabFragment1 extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.tab_fragment_1, container, false);
+        v = inflater.inflate(R.layout.tab_fragment_1, container, false);
 
         entriesApi = ((SampleApp) this.getActivity().getApplication()).apiClient().get(DictionaryEntriesApi.class);
         search = v.findViewById(R.id.search);
@@ -75,7 +75,7 @@ public class TabFragment1 extends Fragment {
                                         //* Switch between enabled/disabled
                                         selectedCategories[position] = !selectedCategories[position];
                                         if (selectedCategories[position]) {
-                                            view.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                                            view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                                         } else {
                                             view.setBackgroundColor(getResources().getColor(R.color.light_grey));
                                         }
@@ -97,7 +97,7 @@ public class TabFragment1 extends Fragment {
                             for (int i = 0; i < pickedCategories.size(); i++) {
                                 selectedCategories[pickedCategories.get(i)] = true;
                                 View v1 = categories.getChildAt(pickedCategories.get(i));
-                                v1.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                                v1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                             }
                         }
 

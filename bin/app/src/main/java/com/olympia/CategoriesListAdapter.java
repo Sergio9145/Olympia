@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 public class CategoriesListAdapter extends RecyclerView.Adapter<com.olympia.CategoriesListAdapter.ViewHolder>
     implements ItemTouchHelperAdapter {
@@ -59,6 +60,9 @@ public class CategoriesListAdapter extends RecyclerView.Adapter<com.olympia.Cate
     @Override
     public void onItemDismiss(int position) {
         mDataset.remove(position);
+        for (HashMap.Entry<String, ArrayList<Integer>> entry : Vocabulary.map.entrySet()) {
+            entry.getValue().remove(position);
+        }
         notifyItemRemoved(position);
     }
 

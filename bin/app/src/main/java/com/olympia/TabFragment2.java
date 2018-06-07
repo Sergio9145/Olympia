@@ -14,11 +14,13 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class TabFragment2 extends Fragment {
 
     private CategoriesListAdapter categoriesAdapter;
+    private View v;
 
     public TabFragment2() {
         // Required empty public constructor
@@ -32,7 +34,7 @@ public class TabFragment2 extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.tab_fragment_2, container, false);
+        v = inflater.inflate(R.layout.tab_fragment_2, container, false);
 
         RecyclerView categoryList = v.findViewById(R.id.categories_list);
         categoryList.setLayoutManager(new GridLayoutManager(getContext(), 1));
@@ -60,7 +62,7 @@ public class TabFragment2 extends Fragment {
                             public void onClick(View v) {
                                 String categoryName = renamedCategory.getText().toString();
                                 if (Vocabulary.categories.contains(categoryName)) {
-                                    Toast.makeText(getContext(),"Category already exists",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), getResources().getString(R.string.category_exists), Toast.LENGTH_SHORT).show();
                                 } else {
                                     Vocabulary.categories.set(position, categoryName);
                                     categoriesAdapter.notifyDataSetChanged();
@@ -95,7 +97,37 @@ public class TabFragment2 extends Fragment {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder,
                                  int direction) {
-                categoriesAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+                AlertDialog.Builder categoryBuilder = new AlertDialog.Builder(v.getContext());
+                View mView = getLayoutInflater().inflate(R.layout.simple_alert_dialog, null);
+                categoryBuilder.setView(mView);
+                AlertDialog dialog = categoryBuilder.create();
+                TextView title = mView.findViewById(R.id.title),
+                        descr = mView.findViewById(R.id.descr);
+
+                title.setText(getResources().getString(R.string.deleting_category_title));
+                descr.setText(getResources().getString(R.string.deleting_category_descr));
+
+                Button positiveBtn = mView.findViewById(R.id.button_positive),
+                        negativeBtn = mView.findViewById(R.id.button_negative);
+                positiveBtn.setText(getResources().getString(R.string.delete));
+                negativeBtn.setText(getResources().getString(R.string.cancel));
+
+                positiveBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        categoriesAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+                        dialog.dismiss();
+                    }
+                });
+                negativeBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        categoriesAdapter.notifyDataSetChanged();
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
             }
         });
 
@@ -120,7 +152,7 @@ public class TabFragment2 extends Fragment {
                     public void onClick(View v) {
                         String categoryName = addedCategory.getText().toString();
                         if (Vocabulary.categories.contains(categoryName)) {
-                            Toast.makeText(getContext(),"Category already exists",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), getResources().getString(R.string.category_exists), Toast.LENGTH_SHORT).show();
                         } else {
                             Vocabulary.categories.add(categoryName);
                             categoriesAdapter.notifyDataSetChanged();
