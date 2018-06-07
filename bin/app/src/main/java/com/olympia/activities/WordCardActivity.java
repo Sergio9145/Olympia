@@ -18,7 +18,7 @@ public class WordCardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.word_card);
+        setContentView(R.layout.activity_word_card);
 
         Intent intent = getIntent();
         String keyword = intent.getStringExtra(Globals.WORD_CARD_EXTRA);

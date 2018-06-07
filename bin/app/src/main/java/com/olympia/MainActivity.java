@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         cloud9service = ApiUtils.getAPIService();
 
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.activity_main);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

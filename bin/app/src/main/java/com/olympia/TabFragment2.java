@@ -98,7 +98,7 @@ public class TabFragment2 extends Fragment {
             public void onSwiped(RecyclerView.ViewHolder viewHolder,
                                  int direction) {
                 AlertDialog.Builder categoryBuilder = new AlertDialog.Builder(v.getContext());
-                View mView = getLayoutInflater().inflate(R.layout.dialog_simple, null);
+                View mView = getLayoutInflater().inflate(R.layout.dialog_delete_category, null);
                 categoryBuilder.setView(mView);
                 AlertDialog dialog = categoryBuilder.create();
                 TextView title = mView.findViewById(R.id.title),

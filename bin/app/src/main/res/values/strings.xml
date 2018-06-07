@@ -50,5 +50,7 @@
     <string name="reset_password_field_invalid">Email must contain @. Password must be of at least %d characters. Passwords must match</string>
     <string name="category_exists">Category already exists</string>
     <string name="enter_search_word">Please, enter the word to search</string>
-    
+
+    <!--Filtering-->
+    <string name="filter_label">Filtration by categories:</string>
 </resources>
