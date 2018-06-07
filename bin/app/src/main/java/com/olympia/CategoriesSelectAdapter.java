@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class CategoriesSelectAdapter extends RecyclerView.Adapter<com.olympia.CategoriesSelectAdapter.ViewHolder> {
-    private ArrayList<String> mDataset;
+    private ArrayList<Category> mDataset;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -25,7 +25,7 @@ public class CategoriesSelectAdapter extends RecyclerView.Adapter<com.olympia.Ca
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    CategoriesSelectAdapter(ArrayList<String> myDataset) {
+    CategoriesSelectAdapter(ArrayList<Category> myDataset) {
         mDataset = myDataset;
     }
 
@@ -46,7 +46,7 @@ public class CategoriesSelectAdapter extends RecyclerView.Adapter<com.olympia.Ca
     public void onBindViewHolder(@NonNull com.olympia.CategoriesSelectAdapter.ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTextView.setText(mDataset.get(position));
+        holder.mTextView.setText(mDataset.get(position).name);
     }
 
     // Return the size of your dataset (invoked by the layout manager)

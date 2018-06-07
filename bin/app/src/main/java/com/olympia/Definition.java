@@ -9,7 +9,7 @@ public class Definition {
     private final String etymology;
     private final String definiton;
 
-    public Definition(String category, String word, Entry entry, Sense s) {
+    Definition(String category, String word, Entry entry, Sense s) {
         this.category = category;
         this.word = word;
 

@@ -52,7 +52,7 @@ public class TabFragment2 extends Fragment {
                         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
                         EditText renamedCategory = mView.findViewById(R.id.category_name);
-                        renamedCategory.setText(Vocabulary.categories.get(position));
+                        renamedCategory.setText(Vocabulary.categories.get(position).name);
 
                         Button positiveBtn = mView.findViewById(R.id.button_positive);
                         Button negativeBtn = mView.findViewById(R.id.button_negative);
@@ -61,10 +61,10 @@ public class TabFragment2 extends Fragment {
                             @Override
                             public void onClick(View v) {
                                 String categoryName = renamedCategory.getText().toString();
-                                if (Vocabulary.categories.contains(categoryName)) {
+                                if (Vocabulary.containsCategory(categoryName)) {
                                     Toast.makeText(getContext(), getResources().getString(R.string.category_exists), Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Vocabulary.categories.set(position, categoryName);
+                                    Vocabulary.categories.get(position).name = categoryName;
                                     categoriesAdapter.notifyDataSetChanged();
                                     dialog.dismiss();
                                 }
@@ -151,10 +151,12 @@ public class TabFragment2 extends Fragment {
                     @Override
                     public void onClick(View v) {
                         String categoryName = addedCategory.getText().toString();
-                        if (Vocabulary.categories.contains(categoryName)) {
+                        if (Vocabulary.containsCategory(categoryName)) {
                             Toast.makeText(getContext(), getResources().getString(R.string.category_exists), Toast.LENGTH_SHORT).show();
                         } else {
-                            Vocabulary.categories.add(categoryName);
+                            Category c = new Category();
+                            c.name = categoryName;
+                            Vocabulary.categories.add(c);
                             categoriesAdapter.notifyDataSetChanged();
                             dialog.dismiss();
                         }

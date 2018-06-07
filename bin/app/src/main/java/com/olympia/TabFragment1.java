@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.olympia.activities.WordCardActivity;
 import com.olympia.oxford_api.api.DictionaryEntriesApi;
@@ -25,6 +26,7 @@ import com.pedrogomez.renderers.RendererBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -35,6 +37,7 @@ public class TabFragment1 extends Fragment {
     private DictionaryEntriesApi entriesApi;
     private View v;
     private WordsListAdapter wordsAdapter;
+    private String currentWord;
 
     public TabFragment1() {
         // Required empty public constructor
@@ -58,7 +61,10 @@ public class TabFragment1 extends Fragment {
         wordsList.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), wordsList, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-                        performSearch(Vocabulary.keywords.get(position));
+                        currentWord = Vocabulary.keywords.get(position);
+                        Intent intent = new Intent(getActivity(), WordCardActivity.class);
+                        intent.putExtra(Globals.WORD_CARD_EXTRA, currentWord);
+                        startActivityForResult(intent, Globals.WORD_CARD_ACTIVITY);
                     }
 
                     @Override public void onLongItemClick(View view, int pos) {
@@ -92,12 +98,16 @@ public class TabFragment1 extends Fragment {
                         categories.measure(0, 0);
 
                         //* Restore previously picked categories if any
-                        ArrayList<Integer> pickedCategories = Vocabulary.map.get(Vocabulary.keywords.get(pos));
+                        ArrayList<Category> pickedCategories = Vocabulary.map.get(Vocabulary.keywords.get(pos));
                         if (pickedCategories != null && !pickedCategories.isEmpty()) {
                             for (int i = 0; i < pickedCategories.size(); i++) {
-                                selectedCategories[pickedCategories.get(i)] = true;
-                                View v1 = categories.getChildAt(pickedCategories.get(i));
-                                v1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                                for (int j = 0; j < Vocabulary.categories.size(); j++) {
+                                    if (pickedCategories.get(i).name.equalsIgnoreCase(Vocabulary.categories.get(j).name)) {
+                                        selectedCategories[j] = true;
+                                        View v1 = categories.getChildAt(j);
+                                        v1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                                    }
+                                }
                             }
                         }
 
@@ -109,10 +119,10 @@ public class TabFragment1 extends Fragment {
                         positiveBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                ArrayList<Integer> pickedCategories = new ArrayList<>();
-                                for (int i = 0; i < selectedCategories.length; i++) {
+                                ArrayList<Category> pickedCategories = new ArrayList<>();
+                                for (int i = 0; i < Vocabulary.categories.size(); i++) {
                                     if (selectedCategories[i]) {
-                                        pickedCategories.add(i);
+                                        pickedCategories.add(Vocabulary.categories.get(i));
                                     }
                                 }
                                 Vocabulary.map.put(Vocabulary.keywords.get(pos), pickedCategories);
@@ -160,6 +170,7 @@ public class TabFragment1 extends Fragment {
     private void performSearch(final String searchTerm) {
         if (!searchTerm.isEmpty()) {
             search.setText("");
+            currentWord = searchTerm;
             entriesApi.getDictionaryEntries("en", searchTerm, BuildConfig.APP_ID, BuildConfig.APP_KEY)
                     .doOnSubscribe(d -> hideKeyboard())
                     .flatMap(re -> Observable.fromIterable(re.getResults()))
@@ -170,7 +181,10 @@ public class TabFragment1 extends Fragment {
                     .observeOn(AndroidSchedulers.mainThread())
                     .map(this::createAdapter)
                     .subscribe(this::updateRecyclerView);
+        } else {
+            Toast.makeText(getContext(), getResources().getString(R.string.enter_search_word), Toast.LENGTH_LONG).show();
         }
+
     }
 
     private void hideKeyboard() {
@@ -181,18 +195,17 @@ public class TabFragment1 extends Fragment {
     @NonNull
     private RVRendererAdapter<Definition> createAdapter(List<Definition> definitions) {
         if (Vocabulary.keywords.size() > 0) {
-            if (!Vocabulary.keywords.get(Vocabulary.keywords.size() - 1).equalsIgnoreCase(definitions.get(0).getWord())
-                    &&!Vocabulary.keywords.contains(definitions.get(0).getWord())) {
+            if (!Vocabulary.keywords.contains(definitions.get(0).getWord().toLowerCase())) {
                 Node node = new Node();
                 node.definitions = definitions;
-                Vocabulary.nodes.add(node);
-                Vocabulary.keywords.add(definitions.get(0).getWord());
+                Vocabulary.nodes.put(currentWord, node);
+                Vocabulary.keywords.add(currentWord);
             }
         } else {
             Node node = new Node();
             node.definitions = definitions;
-            Vocabulary.nodes.add(node);
-            Vocabulary.keywords.add(definitions.get(0).getWord());
+            Vocabulary.nodes.put(currentWord, node);
+            Vocabulary.keywords.add(currentWord);
         }
 
         RendererBuilder<Definition> builder = new RendererBuilder<Definition>()
@@ -205,20 +218,9 @@ public class TabFragment1 extends Fragment {
         wordsAdapter.notifyDataSetChanged();
 
         Intent intent = new Intent(getActivity(), WordCardActivity.class);
-        intent.putExtra(Globals.WORD_CARD_EXTRA, Vocabulary.keywords.size()-1);
+        intent.putExtra(Globals.WORD_CARD_EXTRA, currentWord);
         startActivityForResult(intent, Globals.WORD_CARD_ACTIVITY);
     }
-
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == Globals.WORD_CARD_ACTIVITY) {
-//            if (resultCode == RESULT_OK) {
-//                if (lastEntrySearched.size() > 0) {
-//                    wordsListAdapter.notifyDataSetChanged();
-//                }
-//            }
-//        }
-//    }
 
     private static class CategorizedEntry {
         final String word;

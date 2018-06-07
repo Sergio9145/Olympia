@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public class CategoriesListAdapter extends RecyclerView.Adapter<com.olympia.CategoriesListAdapter.ViewHolder>
     implements ItemTouchHelperAdapter {
-    private ArrayList<String> mDataset;
+    private ArrayList<Category> mDataset;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -27,7 +27,7 @@ public class CategoriesListAdapter extends RecyclerView.Adapter<com.olympia.Cate
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    CategoriesListAdapter(ArrayList<String> myDataset) {
+    CategoriesListAdapter(ArrayList<Category> myDataset) {
         mDataset = myDataset;
     }
 
@@ -48,7 +48,7 @@ public class CategoriesListAdapter extends RecyclerView.Adapter<com.olympia.Cate
     public void onBindViewHolder(@NonNull com.olympia.CategoriesListAdapter.ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTextView.setText(mDataset.get(position));
+        holder.mTextView.setText(mDataset.get(position).name);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -59,10 +59,10 @@ public class CategoriesListAdapter extends RecyclerView.Adapter<com.olympia.Cate
 
     @Override
     public void onItemDismiss(int position) {
-        mDataset.remove(position);
-        for (HashMap.Entry<String, ArrayList<Integer>> entry : Vocabulary.map.entrySet()) {
-            entry.getValue().remove(position);
+        for (HashMap.Entry<String, ArrayList<Category>> entry : Vocabulary.map.entrySet()) {
+            entry.getValue().remove(mDataset.get(position));
         }
+        mDataset.remove(position);
         notifyItemRemoved(position);
     }
 
