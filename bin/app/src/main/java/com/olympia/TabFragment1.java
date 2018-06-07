@@ -35,7 +35,7 @@ public class TabFragment1 extends Fragment {
     private TextView search;
     private DictionaryEntriesApi entriesApi;
     private View v;
-    private WordsListAdapter wordsAdapter;
+    private AdapterWordsList wordsAdapter;
     private String currentWord;
 
     public TabFragment1() {
@@ -68,7 +68,7 @@ public class TabFragment1 extends Fragment {
 
                     @Override public void onLongItemClick(View view, int pos) {
                         AlertDialog.Builder categoryBuilder = new AlertDialog.Builder(view.getContext());
-                        View w = getLayoutInflater().inflate(R.layout.categories_selection_dialog, null);
+                        View w = getLayoutInflater().inflate(R.layout.dialog_categories_selection, null);
                         categoryBuilder.setView(w);
 
                         boolean[] selectedCategories = new boolean[Vocabulary.categories.size()];
@@ -90,7 +90,7 @@ public class TabFragment1 extends Fragment {
                                     }
                                 })
                         );
-                        CategoriesSelectAdapter categoriesAdapter = new CategoriesSelectAdapter(Vocabulary.categories);
+                        AdapterCategoriesSelect categoriesAdapter = new AdapterCategoriesSelect(Vocabulary.categories);
                         categories.setAdapter(categoriesAdapter);
 
                         //* IMPORTANT! DO NOT PLACE BEFORE SETTING ADAPTER!
@@ -140,7 +140,7 @@ public class TabFragment1 extends Fragment {
                 })
         );
 
-        wordsAdapter = new WordsListAdapter(Vocabulary.keywords);
+        wordsAdapter = new AdapterWordsList(Vocabulary.keywords);
         wordsList.setAdapter(wordsAdapter);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {

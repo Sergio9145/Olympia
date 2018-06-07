@@ -1,6 +1,6 @@
 package com.olympia;
 
-public interface ItemTouchHelperAdapter {
+public interface AdapterItemTouchHelper {
 
     void onItemMove(int fromPosition, int toPosition);
 

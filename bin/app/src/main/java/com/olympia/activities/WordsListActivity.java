@@ -13,22 +13,22 @@ import com.olympia.R;
 import com.olympia.TabFragment1;
 import com.olympia.TabFragment2;
 import com.olympia.TabFragment3;
-import com.olympia.ViewPagerAdapter;
+import com.olympia.AdapterViewPager;
 
 public class WordsListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tabs_activity);
+        setContentView(R.layout.activity_words_list);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        AdapterViewPager adapterViewPager = new AdapterViewPager(getSupportFragmentManager());
 
-        viewPagerAdapter.addFragment(new TabFragment1(), getString(R.string.tab1_label));
-        viewPagerAdapter.addFragment(new TabFragment2(), getString(R.string.tab2_label));
-        viewPagerAdapter.addFragment(new TabFragment3(), getString(R.string.tab3_label));
-        viewPager.setAdapter(viewPagerAdapter);
+        adapterViewPager.addFragment(new TabFragment1(), getString(R.string.tab1_label));
+        adapterViewPager.addFragment(new TabFragment2(), getString(R.string.tab2_label));
+        adapterViewPager.addFragment(new TabFragment3(), getString(R.string.tab3_label));
+        viewPager.setAdapter(adapterViewPager);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);

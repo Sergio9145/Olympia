@@ -7,9 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
-public class CategoriesSelectAdapter extends RecyclerView.Adapter<com.olympia.CategoriesSelectAdapter.ViewHolder> {
+public class AdapterCategoriesSelect extends RecyclerView.Adapter<AdapterCategoriesSelect.ViewHolder> {
     private ArrayList<Category> mDataset;
 
     // Provide a reference to the views for each data item
@@ -25,25 +24,25 @@ public class CategoriesSelectAdapter extends RecyclerView.Adapter<com.olympia.Ca
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    CategoriesSelectAdapter(ArrayList<Category> myDataset) {
+    AdapterCategoriesSelect(ArrayList<Category> myDataset) {
         mDataset = myDataset;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
     @NonNull
-    public com.olympia.CategoriesSelectAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                                                           int viewType) {
+    public AdapterCategoriesSelect.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                                                                 int viewType) {
         // create a new view
         TextView v = (TextView) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.category_selection_list_item, parent, false);
+                .inflate(R.layout.list_item_category_selection, parent, false);
 
-        return new com.olympia.CategoriesSelectAdapter.ViewHolder(v);
+        return new AdapterCategoriesSelect.ViewHolder(v);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(@NonNull com.olympia.CategoriesSelectAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AdapterCategoriesSelect.ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.mTextView.setText(mDataset.get(position).name);

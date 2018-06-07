@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 public class TabFragment2 extends Fragment {
 
-    private CategoriesListAdapter categoriesAdapter;
+    private AdapterCategoriesList categoriesAdapter;
     private View v;
 
     public TabFragment2() {
@@ -46,7 +46,7 @@ public class TabFragment2 extends Fragment {
 
                     @Override public void onLongItemClick(View view, int position) {
                         AlertDialog.Builder categoryBuilder = new AlertDialog.Builder(view.getContext());
-                        View mView = getLayoutInflater().inflate(R.layout.rename_category_dialog, null);
+                        View mView = getLayoutInflater().inflate(R.layout.dialog_rename_category, null);
                         categoryBuilder.setView(mView);
                         AlertDialog dialog = categoryBuilder.create();
                         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
@@ -82,7 +82,7 @@ public class TabFragment2 extends Fragment {
                 })
         );
 
-        categoriesAdapter = new CategoriesListAdapter(Vocabulary.categories);
+        categoriesAdapter = new AdapterCategoriesList(Vocabulary.categories);
         categoryList.setAdapter(categoriesAdapter);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -98,7 +98,7 @@ public class TabFragment2 extends Fragment {
             public void onSwiped(RecyclerView.ViewHolder viewHolder,
                                  int direction) {
                 AlertDialog.Builder categoryBuilder = new AlertDialog.Builder(v.getContext());
-                View mView = getLayoutInflater().inflate(R.layout.simple_alert_dialog, null);
+                View mView = getLayoutInflater().inflate(R.layout.dialog_simple, null);
                 categoryBuilder.setView(mView);
                 AlertDialog dialog = categoryBuilder.create();
                 TextView title = mView.findViewById(R.id.title),
@@ -138,7 +138,7 @@ public class TabFragment2 extends Fragment {
             @Override
             public  void onClick(View view){
                 AlertDialog.Builder categoryBuilder = new AlertDialog.Builder(view.getContext());
-                View mView = getLayoutInflater().inflate(R.layout.add_category_dialog, null);
+                View mView = getLayoutInflater().inflate(R.layout.dialog_add_category, null);
                 categoryBuilder.setView(mView);
                 AlertDialog dialog = categoryBuilder.create();
                 dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);

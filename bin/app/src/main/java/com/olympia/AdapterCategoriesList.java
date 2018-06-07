@@ -8,10 +8,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
-public class WordsListAdapter extends RecyclerView.Adapter<WordsListAdapter.ViewHolder>
-        implements ItemTouchHelperAdapter {
-    private ArrayList<String> mDataset;
+public class AdapterCategoriesList extends RecyclerView.Adapter<AdapterCategoriesList.ViewHolder>
+    implements AdapterItemTouchHelper {
+    private ArrayList<Category> mDataset;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -26,29 +27,28 @@ public class WordsListAdapter extends RecyclerView.Adapter<WordsListAdapter.View
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    WordsListAdapter(ArrayList<String> myDataset) {
+    AdapterCategoriesList(ArrayList<Category> myDataset) {
         mDataset = myDataset;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
     @NonNull
-    public WordsListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                                          int viewType) {
+    public AdapterCategoriesList.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                                                               int viewType) {
         // create a new view
         TextView v = (TextView) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.words_list_item, parent, false);
+                .inflate(R.layout.list_item_category, parent, false);
 
-        return new ViewHolder(v);
+        return new AdapterCategoriesList.ViewHolder(v);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AdapterCategoriesList.ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTextView.setText(mDataset.get(position));
-
+        holder.mTextView.setText(mDataset.get(position).name);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -59,7 +59,9 @@ public class WordsListAdapter extends RecyclerView.Adapter<WordsListAdapter.View
 
     @Override
     public void onItemDismiss(int position) {
-        Vocabulary.map.remove(mDataset.get(position));
+        for (HashMap.Entry<String, ArrayList<Category>> entry : Vocabulary.map.entrySet()) {
+            entry.getValue().remove(mDataset.get(position));
+        }
         mDataset.remove(position);
         notifyItemRemoved(position);
     }

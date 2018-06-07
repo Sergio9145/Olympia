@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/login"/>
+        <include layout="@layout/view_login"/>
 
     </LinearLayout>
 
@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/registration"/>
+        <include layout="@layout/view_registration"/>
 
     </LinearLayout>
 
@@ -49,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/reset_password"/>
+        <include layout="@layout/view_reset_password"/>
 
     </LinearLayout>
 
