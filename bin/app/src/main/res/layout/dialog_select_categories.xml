@@ -11,8 +11,7 @@
         android:background="@color/green"
         android:textColor="@color/white"
         android:textSize="20sp"
-        android:padding="10dp"
-        android:text="@string/select_category" />
+        android:padding="10dp" />
 
 
     <android.support.v7.widget.RecyclerView

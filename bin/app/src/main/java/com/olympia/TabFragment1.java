@@ -1,5 +1,7 @@
 package com.olympia;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,14 +61,37 @@ public class TabFragment1 extends Fragment {
         search = v.findViewById(R.id.search);
         filteredLabel = v.findViewById(R.id.filtered_categories_label);
         setFilterText();
-        Button filterBtn = v.findViewById(R.id.button_filter);
 
+        Button sortBtn = v.findViewById(R.id.button_sort),
+                filterBtn = v.findViewById(R.id.button_filter),
+                copyBtn = v.findViewById(R.id.button_copy);
+        sortBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Not implemented yet", Toast.LENGTH_LONG).show();
+            }
+        });
         filterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onFilter(v);
             }
         });
+        copyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!Vocabulary.keywords.isEmpty()) {
+                    String joinedWords = TextUtils.join("\n", Vocabulary.keywords);
+                    ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("Olympia words", joinedWords);
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(getContext(), getResources().getString(R.string.copied), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getContext(), getResources().getString(R.string.not_copied), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
         wordsList = v.findViewById(R.id.list_of_recent_words);
         wordsList.setLayoutManager(new GridLayoutManager(getContext(), 1));
         wordsList.addOnItemTouchListener(
@@ -191,6 +217,8 @@ public class TabFragment1 extends Fragment {
     private void onSetCategory(View view, int pos) {
         AlertDialog.Builder categoryBuilder = new AlertDialog.Builder(view.getContext());
         View w = getLayoutInflater().inflate(R.layout.dialog_select_categories, null);
+        TextView header = w.findViewById(R.id.categories_select_label);
+        header.setText(getResources().getString(R.string.select_category));
         categoryBuilder.setView(w);
 
         boolean[] selectedCategories = new boolean[Vocabulary.categories.size()];
@@ -263,6 +291,8 @@ public class TabFragment1 extends Fragment {
     private void onFilter(View view) {
         AlertDialog.Builder categoryBuilder = new AlertDialog.Builder(view.getContext());
         View w = getLayoutInflater().inflate(R.layout.dialog_select_categories, null);
+        TextView header = w.findViewById(R.id.categories_select_label);
+        header.setText(getResources().getString(R.string.filter_by));
         categoryBuilder.setView(w);
 
         boolean[] selectedCategories = new boolean[Vocabulary.categories.size()];

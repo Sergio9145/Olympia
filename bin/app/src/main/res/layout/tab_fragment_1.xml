@@ -27,11 +27,37 @@
                 android:layout_gravity="center_vertical" />
 
             <Button
+                android:id="@+id/button_sort"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="10dp"
+                android:drawableStart="@drawable/round_sort_white_24"
+                android:background="@drawable/bordered_button_blue" />
+
+            <Button
                 android:id="@+id/button_filter"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:background="@drawable/bordered_button_blue"
-                android:text="@string/select" />
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:layout_marginStart="8dp"
+                android:padding="10dp"
+                android:drawableStart="@drawable/round_filter_list_white_24"
+                android:background="@drawable/bordered_button_blue" />
+
+            <Button
+                android:id="@+id/button_copy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:layout_marginStart="8dp"
+                android:padding="10dp"
+                android:drawableStart="@drawable/round_file_copy_white_24"
+                android:background="@drawable/bordered_button_blue" />
+
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
