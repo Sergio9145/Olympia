@@ -49,12 +49,12 @@ public class WordsListActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_about:
-                Intent intent2 = new Intent(this, SettingsActivity.class);
+                Intent intent2 = new Intent(this, AboutActivity.class);
                 startActivityForResult(intent2, Globals.ABOUT_ACTIVITY);
                 return true;
 
             case R.id.action_legal:
-                Intent intent3 = new Intent(this, SettingsActivity.class);
+                Intent intent3 = new Intent(this, LegalActivity.class);
                 startActivityForResult(intent3, Globals.lEGAL_ACTIVITY);
                 return true;
 

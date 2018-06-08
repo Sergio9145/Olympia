@@ -72,9 +72,7 @@ public class TabFragment1 extends Fragment {
                 new RecyclerItemClickListener(getContext(), wordsList, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
                         currentWord = Vocabulary.keywords.get(position);
-                        Intent intent = new Intent(getActivity(), WordCardActivity.class);
-                        intent.putExtra(Globals.WORD_CARD_EXTRA, currentWord);
-                        startActivityForResult(intent, Globals.WORD_CARD_ACTIVITY);
+                        decideWhatToDo();
                     }
 
                     @Override public void onLongItemClick(View view, int pos) {
@@ -104,29 +102,33 @@ public class TabFragment1 extends Fragment {
 
         itemTouchHelper.attachToRecyclerView(wordsList);
         
-        v.findViewById(R.id.fab).setOnClickListener(v1 -> performSearch(search.getText().toString()));
+        v.findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentWord = search.getText().toString();
+                if (!currentWord.isEmpty()) {
+                    decideWhatToDo();
+                } else {
+                    Toast.makeText(getContext(), getResources().getString(R.string.enter_search_word), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
         return v;
     }
 
     private void performSearch(final String searchTerm) {
-        if (!searchTerm.isEmpty()) {
-            search.setText("");
-            currentWord = searchTerm;
-            entriesApi.getDictionaryEntries("en", searchTerm, BuildConfig.APP_ID, BuildConfig.APP_KEY)
-                    .doOnSubscribe(d -> hideKeyboard())
-                    .flatMap(re -> Observable.fromIterable(re.getResults()))
-                    .flatMap(he -> Observable.fromIterable(he.getLexicalEntries()))
-                    .flatMap(le -> Observable.fromIterable(le.getEntries()).map(e -> new CategorizedEntry(searchTerm, le.getLexicalCategory(), e)))
-                    .flatMap(ce -> Observable.fromIterable(ce.entry.getSenses()).map(s -> new Definition(ce.category, ce.word, ce.entry, s)))
-                    .toList()
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .map(this::createAdapter)
-                    .subscribe(this::updateRecyclerView);
-        } else {
-            Toast.makeText(getContext(), getResources().getString(R.string.enter_search_word), Toast.LENGTH_LONG).show();
-        }
-
+        search.setText("");
+        entriesApi.getDictionaryEntries("en", searchTerm, BuildConfig.APP_ID, BuildConfig.APP_KEY)
+                .doOnSubscribe(d -> hideKeyboard())
+                .flatMap(re -> Observable.fromIterable(re.getResults()))
+                .flatMap(he -> Observable.fromIterable(he.getLexicalEntries()))
+                .flatMap(le -> Observable.fromIterable(le.getEntries()).map(e -> new CategorizedEntry(searchTerm, le.getLexicalCategory(), e)))
+                .flatMap(ce -> Observable.fromIterable(ce.entry.getSenses()).map(s -> new Definition(ce.category, ce.word, ce.entry, s)))
+                .toList()
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(this::createAdapter)
+                .subscribe(this::updateRecyclerView);
     }
 
     private void hideKeyboard() {
@@ -136,17 +138,11 @@ public class TabFragment1 extends Fragment {
 
     @NonNull
     private RVRendererAdapter<Definition> createAdapter(List<Definition> definitions) {
-        if (Vocabulary.keywords.size() > 0) {
-            if (!Vocabulary.keywords.contains(definitions.get(0).getWord().toLowerCase())) {
-                Node node = new Node();
-                node.definitions = definitions;
-                Vocabulary.nodes.put(currentWord, node);
-                Vocabulary.keywords.add(currentWord);
-            }
-        } else {
-            Node node = new Node();
-            node.definitions = definitions;
-            Vocabulary.nodes.put(currentWord, node);
+        Node node = new Node();
+        node.definitions = definitions;
+        Vocabulary.nodes.put(currentWord, node);
+
+        if (!Vocabulary.keywords.contains(currentWord.toLowerCase())) {
             Vocabulary.keywords.add(currentWord);
         }
 
@@ -159,6 +155,22 @@ public class TabFragment1 extends Fragment {
     private void updateRecyclerView(RVRendererAdapter<Definition> adapter) {
         wordsAdapter.notifyDataSetChanged();
 
+        openWordCard();
+    }
+
+    private void decideWhatToDo() {
+        if (Vocabulary.nodes.get(currentWord) != null) {
+            if (Vocabulary.nodes.get(currentWord).definitions.isEmpty()) {
+                performSearch(currentWord);
+            } else {
+                openWordCard();
+            }
+        } else {
+            performSearch(currentWord);
+        }
+    }
+
+    private void openWordCard() {
         Intent intent = new Intent(getActivity(), WordCardActivity.class);
         intent.putExtra(Globals.WORD_CARD_EXTRA, currentWord);
         startActivityForResult(intent, Globals.WORD_CARD_ACTIVITY);

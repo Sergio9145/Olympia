@@ -44,15 +44,17 @@ public class WordCardActivity extends AppCompatActivity {
         //* 3
         StringBuffer toSet2 = new StringBuffer();
         TextView entry = findViewById(R.id.wordDefinition);
-        for (Definition s : Vocabulary.nodes.get(keyword).definitions) {
-            if (s.getDefiniton() != null) {
-                toSet2.append(s.getCategory())
-                    .append(":\n")
-                    .append(s.getDefiniton())
-                    .append("\n\n");
+        if (Vocabulary.nodes != null && !Vocabulary.nodes.isEmpty()) {
+            for (Definition s : Vocabulary.nodes.get(keyword).definitions) {
+                if (s != null && s.getDefiniton() != null) {
+                    toSet2.append(s.getCategory())
+                            .append(":\n")
+                            .append(s.getDefiniton())
+                            .append("\n\n");
+                }
             }
+            entry.setText(toSet2);
         }
-        entry.setText(toSet2);
     }
 
     @Override

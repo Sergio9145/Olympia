@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Vocabulary {
+    private Vocabulary() {} //* To prevent from instantiating
+
     public static HashMap<String, Node> nodes = new HashMap<>();
     public static ArrayList<String> keywords = new ArrayList<>();
     public static ArrayList<Category> categories = new ArrayList<>();
@@ -19,5 +21,4 @@ public class Vocabulary {
         }
         return result;
     }
-    private Vocabulary() {}
 }
