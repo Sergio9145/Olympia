@@ -1,6 +1,7 @@
 package com.olympia;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,8 +13,11 @@ import android.widget.Toast;
 
 import com.olympia.activities.WordsListActivity;
 import com.olympia.cloud9_api.ApiUtils;
+import com.olympia.cloud9_api.C9Token;
+import com.olympia.cloud9_api.C9User;
 import com.olympia.cloud9_api.ICloud9;
-import com.olympia.cloud9_api.User;
+
+import org.json.JSONObject;
 
 import java.util.Locale;
 
@@ -25,7 +29,9 @@ public class MainActivity extends AppCompatActivity {
     //* Skip login:
     final static boolean QUICK_LAUNCH = false;
 
-    String TAG = "Olmp";
+    final String TAG = "Olmp",
+        OLYMPIA_PREFERENCES = "OLYMPIA_PREFERENCES",
+        LOGIN_TOKEN = "LOGIN_TOKEN";
 
     private ICloud9 cloud9service;
 
@@ -48,8 +54,9 @@ public class MainActivity extends AppCompatActivity {
         registrationView = findViewById(R.id.registration_view);
         resetPasswordView = findViewById(R.id.reset_password_view);
 
-        //* Skip login:
-        if (QUICK_LAUNCH) {
+        SharedPreferences prefs = getSharedPreferences(OLYMPIA_PREFERENCES, MODE_PRIVATE);
+        String token = prefs.getString(LOGIN_TOKEN, null);
+        if (token != null || QUICK_LAUNCH) {
             Intent intent = new Intent(MainActivity.this, WordsListActivity.class);
             startActivity(intent);
         }
@@ -63,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
             username = findViewById(R.id.username1);
             password = findViewById(R.id.password1);
 
-            User user = new User();
+            C9User user = new C9User();
 
             user.setUsername(username.getText().toString());
             user.setPassword(password.getText().toString());
@@ -83,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
             username = findViewById(R.id.username2);
             password = findViewById(R.id.password2);
 
-            User user = new User();
+            C9User user = new C9User();
 
             user.setFirstName(firstName.getText().toString());
             user.setLastName(lastName.getText().toString());
@@ -103,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
             email = findViewById(R.id.email3);
             password = findViewById(R.id.password3);
 
-            User user = new User();
+            C9User user = new C9User();
 
             user.setEmail(email.getText().toString());
             user.setPassword(password.getText().toString());
@@ -205,67 +212,79 @@ public class MainActivity extends AppCompatActivity {
         }
         return result;
     }
-    public void sendRegisterRequest(User user) {
+    public void sendRegisterRequest(C9User user) {
         cloud9service.registerUser(user.getFirstName(),
                 user.getLastName(),
                 user.getEmail(),
                 user.getUsername(),
                 user.getPassword())
-            .enqueue(new Callback<User>() {
+            .enqueue(new Callback<C9Token>() {
 
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<C9Token> call, Response<C9Token> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "User successfully registered. Proceeding", Toast.LENGTH_LONG).show();
+                    saveToken(response.body().token);
+                    Toast.makeText(getApplicationContext(), "User was successfully registered. Proceeding", Toast.LENGTH_LONG).show();
 
                     Intent intent = new Intent(MainActivity.this, WordsListActivity.class);
                     startActivity(intent);
                 } else {
-                    Log.e(TAG, "User was cannot be registered or other error");
-                    Toast.makeText(getApplicationContext(), "User cannot be registered or other error", Toast.LENGTH_LONG).show();
+                    try {
+                        JSONObject error = new JSONObject(response.errorBody().string());
+                        Toast.makeText(getApplicationContext(), error.getString("msg"), Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
+//                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Server unreachable", Toast.LENGTH_LONG).show();
+                    }
                 }
 
             }
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<C9Token> call, Throwable t) {
                 Log.e(TAG, "Unable to submit Register request to the server");
                 Toast.makeText(getApplicationContext(), "Unable to submit Register request to the server", Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    public void sendLoginRequest(User user) {
+    public void sendLoginRequest(C9User user) {
         cloud9service.signUserIn(user.getUsername(),
                 user.getPassword())
-                .enqueue(new Callback<User>() {
+                .enqueue(new Callback<C9Token>() {
 
                     @Override
-                    public void onResponse(Call<User> call, Response<User> response) {
+                    public void onResponse(Call<C9Token> call, Response<C9Token> response) {
                         if (response.isSuccessful()) {
+                            saveToken(response.body().token);
                             Toast.makeText(getApplicationContext(), "User has successfully logged in. Proceeding", Toast.LENGTH_LONG).show();
 
                             Intent intent = new Intent(MainActivity.this, WordsListActivity.class);
                             startActivity(intent);
                         } else {
-                            Log.e(TAG, "Incorrect password or other error");
-                            Toast.makeText(getApplicationContext(), "Incorrect password or other error", Toast.LENGTH_LONG).show();
+                            try {
+                                JSONObject error = new JSONObject(response.errorBody().string());
+                                Toast.makeText(getApplicationContext(), error.getString("msg"), Toast.LENGTH_LONG).show();
+                            } catch (Exception e) {
+//                                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "Server unreachable", Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
                     @Override
-                    public void onFailure(Call<User> call, Throwable t) {
+                    public void onFailure(Call<C9Token> call, Throwable t) {
                         Log.e(TAG, "Unable to submit Login request to the server");
                         Toast.makeText(getApplicationContext(), "Unable to submit Login request to the server", Toast.LENGTH_LONG).show();
                     }
                 });
     }
 
-    public void sendResetPasswordRequest(User user) {
+    public void sendResetPasswordRequest(C9User user) {
         cloud9service.resetPassword(user.getEmail(),
                 user.getPassword())
-                .enqueue(new Callback<User>() {
+                .enqueue(new Callback<C9User>() {
 
                     @Override
-                    public void onResponse(Call<User> call, Response<User> response) {
+                    public void onResponse(Call<C9User> call, Response<C9User> response) {
                         if (response.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "Check the mail for password reset link", Toast.LENGTH_LONG).show();
                         } else {
@@ -274,7 +293,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     @Override
-                    public void onFailure(Call<User> call, Throwable t) {
+                    public void onFailure(Call<C9User> call, Throwable t) {
                         Log.e(TAG, "Unable to submit ResetPassword request to the server");
                         Toast.makeText(getApplicationContext(), "Unable to submit ResetPassword request to the server", Toast.LENGTH_LONG).show();
                     }
@@ -285,5 +304,11 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed()
     {
         // Suppressing navigating to splash screen!
+    }
+
+    private void saveToken(String token) {
+        SharedPreferences.Editor editor = getSharedPreferences(OLYMPIA_PREFERENCES, MODE_PRIVATE).edit();
+        editor.putString(LOGIN_TOKEN, token);
+        editor.apply();
     }
 }

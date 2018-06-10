@@ -8,7 +8,7 @@ import retrofit2.http.POST;
 public interface ICloud9 {
     @FormUrlEncoded
     @POST("/register")
-    Call<User> registerUser(
+    Call<C9Token> registerUser(
         @Field("firstName") String firstName,
         @Field("lastName") String lastName,
         @Field("email") String email,
@@ -18,14 +18,14 @@ public interface ICloud9 {
 
     @FormUrlEncoded
     @POST("/login")
-    Call<User> signUserIn(
+    Call<C9Token> signUserIn(
             @Field("username") String username,
             @Field("password") String password
     );
 
     @FormUrlEncoded
     @POST("/passwordreset")
-    Call<User> resetPassword(
+    Call<C9User> resetPassword(
             @Field("email") String email,
             @Field("password") String password
     );

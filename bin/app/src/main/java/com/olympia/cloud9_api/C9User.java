@@ -3,7 +3,7 @@ package com.olympia.cloud9_api;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+public class C9User {
     @SerializedName("firstName")
     @Expose
     private String firstName;
