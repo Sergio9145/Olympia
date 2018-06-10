@@ -38,7 +38,7 @@ public class TabFragment1 extends Fragment {
     private RecyclerView wordsList;
     private TextView search, filteredLabel;
     private DictionaryEntriesApi entriesApi;
-    private AdapterWordsList wordsAdapter;
+    private AdapterListWords wordsAdapter;
     private String currentWord;
     private ArrayList<Category> filteredCategories = new ArrayList<>();
     private ArrayList<Keyword> filteredWords = new ArrayList<>();
@@ -107,7 +107,7 @@ public class TabFragment1 extends Fragment {
                 })
         );
 
-        wordsAdapter = new AdapterWordsList(Vocabulary.keywords);
+        wordsAdapter = new AdapterListWords(Vocabulary.keywords);
         wordsList.setAdapter(wordsAdapter);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -242,7 +242,7 @@ public class TabFragment1 extends Fragment {
                     }
                 })
         );
-        AdapterCategoriesSelect categoriesAdapter = new AdapterCategoriesSelect(Vocabulary.categories);
+        AdapterListCategoriesSelect categoriesAdapter = new AdapterListCategoriesSelect(Vocabulary.categories);
         categories.setAdapter(categoriesAdapter);
 
         //* IMPORTANT! DO NOT PLACE BEFORE SETTING ADAPTER!
@@ -316,7 +316,7 @@ public class TabFragment1 extends Fragment {
                     }
                 })
         );
-        AdapterCategoriesSelect categoriesAdapter = new AdapterCategoriesSelect(Vocabulary.categories);
+        AdapterListCategoriesSelect categoriesAdapter = new AdapterListCategoriesSelect(Vocabulary.categories);
         categories.setAdapter(categoriesAdapter);
 
         //* IMPORTANT! DO NOT PLACE BEFORE SETTING ADAPTER!
@@ -351,7 +351,7 @@ public class TabFragment1 extends Fragment {
                 }
 
                 if (filteredCategories.isEmpty()) {
-                    wordsAdapter = new AdapterWordsList(Vocabulary.keywords);
+                    wordsAdapter = new AdapterListWords(Vocabulary.keywords);
                     wordsList.setAdapter(wordsAdapter);
                 } else {
                     filteredWords.clear();
@@ -362,7 +362,7 @@ public class TabFragment1 extends Fragment {
                             }
                         }
                     }
-                    wordsAdapter = new AdapterWordsList(filteredWords);
+                    wordsAdapter = new AdapterListWords(filteredWords);
                     wordsList.setAdapter(wordsAdapter);
                 }
                 dialog.dismiss();

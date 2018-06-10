@@ -13,7 +13,7 @@ import com.olympia.R;
 import com.olympia.TabFragment1;
 import com.olympia.TabFragment2;
 import com.olympia.TabFragment3;
-import com.olympia.AdapterViewPager;
+import com.olympia.AdapterTabsPager;
 
 public class WordsListActivity extends AppCompatActivity {
 
@@ -23,12 +23,12 @@ public class WordsListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_words_list);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        AdapterViewPager adapterViewPager = new AdapterViewPager(getSupportFragmentManager());
+        AdapterTabsPager adapterTabsPager = new AdapterTabsPager(getSupportFragmentManager());
 
-        adapterViewPager.addFragment(new TabFragment1(), getString(R.string.tab1_label));
-        adapterViewPager.addFragment(new TabFragment2(), getString(R.string.tab2_label));
-        adapterViewPager.addFragment(new TabFragment3(), getString(R.string.tab3_label));
-        viewPager.setAdapter(adapterViewPager);
+        adapterTabsPager.addFragment(new TabFragment1(), getString(R.string.tab1_label));
+        adapterTabsPager.addFragment(new TabFragment2(), getString(R.string.tab2_label));
+        adapterTabsPager.addFragment(new TabFragment3(), getString(R.string.tab3_label));
+        viewPager.setAdapter(adapterTabsPager);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);

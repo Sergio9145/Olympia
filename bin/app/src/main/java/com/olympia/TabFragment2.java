@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 public class TabFragment2 extends Fragment {
 
-    private AdapterCategoriesList categoriesAdapter;
+    private AdapterListCategories categoriesAdapter;
     private View v;
 
     public TabFragment2() {
@@ -82,7 +82,7 @@ public class TabFragment2 extends Fragment {
                 })
         );
 
-        categoriesAdapter = new AdapterCategoriesList(Vocabulary.categories);
+        categoriesAdapter = new AdapterListCategories(Vocabulary.categories);
         categoryList.setAdapter(categoriesAdapter);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {

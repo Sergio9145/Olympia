@@ -7,11 +7,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdapterViewPager extends FragmentPagerAdapter {
+public class AdapterTabsPager extends FragmentPagerAdapter {
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
 
-    public AdapterViewPager(FragmentManager manager) {
+    public AdapterTabsPager(FragmentManager manager) {
         super(manager);
     }
 

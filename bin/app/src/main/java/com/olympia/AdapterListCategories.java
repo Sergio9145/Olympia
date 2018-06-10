@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-public class AdapterCategoriesList extends RecyclerView.Adapter<AdapterCategoriesList.ViewHolder>
+public class AdapterListCategories extends RecyclerView.Adapter<AdapterListCategories.ViewHolder>
     implements AdapterItemTouchHelper {
     private ArrayList<Category> mDataset;
 
@@ -27,25 +27,25 @@ public class AdapterCategoriesList extends RecyclerView.Adapter<AdapterCategorie
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    AdapterCategoriesList(ArrayList<Category> myDataset) {
+    AdapterListCategories(ArrayList<Category> myDataset) {
         mDataset = myDataset;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
     @NonNull
-    public AdapterCategoriesList.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+    public AdapterListCategories.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                                                                int viewType) {
         // create a new view
         TextView v = (TextView) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_category, parent, false);
 
-        return new AdapterCategoriesList.ViewHolder(v);
+        return new AdapterListCategories.ViewHolder(v);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(@NonNull AdapterCategoriesList.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AdapterListCategories.ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.mTextView.setText(mDataset.get(position).name);
@@ -66,6 +66,7 @@ public class AdapterCategoriesList extends RecyclerView.Adapter<AdapterCategorie
         notifyItemRemoved(position);
     }
 
+    //* TODO: Support with saving the order of the list items
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
         if (fromPosition < toPosition) {
