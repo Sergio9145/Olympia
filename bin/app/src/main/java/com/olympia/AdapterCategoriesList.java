@@ -59,7 +59,7 @@ public class AdapterCategoriesList extends RecyclerView.Adapter<AdapterCategorie
 
     @Override
     public void onItemDismiss(int position) {
-        for (HashMap.Entry<String, ArrayList<Category>> entry : Vocabulary.map.entrySet()) {
+        for (HashMap.Entry<Keyword, ArrayList<Category>> entry : Vocabulary.map.entrySet()) {
             entry.getValue().remove(mDataset.get(position));
         }
         mDataset.remove(position);

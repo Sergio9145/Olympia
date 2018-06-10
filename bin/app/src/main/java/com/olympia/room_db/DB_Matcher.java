@@ -3,10 +3,9 @@ package com.olympia.room_db;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
 
-@Entity(tableName = "Categories")
-public class DB_Category {
+@Entity(tableName = "Matches")
+public class DB_Matcher {
 
     @PrimaryKey
     private int id = 0;
@@ -19,18 +18,28 @@ public class DB_Category {
         this.id = id;
     }
 
-    @ColumnInfo(name = "category_name")
-    private String category_name = "";
+    @ColumnInfo(name = "word_id")
+    private int word_id = 0;
 
-    @NonNull
-    public String getCategory_name() {
-        return category_name;
+    public int getWord_id() {
+        return word_id;
     }
 
-    public void setCategory_name(@NonNull String category_name) {
-        this.category_name = category_name;
+    public void setWord_id(int wid) {
+        this.word_id = wid;
     }
-//
+
+    @ColumnInfo(name = "category_id")
+    private int category_id = 0;
+
+    public int getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(int cid) {
+        this.category_id = cid;
+    }
+
 //    @ColumnInfo(category_name = "dateCreated")
 //    private Date dateCreated;
 //

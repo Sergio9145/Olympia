@@ -155,6 +155,7 @@ public class TabFragment2 extends Fragment {
                             Toast.makeText(getContext(), getResources().getString(R.string.category_exists), Toast.LENGTH_SHORT).show();
                         } else {
                             Category c = new Category();
+                            c.id = ++Category.last_id;
                             c.name = categoryName;
                             Vocabulary.categories.add(c);
                             categoriesAdapter.notifyDataSetChanged();

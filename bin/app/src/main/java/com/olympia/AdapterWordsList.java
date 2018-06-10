@@ -11,7 +11,7 @@ import java.util.Collections;
 
 public class AdapterWordsList extends RecyclerView.Adapter<AdapterWordsList.ViewHolder>
         implements AdapterItemTouchHelper {
-    private ArrayList<String> mDataset;
+    private ArrayList<Keyword> mDataset;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -26,7 +26,7 @@ public class AdapterWordsList extends RecyclerView.Adapter<AdapterWordsList.View
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    AdapterWordsList(ArrayList<String> myDataset) {
+    AdapterWordsList(ArrayList<Keyword> myDataset) {
         mDataset = myDataset;
     }
 
@@ -47,7 +47,7 @@ public class AdapterWordsList extends RecyclerView.Adapter<AdapterWordsList.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTextView.setText(mDataset.get(position));
+        holder.mTextView.setText(mDataset.get(position).name);
 
     }
 

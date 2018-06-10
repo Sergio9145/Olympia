@@ -41,7 +41,7 @@ public class TabFragment1 extends Fragment {
     private AdapterWordsList wordsAdapter;
     private String currentWord;
     private ArrayList<Category> filteredCategories = new ArrayList<>();
-    private ArrayList<String> filteredWords = new ArrayList<>();
+    private ArrayList<Keyword> filteredWords = new ArrayList<>();
 
     public TabFragment1() {
         // Required empty public constructor
@@ -97,7 +97,7 @@ public class TabFragment1 extends Fragment {
         wordsList.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), wordsList, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-                        currentWord = Vocabulary.keywords.get(position);
+                        currentWord = Vocabulary.keywords.get(position).name;
                         decideWhatToDo();
                     }
 
@@ -168,8 +168,12 @@ public class TabFragment1 extends Fragment {
         node.definitions = definitions;
         Vocabulary.nodes.put(currentWord, node);
 
-        if (!Vocabulary.keywords.contains(currentWord.toLowerCase())) {
-            Vocabulary.keywords.add(currentWord);
+        if (!Vocabulary.containsWord(currentWord.toLowerCase())) {
+            Keyword k = new Keyword();
+            k.id = ++Keyword.last_id;
+            k.name = currentWord;
+            Vocabulary.keywords.add(k);
+            wordsAdapter.notifyDataSetChanged();
         }
 
         RendererBuilder<Definition> builder = new RendererBuilder<Definition>()
@@ -179,8 +183,6 @@ public class TabFragment1 extends Fragment {
     }
 
     private void updateRecyclerView(RVRendererAdapter<Definition> adapter) {
-        wordsAdapter.notifyDataSetChanged();
-
         openWordCard();
     }
 
@@ -353,7 +355,7 @@ public class TabFragment1 extends Fragment {
                     wordsList.setAdapter(wordsAdapter);
                 } else {
                     filteredWords.clear();
-                    for (HashMap.Entry<String, ArrayList<Category>> entry : Vocabulary.map.entrySet()) {
+                    for (HashMap.Entry<Keyword, ArrayList<Category>> entry : Vocabulary.map.entrySet()) {
                         for (Category c : filteredCategories) {
                             if (entry.getValue().contains(c)) {
                                 filteredWords.add(entry.getKey());

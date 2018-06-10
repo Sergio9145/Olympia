@@ -60,4 +60,10 @@
     <string name="copy">Copy</string>
     <string name="copied">Copied to clipboard</string>
     <string name="not_copied">Nothing to copy</string>
+
+    <!--Settings page-->
+    <string name="database_label">Operations with database:</string>
+    <string name="database_saved">Current state of words and categories was saved to database</string>
+    <string name="database_resored">Previous state of words and categories was restored from database</string>
+    <string name="database_cleared">All the records purged from database</string>
 </resources>
