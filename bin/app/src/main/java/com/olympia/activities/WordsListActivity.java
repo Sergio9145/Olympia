@@ -1,5 +1,6 @@
 package com.olympia.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -69,5 +70,20 @@ public class WordsListActivity extends AppCompatActivity {
     public void onBackPressed()
     {
         // Suppressing navigating to login screen!
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Globals.SETTINGS_ACTIVITY) {
+            if (resultCode == Activity.RESULT_OK) {
+                int result = data.getIntExtra(Globals.SETTINGS_EXTRA, 0);
+                if (result == Globals.LOGOUT_REQUESTED) {
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra(Globals.WORDS_LIST_EXTRA, Globals.LOGOUT_REQUESTED);
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
+                }
+            }
+        }
     }
 }

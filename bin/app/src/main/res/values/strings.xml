@@ -63,7 +63,16 @@
 
     <!--Settings page-->
     <string name="database_label">Operations with database:</string>
+    <string name="database_save">Save</string>
     <string name="database_saved">Current state of words and categories was saved to database</string>
-    <string name="database_resored">Previous state of words and categories was restored from database</string>
+    <string name="database_restore">Restore</string>
+    <string name="database_restored">Previous state of words and categories was restored from database</string>
+    <string name="database_clear">Clear</string>
     <string name="database_cleared">All the records purged from database</string>
+    <string name="account_label">Account operations:</string>
+    <string name="account_change_name">Change name and surname</string>
+    <string name="account_change_email">Change email</string>
+    <string name="account_change_password">Change password</string>
+    <string name="account_logout">Logout</string>
+    <string name="account_delete">Delete account</string>
 </resources>

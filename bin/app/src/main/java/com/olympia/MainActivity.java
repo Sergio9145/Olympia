@@ -1,5 +1,6 @@
 package com.olympia;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -54,11 +55,10 @@ public class MainActivity extends AppCompatActivity {
         registrationView = findViewById(R.id.registration_view);
         resetPasswordView = findViewById(R.id.reset_password_view);
 
-        SharedPreferences prefs = getSharedPreferences(OLYMPIA_PREFERENCES, MODE_PRIVATE);
-        String token = prefs.getString(LOGIN_TOKEN, null);
+        String token = readToken();
         if (token != null || QUICK_LAUNCH) {
             Intent intent = new Intent(MainActivity.this, WordsListActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, Globals.WORDS_LIST_ACTIVITY);
         }
     }
 
@@ -224,7 +224,6 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<C9Token> call, Response<C9Token> response) {
                 if (response.isSuccessful()) {
                     saveToken(response.body().token);
-                    Toast.makeText(getApplicationContext(), "User was successfully registered. Proceeding", Toast.LENGTH_LONG).show();
 
                     Intent intent = new Intent(MainActivity.this, WordsListActivity.class);
                     startActivity(intent);
@@ -237,7 +236,6 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Server unreachable", Toast.LENGTH_LONG).show();
                     }
                 }
-
             }
             @Override
             public void onFailure(Call<C9Token> call, Throwable t) {
@@ -256,7 +254,6 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(Call<C9Token> call, Response<C9Token> response) {
                         if (response.isSuccessful()) {
                             saveToken(response.body().token);
-                            Toast.makeText(getApplicationContext(), "User has successfully logged in. Proceeding", Toast.LENGTH_LONG).show();
 
                             Intent intent = new Intent(MainActivity.this, WordsListActivity.class);
                             startActivity(intent);
@@ -303,12 +300,36 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed()
     {
-        // Suppressing navigating to splash screen!
+        //* Suppressing navigating to splash screen!
     }
 
     private void saveToken(String token) {
         SharedPreferences.Editor editor = getSharedPreferences(OLYMPIA_PREFERENCES, MODE_PRIVATE).edit();
         editor.putString(LOGIN_TOKEN, token);
         editor.apply();
+    }
+
+    private String readToken () {
+        SharedPreferences prefs = getSharedPreferences(OLYMPIA_PREFERENCES, MODE_PRIVATE);
+        return prefs.getString(LOGIN_TOKEN, null);
+    }
+
+    private void deleteToken() {
+        SharedPreferences.Editor editor = getSharedPreferences(OLYMPIA_PREFERENCES, MODE_PRIVATE).edit();
+        editor.remove(LOGIN_TOKEN);
+        editor.apply();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Globals.WORDS_LIST_ACTIVITY) {
+            if (resultCode == Activity.RESULT_OK) {
+                int result = data.getIntExtra(Globals.WORDS_LIST_EXTRA, 0);
+                if (result == Globals.LOGOUT_REQUESTED) {
+                    deleteToken();
+                    gotoLogin(null);
+                }
+            }
+        }
     }
 }

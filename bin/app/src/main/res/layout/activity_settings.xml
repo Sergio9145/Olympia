@@ -12,21 +12,22 @@
         <TextView
             android:id="@+id/database_label"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/database_label" />
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_height="wrap_content">
 
             <Button
                 android:id="@+id/save_to_db"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/bordered_button_blue"
-                android:text="Save"/>
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:text="@string/database_save"/>
 
             <Button
                 android:id="@+id/restore_from_db"
@@ -34,8 +35,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:background="@drawable/bordered_button_blue"
-                android:text="Restore"/>
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:text="@string/database_restore"/>
 
             <Button
                 android:id="@+id/clear_from_db"
@@ -43,10 +44,53 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:background="@drawable/bordered_button_blue"
-                android:text="clear"/>
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:text="@string/database_clear"/>
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/account_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/account_label"/>
+
+        <Button
+            android:id="@+id/account_change_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:text="@string/account_change_name"/>
+        <Button
+            android:id="@+id/account_change_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:text="@string/account_change_email"/>
+        <Button
+            android:id="@+id/account_change_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:text="@string/account_change_password"/>
+        <Button
+            android:id="@+id/account_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:text="@string/account_logout"/>
+        <Button
+            android:id="@+id/account_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:text="@string/account_delete"/>
 
     </LinearLayout>
 
