@@ -75,4 +75,16 @@
     <string name="account_change_password">Change password</string>
     <string name="account_logout">Logout</string>
     <string name="account_delete">Delete account</string>
+
+    <string name="new_first_name">New first name</string>
+    <string name="new_last_name">New last name</string>
+    <string name="current_password">Current password</string>
+    <string name="change_name">Change name</string>
+    <string name="new_email">New email</string>
+    <string name="change_email">Change email</string>
+    <string name="set_new_password">Set new password</string>
+    <string name="set_password_error">All passwords must be of at least %d characters. New password must be repeated. Old password and new password cannot be the same</string>
+
+    <string name="deleting_account_title">Deleting account</string>
+    <string name="deleting_account_descr">Are you sure you want to delete your account? This action is irreversible! Input your password to proceed</string>
 </resources>

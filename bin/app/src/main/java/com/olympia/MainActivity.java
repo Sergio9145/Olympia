@@ -30,15 +30,14 @@ public class MainActivity extends AppCompatActivity {
     //* Skip login:
     final static boolean QUICK_LAUNCH = false;
 
-    final String TAG = "Olmp",
-        OLYMPIA_PREFERENCES = "OLYMPIA_PREFERENCES",
-        LOGIN_TOKEN = "LOGIN_TOKEN";
+    final String OLYMPIA_PREFERENCES = "OLYMPIA_PREFERENCES",
+        LOGIN_TOKEN = "LOGIN_TOKEN",
+        USERNAME = "USERNAME";
+    public static String currentUsername = "";
 
     private ICloud9 cloud9service;
 
     private View loginView, registrationView, resetPasswordView;
-    final int MIN_USERNAME_LENGTH = 5,
-        MIN_PASSWORD_LENGTH = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,13 +147,13 @@ public class MainActivity extends AppCompatActivity {
             username = findViewById(R.id.username1);
             password = findViewById(R.id.password1);
 
-            if (username.getText().length() >= MIN_USERNAME_LENGTH
-                && password.getText().length() >= MIN_PASSWORD_LENGTH) {
+            if (username.getText().length() >= Globals.MIN_USERNAME_LENGTH
+                && password.getText().length() >= Globals.MIN_PASSWORD_LENGTH) {
                 result = true;
             } else {
                 Toast.makeText(getApplicationContext(), String.format(Locale.ENGLISH,
                     getResources().getString(R.string.login_field_invalid),
-                    MIN_USERNAME_LENGTH, MIN_PASSWORD_LENGTH), Toast.LENGTH_LONG).show();
+                        Globals.MIN_USERNAME_LENGTH, Globals.MIN_PASSWORD_LENGTH), Toast.LENGTH_LONG).show();
             }
         }
         return result;
@@ -175,15 +174,15 @@ public class MainActivity extends AppCompatActivity {
             if (!TextUtils.isEmpty(firstName.getText())
                 && !TextUtils.isEmpty(lastName.getText())
                 && email.getText().toString().contains("@")
-                && username.getText().length() >= MIN_USERNAME_LENGTH
-                && password.getText().length() >= MIN_PASSWORD_LENGTH
-                && repeatPassword.getText().length() >= MIN_PASSWORD_LENGTH
+                && username.getText().length() >= Globals.MIN_USERNAME_LENGTH
+                && password.getText().length() >= Globals.MIN_PASSWORD_LENGTH
+                && repeatPassword.getText().length() >= Globals.MIN_PASSWORD_LENGTH
                 && password.getText().toString().equals(repeatPassword.getText().toString())) {
                 result = true;
             } else {
                 Toast.makeText(getApplicationContext(), String.format(Locale.ENGLISH,
                         getResources().getString(R.string.registration_field_invalid),
-                    MIN_USERNAME_LENGTH, MIN_PASSWORD_LENGTH), Toast.LENGTH_LONG).show();
+                        Globals.MIN_USERNAME_LENGTH, Globals.MIN_PASSWORD_LENGTH), Toast.LENGTH_LONG).show();
             }
         }
         return result;
@@ -200,18 +199,19 @@ public class MainActivity extends AppCompatActivity {
 
             if (!TextUtils.isEmpty(email.getText())
                 && email.getText().toString().contains("@")
-                && password.getText().length() >= MIN_PASSWORD_LENGTH
-                && repeatPassword.getText().length() >= MIN_PASSWORD_LENGTH
+                && password.getText().length() >= Globals.MIN_PASSWORD_LENGTH
+                && repeatPassword.getText().length() >= Globals.MIN_PASSWORD_LENGTH
                 && password.getText().toString().equals(repeatPassword.getText().toString())) {
                 result = true;
             } else {
                 Toast.makeText(getApplicationContext(), String.format(Locale.ENGLISH,
                         getResources().getString(R.string.reset_password_field_invalid),
-                        MIN_PASSWORD_LENGTH), Toast.LENGTH_LONG).show();
+                        Globals.MIN_PASSWORD_LENGTH), Toast.LENGTH_LONG).show();
             }
         }
         return result;
     }
+
     public void sendRegisterRequest(C9User user) {
         cloud9service.registerUser(user.getFirstName(),
                 user.getLastName(),
@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<C9Token> call, Response<C9Token> response) {
                 if (response.isSuccessful()) {
-                    saveToken(response.body().token);
+                    saveToken(user.getUsername(), response.body().token);
 
                     Intent intent = new Intent(MainActivity.this, WordsListActivity.class);
                     startActivity(intent);
@@ -239,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<C9Token> call, Throwable t) {
-                Log.e(TAG, "Unable to submit Register request to the server");
+                Log.e(Globals.TAG, "Unable to submit Register request to the server");
                 Toast.makeText(getApplicationContext(), "Unable to submit Register request to the server", Toast.LENGTH_LONG).show();
             }
         });
@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<C9Token> call, Response<C9Token> response) {
                         if (response.isSuccessful()) {
-                            saveToken(response.body().token);
+                            saveToken(user.getUsername(), response.body().token);
 
                             Intent intent = new Intent(MainActivity.this, WordsListActivity.class);
                             startActivity(intent);
@@ -269,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     @Override
                     public void onFailure(Call<C9Token> call, Throwable t) {
-                        Log.e(TAG, "Unable to submit Login request to the server");
+                        Log.e(Globals.TAG, "Unable to submit Login request to the server");
                         Toast.makeText(getApplicationContext(), "Unable to submit Login request to the server", Toast.LENGTH_LONG).show();
                     }
                 });
@@ -285,13 +285,13 @@ public class MainActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "Check the mail for password reset link", Toast.LENGTH_LONG).show();
                         } else {
-                            Log.e(TAG, "Password was not reset or other error");
+                            Log.e(Globals.TAG, "Password was not reset or other error");
                             Toast.makeText(getApplicationContext(), "Password was not reset or other error", Toast.LENGTH_LONG).show();
                         }
                     }
                     @Override
                     public void onFailure(Call<C9User> call, Throwable t) {
-                        Log.e(TAG, "Unable to submit ResetPassword request to the server");
+                        Log.e(Globals.TAG, "Unable to submit ResetPassword request to the server");
                         Toast.makeText(getApplicationContext(), "Unable to submit ResetPassword request to the server", Toast.LENGTH_LONG).show();
                     }
                 });
@@ -303,19 +303,22 @@ public class MainActivity extends AppCompatActivity {
         //* Suppressing navigating to splash screen!
     }
 
-    private void saveToken(String token) {
+    private void saveToken(String username, String token) {
         SharedPreferences.Editor editor = getSharedPreferences(OLYMPIA_PREFERENCES, MODE_PRIVATE).edit();
+        editor.putString(USERNAME, username);
         editor.putString(LOGIN_TOKEN, token);
         editor.apply();
     }
 
     private String readToken () {
         SharedPreferences prefs = getSharedPreferences(OLYMPIA_PREFERENCES, MODE_PRIVATE);
+        currentUsername = prefs.getString(USERNAME, "");
         return prefs.getString(LOGIN_TOKEN, null);
     }
 
     private void deleteToken() {
         SharedPreferences.Editor editor = getSharedPreferences(OLYMPIA_PREFERENCES, MODE_PRIVATE).edit();
+        editor.remove(USERNAME);
         editor.remove(LOGIN_TOKEN);
         editor.apply();
     }
@@ -325,9 +328,14 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == Globals.WORDS_LIST_ACTIVITY) {
             if (resultCode == Activity.RESULT_OK) {
                 int result = data.getIntExtra(Globals.WORDS_LIST_EXTRA, 0);
-                if (result == Globals.LOGOUT_REQUESTED) {
-                    deleteToken();
-                    gotoLogin(null);
+                switch (result) {
+                    case Globals.LOGOUT_REQUESTED:
+                    case Globals.DELETE_ACCOUNT_REQUESTED:
+                        deleteToken();
+                        gotoLogin(null);
+                        break;
+                    default:
+                        break;
                 }
             }
         }

@@ -29,4 +29,36 @@ public interface ICloud9 {
             @Field("email") String email,
             @Field("password") String password
     );
+
+    @FormUrlEncoded
+    @POST("/changename")
+    Call<C9FirstLastNames> changeName(
+            @Field("firstName") String firstName,
+            @Field("lastName") String lastName,
+            @Field("username") String username,
+            @Field("password") String password
+    );
+
+    @FormUrlEncoded
+    @POST("/changeemail")
+    Call<C9Email> changeEmail(
+            @Field("email") String email,
+            @Field("username") String username,
+            @Field("password") String password
+    );
+
+    @FormUrlEncoded
+    @POST("/changepassword")
+    Call<C9NewPassword> changePassword(
+            @Field("username") String username,
+            @Field("password") String password,
+            @Field("newpassword") String newpassword
+    );
+
+    @FormUrlEncoded
+    @POST("/deleteaccount")
+    Call<C9User> deleteAccount(
+            @Field("username") String username,
+            @Field("password") String password
+    );
 }

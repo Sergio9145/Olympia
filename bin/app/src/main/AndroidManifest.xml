@@ -46,5 +46,17 @@
             android:parentActivityName=".activities.WordsListActivity">
         </activity>
 
+        <activity android:name=".activities.ChangeNameActivity"
+            android:parentActivityName=".activities.SettingsActivity">
+        </activity>
+
+        <activity android:name=".activities.ChangeEmailActivity"
+            android:parentActivityName=".activities.SettingsActivity">
+        </activity>
+
+        <activity android:name=".activities.ChangePasswordActivity"
+            android:parentActivityName=".activities.SettingsActivity">
+        </activity>
+
     </application>
 </manifest>
