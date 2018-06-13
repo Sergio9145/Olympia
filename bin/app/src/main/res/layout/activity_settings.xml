@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:minWidth="0dp"
             style="@style/ButtonAsLinkRegular"
-            android:text="@string/account_change_name"/>
+            android:text="@string/account_change_names"/>
         <Button
             android:id="@+id/account_change_email"
             android:layout_width="wrap_content"

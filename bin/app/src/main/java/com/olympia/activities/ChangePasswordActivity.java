@@ -61,22 +61,29 @@ public class ChangePasswordActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<C9NewPassword> call, Response<C9NewPassword> response) {
                                 if (response.isSuccessful()) {
-                                    Toast.makeText(getApplicationContext(), "User's password was successfully changed", Toast.LENGTH_LONG).show();
+                                    String s = getResources().getString(R.string.account_change_password_success);
+                                    Log.i(Globals.TAG, s);
+                                    Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                                     finish();
                                 } else {
                                     try {
                                         JSONObject error = new JSONObject(response.errorBody().string());
+                                        Log.e(Globals.TAG, error.getString("msg"));
                                         Toast.makeText(getApplicationContext(), error.getString("msg"), Toast.LENGTH_LONG).show();
                                     } catch (Exception e) {
-                                        Toast.makeText(getApplicationContext(), "Server unreachable", Toast.LENGTH_LONG).show();
+                                        String s = getResources().getString(R.string.error_server_unreachable);
+                                        Log.e(Globals.TAG, s);
+                                        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                                     }
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<C9NewPassword> call, Throwable t) {
-                                Log.e(Globals.TAG, "Unable to submit Change name request to the server");
-                                Toast.makeText(getApplicationContext(), "Unable to submit Change name request to the server", Toast.LENGTH_LONG).show();
+                                String s = String.format(Locale.ENGLISH, getResources().getString(R.string.error_failed_attempt),
+                                        getResources().getString(R.string.account_change_password));
+                                Log.e(Globals.TAG, s);
+                                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                             }
                         });
                 }

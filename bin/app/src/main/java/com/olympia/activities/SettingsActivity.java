@@ -16,12 +16,15 @@ import android.widget.Toast;
 import com.olympia.Globals;
 import com.olympia.MainActivity;
 import com.olympia.R;
-import com.olympia.Vocabulary;
 import com.olympia.cloud9_api.ApiUtils;
 import com.olympia.cloud9_api.C9User;
 import com.olympia.cloud9_api.ICloud9;
 import com.olympia.room_db.AppDatabase;
 import com.olympia.room_db.RoomDbFacade;
+
+import org.json.JSONObject;
+
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -163,16 +166,24 @@ public class SettingsActivity extends AppCompatActivity {
                                             setResult(Activity.RESULT_OK, returnIntent);
                                             dialog.dismiss();
                                             finish();
-//                                            Toast.makeText(getApplicationContext(), "Check the mail for password reset link", Toast.LENGTH_LONG).show();
                                         } else {
-                                            Log.e(Globals.TAG, "Password is not correct or other error");
-                                            Toast.makeText(getApplicationContext(), "Password is not correct or other error", Toast.LENGTH_LONG).show();
+                                            try {
+                                                JSONObject error = new JSONObject(response.errorBody().string());
+                                                Log.e(Globals.TAG, error.getString("msg"));
+                                                Toast.makeText(getApplicationContext(), error.getString("msg"), Toast.LENGTH_LONG).show();
+                                            } catch (Exception e) {
+                                                String s = getResources().getString(R.string.error_server_unreachable);
+                                                Log.e(Globals.TAG, s);
+                                                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                                            }
                                         }
                                     }
                                     @Override
                                     public void onFailure(Call<C9User> call, Throwable t) {
-                                        Log.e(Globals.TAG, "Unable to submit DeleteAccount request to the server");
-                                        Toast.makeText(getApplicationContext(), "Unable to submit DeleteAccount request to the server", Toast.LENGTH_LONG).show();
+                                        String s = String.format(Locale.ENGLISH, getResources().getString(R.string.error_failed_attempt),
+                                                getResources().getString(R.string.account_delete));
+                                        Log.e(Globals.TAG, s);
+                                        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                                     }
                                 });
 

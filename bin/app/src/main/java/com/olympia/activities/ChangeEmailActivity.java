@@ -18,6 +18,8 @@ import com.olympia.cloud9_api.ICloud9;
 
 import org.json.JSONObject;
 
+import java.util.Locale;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,23 +55,30 @@ public class ChangeEmailActivity extends AppCompatActivity {
                         public void onResponse(Call<C9Email> call, Response<C9Email> response) {
                             if (response.isSuccessful()) {
                                 C9Email newEmail = response.body();
-                                Toast.makeText(getApplicationContext(), "User's email was changed to "
-                                    .concat(newEmail.email), Toast.LENGTH_LONG).show();
+                                String s = String.format(Locale.ENGLISH, getResources().getString(R.string.account_change_email_success),
+                                        newEmail.email);
+                                Log.i(Globals.TAG, s);
+                                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                                 finish();
                             } else {
                                 try {
                                     JSONObject error = new JSONObject(response.errorBody().string());
+                                    Log.e(Globals.TAG, error.getString("msg"));
                                     Toast.makeText(getApplicationContext(), error.getString("msg"), Toast.LENGTH_LONG).show();
                                 } catch (Exception e) {
-                                    Toast.makeText(getApplicationContext(), "Server unreachable", Toast.LENGTH_LONG).show();
+                                    String s = getResources().getString(R.string.error_server_unreachable);
+                                    Log.e(Globals.TAG, s);
+                                    Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                                 }
                             }
                         }
 
                         @Override
                         public void onFailure(Call<C9Email> call, Throwable t) {
-                            Log.e(Globals.TAG, "Unable to submit Change name request to the server");
-                            Toast.makeText(getApplicationContext(), "Unable to submit Change name request to the server", Toast.LENGTH_LONG).show();
+                            String s = String.format(Locale.ENGLISH, getResources().getString(R.string.error_failed_attempt),
+                                    getResources().getString(R.string.account_change_email));
+                            Log.e(Globals.TAG, s);
+                            Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                         }
                     });
             }

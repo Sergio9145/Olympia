@@ -70,7 +70,8 @@
     <string name="database_clear">Clear</string>
     <string name="database_cleared">All the records purged from database</string>
     <string name="account_label">Account operations:</string>
-    <string name="account_change_name">Change name and surname</string>
+    <string name="account_change_names">Change name and surname</string>
+    <string name="account_change_name">Change name</string>
     <string name="account_change_email">Change email</string>
     <string name="account_change_password">Change password</string>
     <string name="account_logout">Logout</string>
@@ -79,9 +80,7 @@
     <string name="new_first_name">New first name</string>
     <string name="new_last_name">New last name</string>
     <string name="current_password">Current password</string>
-    <string name="change_name">Change name</string>
     <string name="new_email">New email</string>
-    <string name="change_email">Change email</string>
     <string name="set_new_password">Set new password</string>
     <string name="set_password_error">All passwords must be of at least %d characters. New password must be repeated. Old password and new password cannot be the same</string>
 
@@ -89,6 +88,9 @@
     <string name="deleting_account_descr">Are you sure you want to delete your account? This action is irreversible! Input your password to proceed</string>
 
     <!--Errors handling-->
+    <string name="account_change_names_success">User\'s first name and last name were changed to %s %s</string>
+    <string name="account_change_email_success">User\'s email was changed to %s</string>
+    <string name="account_change_password_success">User\'s password was successfully changed</string>
     <string name="error_server_unreachable">Server unreachable</string>
-    <string name="error_failed_attempt">"Unable to submit %s request to the server"</string>
+    <string name="error_failed_attempt">Unable to submit %s request to the server</string>
 </resources>

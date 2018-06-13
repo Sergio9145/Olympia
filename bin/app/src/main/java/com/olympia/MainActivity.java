@@ -300,7 +300,8 @@ public class MainActivity extends AppCompatActivity {
                             } catch (Exception e) {
                                 String s = getResources().getString(R.string.error_server_unreachable);
                                 Log.e(Globals.TAG, s);
-                                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();                            }
+                                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
                     @Override
@@ -320,6 +321,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void saveToken(String username, String token) {
+        currentUsername = username;
         SharedPreferences.Editor editor = getSharedPreferences(OLYMPIA_PREFERENCES, MODE_PRIVATE).edit();
         editor.putString(USERNAME, username);
         editor.putString(LOGIN_TOKEN, token);
@@ -333,8 +335,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void deleteToken() {
-        SharedPreferences.Editor editor = getSharedPreferences(OLYMPIA_PREFERENCES, MODE_PRIVATE).edit();
         currentUsername = "";
+        SharedPreferences.Editor editor = getSharedPreferences(OLYMPIA_PREFERENCES, MODE_PRIVATE).edit();
         editor.remove(USERNAME);
         editor.remove(LOGIN_TOKEN);
         editor.apply();
