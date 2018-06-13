@@ -230,17 +230,21 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     try {
                         JSONObject error = new JSONObject(response.errorBody().string());
+                        Log.e(Globals.TAG, error.getString("msg"));
                         Toast.makeText(getApplicationContext(), error.getString("msg"), Toast.LENGTH_LONG).show();
                     } catch (Exception e) {
-//                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                        Toast.makeText(getApplicationContext(), "Server unreachable", Toast.LENGTH_LONG).show();
+                        String s = getResources().getString(R.string.error_server_unreachable);
+                        Log.e(Globals.TAG, s);
+                        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                     }
                 }
             }
             @Override
             public void onFailure(Call<C9Token> call, Throwable t) {
-                Log.e(Globals.TAG, "Unable to submit Register request to the server");
-                Toast.makeText(getApplicationContext(), "Unable to submit Register request to the server", Toast.LENGTH_LONG).show();
+                String s = String.format(Locale.ENGLISH, getResources().getString(R.string.error_failed_attempt),
+                        getResources().getString(R.string.register));
+                Log.e(Globals.TAG, s);
+                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -260,17 +264,21 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             try {
                                 JSONObject error = new JSONObject(response.errorBody().string());
+                                Log.e(Globals.TAG, error.getString("msg"));
                                 Toast.makeText(getApplicationContext(), error.getString("msg"), Toast.LENGTH_LONG).show();
                             } catch (Exception e) {
-//                                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                                Toast.makeText(getApplicationContext(), "Server unreachable", Toast.LENGTH_LONG).show();
+                                String s = getResources().getString(R.string.error_server_unreachable);
+                                Log.e(Globals.TAG, s);
+                                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                             }
                         }
                     }
                     @Override
                     public void onFailure(Call<C9Token> call, Throwable t) {
-                        Log.e(Globals.TAG, "Unable to submit Login request to the server");
-                        Toast.makeText(getApplicationContext(), "Unable to submit Login request to the server", Toast.LENGTH_LONG).show();
+                        String s = String.format(Locale.ENGLISH, getResources().getString(R.string.error_failed_attempt),
+                                getResources().getString(R.string.signin));
+                        Log.e(Globals.TAG, s);
+                        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -285,14 +293,22 @@ public class MainActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "Check the mail for password reset link", Toast.LENGTH_LONG).show();
                         } else {
-                            Log.e(Globals.TAG, "Password was not reset or other error");
-                            Toast.makeText(getApplicationContext(), "Password was not reset or other error", Toast.LENGTH_LONG).show();
+                            try {
+                                JSONObject error = new JSONObject(response.errorBody().string());
+                                Log.e(Globals.TAG, error.getString("msg"));
+                                Toast.makeText(getApplicationContext(), error.getString("msg"), Toast.LENGTH_LONG).show();
+                            } catch (Exception e) {
+                                String s = getResources().getString(R.string.error_server_unreachable);
+                                Log.e(Globals.TAG, s);
+                                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();                            }
                         }
                     }
                     @Override
                     public void onFailure(Call<C9User> call, Throwable t) {
-                        Log.e(Globals.TAG, "Unable to submit ResetPassword request to the server");
-                        Toast.makeText(getApplicationContext(), "Unable to submit ResetPassword request to the server", Toast.LENGTH_LONG).show();
+                        String s = String.format(Locale.ENGLISH, getResources().getString(R.string.error_failed_attempt),
+                                getResources().getString(R.string.reset_password));
+                        Log.e(Globals.TAG, s);
+                        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                     }
                 });
     }

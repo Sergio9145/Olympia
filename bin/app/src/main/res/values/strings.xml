@@ -87,4 +87,8 @@
 
     <string name="deleting_account_title">Deleting account</string>
     <string name="deleting_account_descr">Are you sure you want to delete your account? This action is irreversible! Input your password to proceed</string>
+
+    <!--Errors handling-->
+    <string name="error_server_unreachable">Server unreachable</string>
+    <string name="error_failed_attempt">"Unable to submit %s request to the server"</string>
 </resources>
