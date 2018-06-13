@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         resetPasswordView = findViewById(R.id.reset_password_view);
 
         String token = readToken();
-        if (token != null || QUICK_LAUNCH) {
+        if ((token != null && !currentUsername.isEmpty())|| QUICK_LAUNCH) {
             Intent intent = new Intent(MainActivity.this, WordsListActivity.class);
             startActivityForResult(intent, Globals.WORDS_LIST_ACTIVITY);
         }
@@ -318,6 +318,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void deleteToken() {
         SharedPreferences.Editor editor = getSharedPreferences(OLYMPIA_PREFERENCES, MODE_PRIVATE).edit();
+        currentUsername = "";
         editor.remove(USERNAME);
         editor.remove(LOGIN_TOKEN);
         editor.apply();

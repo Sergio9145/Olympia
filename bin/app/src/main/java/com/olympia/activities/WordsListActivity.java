@@ -77,12 +77,18 @@ public class WordsListActivity extends AppCompatActivity {
         if (requestCode == Globals.SETTINGS_ACTIVITY) {
             if (resultCode == Activity.RESULT_OK) {
                 int result = data.getIntExtra(Globals.SETTINGS_EXTRA, 0);
-                if (result == Globals.LOGOUT_REQUESTED) {
-                    Intent returnIntent = new Intent();
-                    returnIntent.putExtra(Globals.WORDS_LIST_EXTRA, Globals.LOGOUT_REQUESTED);
-                    setResult(Activity.RESULT_OK, returnIntent);
-                    finish();
+                Intent returnIntent = new Intent();
+                switch (result) {
+                    case Globals.LOGOUT_REQUESTED:
+                        returnIntent.putExtra(Globals.WORDS_LIST_EXTRA, Globals.LOGOUT_REQUESTED);
+                        break;
+                    case Globals.DELETE_ACCOUNT_REQUESTED:
+                        returnIntent.putExtra(Globals.WORDS_LIST_EXTRA, Globals.DELETE_ACCOUNT_REQUESTED);
+                    default:
+                        break;
                 }
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
             }
         }
     }
