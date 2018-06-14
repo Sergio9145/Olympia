@@ -46,7 +46,7 @@ public class TabFragment1 extends Fragment {
     private ArrayList<Keyword> filteredWords = new ArrayList<>();
     private int currentSorting = 0;
     private View v;
-    
+
     public TabFragment1() {
         // Required empty public constructor
     }
