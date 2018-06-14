@@ -6,10 +6,10 @@ public class Category {
     public static int last_id = -1;
     public int id = -1;
     public String name = "";
-//    public Date dateAdded;
+    public Date dateAdded;
 
    public Category() {
-//        dateAdded = new Date();
+        dateAdded = new Date();
     }
 
     @Override

@@ -30,16 +30,15 @@ public class DB_Category {
     public void setCategory_name(@NonNull String category_name) {
         this.category_name = category_name;
     }
-//
-//    @ColumnInfo(category_name = "dateCreated")
-//    private Date dateCreated;
-//
-//    @NonNull
-//    public Date getDateAdded() {
-//        return dateCreated;
-//    }
-//
-//    public void setDateAdded(@NonNull Date dateCreated) {
-//        this.dateCreated = dateCreated;
-//    }
+
+    @ColumnInfo(name = "dateAdded")
+    private long dateAdded;
+
+    public long getDateAdded() {
+        return dateAdded;
+    }
+
+    public void setDateAdded(long dateAdded) {
+        this.dateAdded = dateAdded;
+    }
 }

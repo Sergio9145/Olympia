@@ -1,13 +1,15 @@
 package com.olympia;
 
+import java.util.Date;
+
 public class Keyword {
     public static int last_id = -1;
     public int id = -1;
     public String name = "";
-//    public Date dateAdded;
+    public Date dateAdded;
 
     public Keyword() {
-//        dateAdded = new Date();
+        dateAdded = new Date();
     }
 
     @Override

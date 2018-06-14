@@ -6,6 +6,7 @@ import com.olympia.Node;
 import com.olympia.Vocabulary;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class RoomDbFacade {
                 DB_Keyword k = new DB_Keyword();
                 k.setId(s.id);
                 k.setKeyword(s.name);
+                k.setDateAdded(s.dateAdded.getTime());
                 db.dao_keyword().insertAll(k);
             }
             db.dao_category().deleteAll();
@@ -25,7 +27,7 @@ public class RoomDbFacade {
                 DB_Category k = new DB_Category();
                 k.setId(s.id);
                 k.setCategory_name(s.name);
-//                k.setDateAdded(s.dateAdded);
+                k.setDateAdded(s.dateAdded.getTime());
                 db.dao_category().insertAll(k);
             }
             int match_id = 0;
@@ -52,6 +54,7 @@ public class RoomDbFacade {
                 Keyword k = new Keyword();
                 k.id = db_k.getId();
                 k.name = db_k.getKeyword();
+                k.dateAdded = new Date(db_k.getDateAdded());
                 app_keywords.add(k);
                 Vocabulary.nodes.put(k.name, new Node());
             }
@@ -70,7 +73,7 @@ public class RoomDbFacade {
                 Category c = new Category();
                 c.id = db_c.getId();
                 c.name = db_c.getCategory_name();
-//                c.dateAdded = k.getDateAdded();
+                c.dateAdded = new Date(db_c.getDateAdded());
                 app_categories.add(c);
             }
             Vocabulary.categories = app_categories;

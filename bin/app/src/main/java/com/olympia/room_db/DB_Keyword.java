@@ -5,8 +5,6 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-import java.util.Date;
-
 @Entity(tableName = "Keywords")
 public class DB_Keyword {
 
@@ -33,15 +31,14 @@ public class DB_Keyword {
         this.keyword = keyword;
     }
 
-//    @ColumnInfo(name = "dateAdded")
-//    private Date dateAdded;
-//
-//    @NonNull
-//    public Date getDateAdded() {
-//        return dateAdded;
-//    }
-//
-//    public void setDateAdded(@NonNull Date dateAdded) {
-//        this.dateAdded = dateAdded;
-//    }
+    @ColumnInfo(name = "dateAdded")
+    private long dateAdded;
+
+    public long getDateAdded() {
+        return dateAdded;
+    }
+
+    public void setDateAdded(long dateAdded) {
+        this.dateAdded = dateAdded;
+    }
 }
