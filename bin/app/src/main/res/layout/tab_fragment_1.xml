@@ -19,11 +19,15 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/filtered_categories_label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/sort_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
                 android:layout_gravity="center_vertical" />
 
             <Button

@@ -28,6 +28,8 @@ import com.pedrogomez.renderers.RVRendererAdapter;
 import com.pedrogomez.renderers.RendererBuilder;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,13 +38,15 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class TabFragment1 extends Fragment {
     private RecyclerView wordsList;
-    private TextView search, filteredLabel;
+    private TextView search, filteredLabel, sortLabel;
     private DictionaryEntriesApi entriesApi;
     private AdapterListWords wordsAdapter;
     private String currentWord;
     private ArrayList<Category> filteredCategories = new ArrayList<>();
     private ArrayList<Keyword> filteredWords = new ArrayList<>();
-
+    private int currentSorting = 0;
+    private View v;
+    
     public TabFragment1() {
         // Required empty public constructor
     }
@@ -55,12 +59,11 @@ public class TabFragment1 extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.tab_fragment_1, container, false);
+        v = inflater.inflate(R.layout.tab_fragment_1, container, false);
 
         entriesApi = ((SampleApp) this.getActivity().getApplication()).apiClient().get(DictionaryEntriesApi.class);
         search = v.findViewById(R.id.search);
-        filteredLabel = v.findViewById(R.id.filtered_categories_label);
-        setFilterText();
+        sortLabel = v.findViewById(R.id.sort_order);
 
         Button sortBtn = v.findViewById(R.id.button_sort),
                 filterBtn = v.findViewById(R.id.button_filter),
@@ -68,7 +71,11 @@ public class TabFragment1 extends Fragment {
         sortBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Not implemented yet", Toast.LENGTH_LONG).show();
+                currentSorting++;
+                if (currentSorting > 3) {
+                    currentSorting = 0;
+                }
+                onSort(v);
             }
         });
         filterBtn.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +116,7 @@ public class TabFragment1 extends Fragment {
 
         wordsAdapter = new AdapterListWords(Vocabulary.keywords);
         wordsList.setAdapter(wordsAdapter);
+        onSort(v);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -173,7 +181,7 @@ public class TabFragment1 extends Fragment {
             k.id = ++Keyword.last_id;
             k.name = currentWord;
             Vocabulary.keywords.add(k);
-            wordsAdapter.notifyDataSetChanged();
+            onSort(v);
         }
 
         RendererBuilder<Definition> builder = new RendererBuilder<Definition>()
@@ -290,6 +298,32 @@ public class TabFragment1 extends Fragment {
         dialog.show();
     }
 
+    private void onSort(View view) {
+        switch (currentSorting) {
+            case 0:
+                sortLabel.setText(getResources().getString(R.string.sort_older_first));
+                Collections.sort(Vocabulary.keywords, new ComparatorByDateAsc());
+                break;
+            case 1:
+                sortLabel.setText(getResources().getString(R.string.sort_newer_first));
+                Collections.sort(Vocabulary.keywords, new ComparatorByDateDesc());
+                break;
+            case 2:
+                sortLabel.setText(getResources().getString(R.string.sort_ascending));
+                Collections.sort(Vocabulary.keywords, new ComparatorByNameAsc());
+                break;
+            case 3:
+                sortLabel.setText(getResources().getString(R.string.sort_descending));
+                Collections.sort(Vocabulary.keywords, new ComparatorByNameDesc());
+                break;
+            default:
+                break;
+        }
+        if (wordsAdapter != null) {
+            wordsAdapter.notifyDataSetChanged();
+        }
+    }
+
     private void onFilter(View view) {
         AlertDialog.Builder categoryBuilder = new AlertDialog.Builder(view.getContext());
         View w = getLayoutInflater().inflate(R.layout.dialog_select_categories, null);
@@ -378,12 +412,24 @@ public class TabFragment1 extends Fragment {
         dialog.show();
     }
 
-    private void setFilterText() {
-        if (filteredLabel != null) {
-            StringBuffer str = new StringBuffer();
-            str.append(getResources().getString(R.string.filter_label));
-
-            filteredLabel.setText(str);
+    private class ComparatorByDateAsc implements Comparator<Keyword> {
+        public int compare(Keyword left, Keyword right) {
+            return left.dateAdded.compareTo(right.dateAdded);
+        }
+    }
+    private class ComparatorByDateDesc implements Comparator<Keyword> {
+        public int compare(Keyword left, Keyword right) {
+            return right.dateAdded.compareTo(left.dateAdded);
+        }
+    }
+    private class ComparatorByNameAsc implements Comparator<Keyword> {
+        public int compare(Keyword left, Keyword right) {
+            return left.name.compareTo(right.name);
+        }
+    }
+    private class ComparatorByNameDesc implements Comparator<Keyword> {
+        public int compare(Keyword left, Keyword right) {
+            return right.name.compareTo(left.name);
         }
     }
 }

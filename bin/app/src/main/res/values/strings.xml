@@ -53,8 +53,11 @@
     <string name="enter_search_word">Please, enter the word to search</string>
 
     <!--Operations on words list-->
-    <string name="filter_label">Operations on the words list:</string>
     <string name="sort">Sort</string>
+    <string name="sort_ascending">A-Z</string>
+    <string name="sort_descending">Z-A</string>
+    <string name="sort_newer_first">Newer first</string>
+    <string name="sort_older_first">Older first</string>
     <string name="filter">Filter</string>
     <string name="filter_by">Filter by category(-ies)</string>
     <string name="copy">Copy</string>
