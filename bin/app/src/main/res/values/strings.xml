@@ -16,7 +16,7 @@
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
 
-    <string name="quiz_list">List of saved quizzes:</string>
+    <string name="quiz_description">Quiz is a self-checking tool in which you are given a definition of the word and must spell it correctly. Answer correctly and get higher score!</string>
     <string name="start_quiz">Start the quiz</string>
     <string name="tab1_label">Vocabulary</string>
     <string name="tab2_label">Categories</string>

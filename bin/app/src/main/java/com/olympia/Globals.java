@@ -15,6 +15,7 @@ public class Globals {
     public final static int CHANGE_NAME_ACTIVITY = 500;
     public final static int CHANGE_EMAIL_ACTIVITY = 600;
     public final static int CHANGE_PASSWORD_ACTIVITY = 700;
+    public final static int QUIZ_ACTIVITY = 800;
 
     //* Params
     public final static String WORDS_LIST_EXTRA = "WORDS_LIST_EXTRA";
