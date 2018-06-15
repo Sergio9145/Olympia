@@ -38,7 +38,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class TabFragment1 extends Fragment {
     private RecyclerView wordsList;
-    private TextView search, filteredLabel, sortLabel;
+    private TextView search, sortLabel;
     private DictionaryEntriesApi entriesApi;
     private AdapterListWords wordsAdapter;
     private String currentWord;

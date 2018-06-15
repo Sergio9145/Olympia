@@ -61,5 +61,10 @@
         <activity android:name=".activities.QuizActivity"
             android:parentActivityName=".activities.WordsListActivity">
         </activity>
+
+        <activity android:name=".activities.StatisticsActivity"
+            android:parentActivityName=".activities.WordsListActivity">
+        </activity>
+
     </application>
 </manifest>

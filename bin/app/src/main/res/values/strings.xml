@@ -16,8 +16,6 @@
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
 
-    <string name="quiz_description">Quiz is a self-checking tool in which you are given a definition of the word and must spell it correctly. Answer correctly and get higher score!</string>
-    <string name="start_quiz">Start the quiz</string>
     <string name="tab1_label">Vocabulary</string>
     <string name="tab2_label">Categories</string>
     <string name="tab3_label">Quizzes</string>
@@ -96,4 +94,12 @@
     <string name="account_change_password_success">User\'s password was successfully changed</string>
     <string name="error_server_unreachable">Server unreachable</string>
     <string name="error_failed_attempt">Unable to submit %s request to the server</string>
+
+    <!--Quizzes-->
+    <string name="quiz_description">Quiz is a self-checking tool in which you are given a definition of the word and must spell it correctly. Answer correctly and get higher score!</string>
+    <string name="start_quiz">Start the quiz</string>
+    <string name="next">Next</string>
+
+    <!--Statistics-->
+    <string name="statistics_title">Statistics</string>
 </resources>

@@ -13,6 +13,8 @@ import com.olympia.activities.QuizActivity;
 
 public class TabFragment3 extends Fragment {
 
+    private Category selectedCategory = null;
+
     public TabFragment3() {
         // Required empty public constructor
     }
@@ -31,6 +33,11 @@ public class TabFragment3 extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), QuizActivity.class);
+                int id = -1;
+                if (selectedCategory != null) {
+                    id = selectedCategory.id;
+                }
+                intent.putExtra(Globals.QUIZZES_EXTRA, id);
                 startActivityForResult(intent, Globals.QUIZ_ACTIVITY);
             }
         });
