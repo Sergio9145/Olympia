@@ -21,7 +21,6 @@ public class Globals {
     public final static String WORDS_LIST_EXTRA = "WORDS_LIST_EXTRA";
     public final static String WORD_CARD_EXTRA = "WORD_CARD_EXTRA";
     public final static String SETTINGS_EXTRA = "SETTINGS_EXTRA";
-    public final static String QUIZZES_EXTRA = "QUIZZES_EXTRA";
 
     //* Results
     public final static int LOGOUT_REQUESTED = 42;
