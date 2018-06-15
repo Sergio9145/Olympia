@@ -51,7 +51,7 @@ public class TabFragment3 extends Fragment {
         AlertDialog.Builder categoryBuilder = new AlertDialog.Builder(view.getContext());
         View w = getLayoutInflater().inflate(R.layout.dialog_select_categories, null);
         TextView header = w.findViewById(R.id.categories_select_label);
-        header.setText(getResources().getString(R.string.statistics_select_categories));
+        header.setText(getResources().getString(R.string.quiz_select_categories));
         categoryBuilder.setView(w);
 
         boolean[] selectedCategories = new boolean[Vocabulary.categories.size()];

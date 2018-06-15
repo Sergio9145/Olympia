@@ -10,9 +10,25 @@
         android:layout_margin="10dp" >
 
     <TextView
+        android:id="@+id/number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:textAllCaps="true"/>
+
+    <TextView
         android:id="@+id/question_descr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/your_answer"
+        android:inputType="text"/>
 
     <Button
         android:id="@+id/next"

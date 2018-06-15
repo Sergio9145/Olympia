@@ -98,12 +98,16 @@
     <!--Quizzes-->
     <string name="quiz_description">Quiz is a self-checking tool in which you are given a definition of the word and must spell it correctly. Answer correctly and get higher score!</string>
     <string name="start_quiz">Start the quiz</string>
+    <string name="quiz_select_categories">Select category(-ies)</string>
     <string name="next">Next</string>
-    <string name="quiz_list_is_empty">Cannot start a quiz with empty list of words</string>
+    <string name="your_answer">Your answer here</string>
+    <string name="quiz_list_is_empty">Cannot start a quiz with an empty list of words</string>
     <string name="quiz_node_not_found">ERROR: definition not found!</string>
 
     <!--Statistics-->
     <string name="statistics_title">Statistics</string>
-    <string name="statistics_select_categories">Select category(-ies)</string>
+    <string name="last_score">Last score:</string>
+    <string name="overall_score">Overall score:</string>
+
 
 </resources>
