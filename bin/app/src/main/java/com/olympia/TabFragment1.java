@@ -22,10 +22,11 @@ import android.widget.Toast;
 
 import com.olympia.activities.WordCardActivity;
 import com.olympia.oxford_api.api.DictionaryEntriesApi;
+import com.olympia.oxford_api.api.LemmatronApi;
 import com.olympia.oxford_api.model.Entry;
-import com.pedrogomez.renderers.ListAdapteeCollection;
-import com.pedrogomez.renderers.RVRendererAdapter;
-import com.pedrogomez.renderers.RendererBuilder;
+import com.olympia.oxford_api.model.InflectionsListInner;
+import com.olympia.oxford_api.model.Lemmatron;
+import com.olympia.oxford_api.model.RetrieveEntry;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,12 +41,14 @@ public class TabFragment1 extends Fragment {
     private RecyclerView wordsList;
     private TextView search, sortLabel;
     private DictionaryEntriesApi entriesApi;
+    private LemmatronApi lemmaApi;
     private AdapterListWords wordsAdapter;
     private String currentWord;
     private ArrayList<Category> filteredCategories = new ArrayList<>();
     private ArrayList<Keyword> filteredWords = new ArrayList<>();
     private int currentSorting = 0;
     private View v;
+    private boolean error404 = false;
 
     public TabFragment1() {
         // Required empty public constructor
@@ -61,7 +64,9 @@ public class TabFragment1 extends Fragment {
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.tab_fragment_1, container, false);
 
-        entriesApi = ((SampleApp) this.getActivity().getApplication()).apiClient().get(DictionaryEntriesApi.class);
+        entriesApi = Globals.apiClient.get(DictionaryEntriesApi.class);
+        lemmaApi = Globals.apiClient.get(LemmatronApi.class);
+
         search = v.findViewById(R.id.search);
         sortLabel = v.findViewById(R.id.sort_order);
 
@@ -153,45 +158,64 @@ public class TabFragment1 extends Fragment {
 
     private void performSearch(final String searchTerm) {
         search.setText("");
+        error404 = false;
+        //* TODO: for further usage:
+        lemmaApi.inflectionsSourceLangWordIdGet("en", searchTerm, BuildConfig.APP_ID, BuildConfig.APP_KEY)
+                .onErrorReturn((Throwable ex) -> {
+//                    error404 = true;
+                    return new Lemmatron();
+                })
+                .flatMap(re -> Observable.fromIterable(re.getResults()))
+                .flatMap(he -> Observable.fromIterable(he.getLexicalEntries()))
+                .flatMap(le -> Observable.fromIterable(le.getInflectionOf()))
+                .toList()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::getWord);
         entriesApi.getDictionaryEntries("en", searchTerm, BuildConfig.APP_ID, BuildConfig.APP_KEY)
+                .onErrorReturn((Throwable ex) -> {
+                    error404 = true;
+                    return new RetrieveEntry();
+                })
                 .doOnSubscribe(d -> hideKeyboard())
                 .flatMap(re -> Observable.fromIterable(re.getResults()))
                 .flatMap(he -> Observable.fromIterable(he.getLexicalEntries()))
-                .flatMap(le -> Observable.fromIterable(le.getEntries()).map(e -> new CategorizedEntry(searchTerm, le.getLexicalCategory(), e)))
-                .flatMap(ce -> Observable.fromIterable(ce.entry.getSenses()).map(s -> new Definition(ce.category, ce.word, ce.entry, s)))
+                .flatMap(le -> Observable.fromIterable(le.getEntries())
+                .map(e -> new CategorizedEntry(searchTerm, le.getLexicalCategory(), e)))
+                .flatMap(ce -> Observable.fromIterable(ce.entry.getSenses())
+                .map(s -> new Definition(ce.category, ce.word, ce.entry, s)))
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(this::createAdapter)
-                .subscribe(this::updateRecyclerView);
+                .subscribe(this::getResults);
     }
 
     private void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(wordsList.getWindowToken(), 0);
-    }
-
-    @NonNull
-    private RVRendererAdapter<Definition> createAdapter(List<Definition> definitions) {
-        Node node = new Node();
-        node.definitions = definitions;
-        Vocabulary.nodes.put(currentWord, node);
-
-        if (!Vocabulary.containsWord(currentWord.toLowerCase())) {
-            Keyword k = new Keyword();
-            k.id = ++Keyword.last_id;
-            k.name = currentWord;
-            Vocabulary.keywords.add(k);
-            onSort(v);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(wordsList.getWindowToken(), 0);
         }
-
-        RendererBuilder<Definition> builder = new RendererBuilder<Definition>()
-                .bind(Definition.class, new DefinitionRenderer());
-        ListAdapteeCollection<Definition> collection = new ListAdapteeCollection<>(definitions);
-        return new RVRendererAdapter<>(builder, collection);
     }
 
-    private void updateRecyclerView(RVRendererAdapter<Definition> adapter) {
-        openWordCard();
+    private void getWord(List<InflectionsListInner> words) {
+
+    }
+
+    private void getResults(List<Definition> definitions) {
+        if (error404) {
+            Toast.makeText(getContext(), getResources().getString(R.string.no_such_word), Toast.LENGTH_LONG).show();
+        } else {
+            Node node = new Node();
+            node.definitions = definitions;
+            Vocabulary.nodes.put(currentWord, node);
+
+            if (!Vocabulary.containsWord(currentWord.toLowerCase())) {
+                Keyword k = new Keyword();
+                k.id = ++Keyword.last_id;
+                k.name = currentWord;
+                Vocabulary.keywords.add(k);
+                onSort(v);
+            }
+            openWordCard();
+        }
     }
 
     private void decideWhatToDo() {

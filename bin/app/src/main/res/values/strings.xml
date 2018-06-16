@@ -89,6 +89,7 @@
     <string name="deleting_account_descr">Are you sure you want to delete your account? This action is irreversible! Input your password to proceed</string>
 
     <!--Errors handling-->
+    <string name="no_such_word">There is no such word in the dictionary</string>
     <string name="account_change_names_success">User\'s first name and last name were changed to %s %s</string>
     <string name="account_change_email_success">User\'s email was changed to %s</string>
     <string name="account_change_password_success">User\'s password was successfully changed</string>
@@ -108,6 +109,5 @@
     <string name="statistics_title">Statistics</string>
     <string name="last_score">Last score:</string>
     <string name="overall_score">Overall score:</string>
-
 
 </resources>

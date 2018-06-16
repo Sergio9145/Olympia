@@ -1,10 +1,15 @@
 package com.olympia;
 
+import com.olympia.oxford_api.ApiClient;
+
 public class Globals {
     private Globals() {};
+
+    public final static ApiClient apiClient = new ApiClient();
+
     public final static String TAG = "Olmp";
 
-    public static final int MIN_USERNAME_LENGTH = 5, MIN_PASSWORD_LENGTH = 4;
+    public final static int MIN_USERNAME_LENGTH = 5, MIN_PASSWORD_LENGTH = 4;
 
     //* Intents
     public final static int WORDS_LIST_ACTIVITY = 50;
