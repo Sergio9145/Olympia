@@ -50,7 +50,7 @@ public class QuizActivity extends AppCompatActivity {
                 number.setText(toSet1);
 
                 String word = Quiz.filteredWords.get(pos).name;
-                if (Vocabulary.nodes.get(word) != null) {
+                if (Vocabulary.nodes.get(word) != null && Vocabulary.nodes.get(word).definitions.size() > 0) {
                     Definition s = Vocabulary.nodes.get(word).definitions.get(0);
                     if (s != null && s.getDefiniton() != null) {
                         toSet2.append(s.getDefiniton()).append("\n\n");

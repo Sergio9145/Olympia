@@ -44,9 +44,9 @@ public class TabFragment1 extends Fragment {
     private LemmatronApi lemmaApi;
     private AdapterListWords wordsAdapter;
     private String currentWord;
-    private ArrayList<Category> filteredCategories = new ArrayList<>();
-    private ArrayList<Keyword> filteredWords = new ArrayList<>();
-    private int currentSorting = 0;
+
+    public final static ArrayList<Keyword> filteredWords = new ArrayList<>();
+
     private View v;
     private boolean error404 = false;
 
@@ -57,6 +57,14 @@ public class TabFragment1 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        filter();
+        sort();
     }
 
     @Override
@@ -76,11 +84,11 @@ public class TabFragment1 extends Fragment {
         sortBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentSorting++;
-                if (currentSorting > 3) {
-                    currentSorting = 0;
+                Globals.currentSorting++;
+                if (Globals.currentSorting > 3) {
+                    Globals.currentSorting = 0;
                 }
-                onSort(v);
+                sort();
             }
         });
         filterBtn.setOnClickListener(new View.OnClickListener() {
@@ -112,7 +120,6 @@ public class TabFragment1 extends Fragment {
                         currentWord = Vocabulary.keywords.get(position).name;
                         decideWhatToDo();
                     }
-
                     @Override public void onLongItemClick(View view, int pos) {
                         onSetCategory(view, pos);
                     }
@@ -121,7 +128,7 @@ public class TabFragment1 extends Fragment {
 
         wordsAdapter = new AdapterListWords(Vocabulary.keywords);
         wordsList.setAdapter(wordsAdapter);
-        onSort(v);
+        sort();
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -212,7 +219,7 @@ public class TabFragment1 extends Fragment {
                 k.id = ++Keyword.last_id;
                 k.name = currentWord;
                 Vocabulary.keywords.add(k);
-                onSort(v);
+                sort();
             }
             openWordCard();
         }
@@ -322,23 +329,29 @@ public class TabFragment1 extends Fragment {
         dialog.show();
     }
 
-    private void onSort(View view) {
-        switch (currentSorting) {
+    private void sort() {
+        ArrayList<Keyword> list;
+        if (Globals.filteredCategories.isEmpty()) {
+            list = Vocabulary.keywords;
+        } else {
+            list = filteredWords;
+        }
+        switch (Globals.currentSorting) {
             case 0:
                 sortLabel.setText(getResources().getString(R.string.sort_older_first));
-                Collections.sort(Vocabulary.keywords, new ComparatorByDateAsc());
+                Collections.sort(list, new ComparatorByDateAsc());
                 break;
             case 1:
                 sortLabel.setText(getResources().getString(R.string.sort_newer_first));
-                Collections.sort(Vocabulary.keywords, new ComparatorByDateDesc());
+                Collections.sort(list, new ComparatorByDateDesc());
                 break;
             case 2:
                 sortLabel.setText(getResources().getString(R.string.sort_ascending));
-                Collections.sort(Vocabulary.keywords, new ComparatorByNameAsc());
+                Collections.sort(list, new ComparatorByNameAsc());
                 break;
             case 3:
                 sortLabel.setText(getResources().getString(R.string.sort_descending));
-                Collections.sort(Vocabulary.keywords, new ComparatorByNameDesc());
+                Collections.sort(list, new ComparatorByNameDesc());
                 break;
             default:
                 break;
@@ -381,10 +394,10 @@ public class TabFragment1 extends Fragment {
         categories.measure(0, 0);
 
         //* Restore previously picked categories if any
-        if (filteredCategories != null && !filteredCategories.isEmpty()) {
-            for (int i = 0; i < filteredCategories.size(); i++) {
+        if (!Globals.filteredCategories.isEmpty()) {
+            for (int i = 0; i < Globals.filteredCategories.size(); i++) {
                 for (int j = 0; j < Vocabulary.categories.size(); j++) {
-                    if (filteredCategories.get(i).name.equalsIgnoreCase(Vocabulary.categories.get(j).name)) {
+                    if (Globals.filteredCategories.get(i).name.equalsIgnoreCase(Vocabulary.categories.get(j).name)) {
                         selectedCategories[j] = true;
                         View v1 = categories.getChildAt(j);
                         v1.setBackground(getResources().getDrawable(R.drawable.bordered_button_yellow));
@@ -401,28 +414,15 @@ public class TabFragment1 extends Fragment {
         positiveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                filteredCategories.clear();
+                Globals.filteredCategories.clear();
                 for (int i = 0; i < Vocabulary.categories.size(); i++) {
                     if (selectedCategories[i]) {
-                        filteredCategories.add(Vocabulary.categories.get(i));
+                        Globals.filteredCategories.add(Vocabulary.categories.get(i));
                     }
                 }
 
-                if (filteredCategories.isEmpty()) {
-                    wordsAdapter = new AdapterListWords(Vocabulary.keywords);
-                    wordsList.setAdapter(wordsAdapter);
-                } else {
-                    filteredWords.clear();
-                    for (HashMap.Entry<Keyword, ArrayList<Category>> entry : Vocabulary.map.entrySet()) {
-                        for (Category c : filteredCategories) {
-                            if (entry.getValue().contains(c)) {
-                                filteredWords.add(entry.getKey());
-                            }
-                        }
-                    }
-                    wordsAdapter = new AdapterListWords(filteredWords);
-                    wordsList.setAdapter(wordsAdapter);
-                }
+                filter();
+                sort();
                 dialog.dismiss();
             }
         });
@@ -434,6 +434,24 @@ public class TabFragment1 extends Fragment {
         });
 
         dialog.show();
+    }
+
+    private void filter() {
+        if (Globals.filteredCategories.isEmpty()) {
+            wordsAdapter = new AdapterListWords(Vocabulary.keywords);
+            wordsList.setAdapter(wordsAdapter);
+        } else {
+            filteredWords.clear();
+            for (HashMap.Entry<Keyword, ArrayList<Category>> entry : Vocabulary.map.entrySet()) {
+                for (Category c : Globals.filteredCategories) {
+                    if (entry.getValue().contains(c)) {
+                        filteredWords.add(entry.getKey());
+                    }
+                }
+            }
+            wordsAdapter = new AdapterListWords(filteredWords);
+            wordsList.setAdapter(wordsAdapter);
+        }
     }
 
     private class ComparatorByDateAsc implements Comparator<Keyword> {

@@ -2,10 +2,15 @@ package com.olympia;
 
 import com.olympia.oxford_api.ApiClient;
 
+import java.util.ArrayList;
+
 public class Globals {
     private Globals() {};
 
     public final static ApiClient apiClient = new ApiClient();
+
+    public final static ArrayList<Category> filteredCategories = new ArrayList<>();
+        public static int currentSorting = 0;
 
     public final static String TAG = "Olmp";
 
