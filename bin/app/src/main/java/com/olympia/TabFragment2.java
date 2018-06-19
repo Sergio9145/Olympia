@@ -61,12 +61,16 @@ public class TabFragment2 extends Fragment {
                             @Override
                             public void onClick(View v) {
                                 String categoryName = renamedCategory.getText().toString();
-                                if (Vocabulary.containsCategory(categoryName)) {
-                                    Toast.makeText(getContext(), getResources().getString(R.string.category_exists), Toast.LENGTH_SHORT).show();
+                                if (categoryName.isEmpty()) {
+                                    Toast.makeText(getContext(), getResources().getString(R.string.category_needs_name), Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Vocabulary.categories.get(position).name = categoryName;
-                                    categoriesAdapter.notifyDataSetChanged();
-                                    dialog.dismiss();
+                                    if (Vocabulary.containsCategory(categoryName)) {
+                                        Toast.makeText(getContext(), getResources().getString(R.string.category_exists), Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Vocabulary.categories.get(position).name = categoryName;
+                                        categoriesAdapter.notifyDataSetChanged();
+                                        dialog.dismiss();
+                                    }
                                 }
                             }
                         });
@@ -151,15 +155,19 @@ public class TabFragment2 extends Fragment {
                     @Override
                     public void onClick(View v) {
                         String categoryName = addedCategory.getText().toString();
-                        if (Vocabulary.containsCategory(categoryName)) {
-                            Toast.makeText(getContext(), getResources().getString(R.string.category_exists), Toast.LENGTH_SHORT).show();
+                        if (categoryName.isEmpty()) {
+                            Toast.makeText(getContext(), getResources().getString(R.string.category_needs_name), Toast.LENGTH_SHORT).show();
                         } else {
-                            Category c = new Category();
-                            c.id = ++Category.last_id;
-                            c.name = categoryName;
-                            Vocabulary.categories.add(c);
-                            categoriesAdapter.notifyDataSetChanged();
-                            dialog.dismiss();
+                            if (Vocabulary.containsCategory(categoryName)) {
+                                Toast.makeText(getContext(), getResources().getString(R.string.category_exists), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Category c = new Category();
+                                c.id = ++Category.last_id;
+                                c.name = categoryName;
+                                Vocabulary.categories.add(c);
+                                categoriesAdapter.notifyDataSetChanged();
+                                dialog.dismiss();
+                            }
                         }
                     }
                 });

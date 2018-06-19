@@ -43,7 +43,8 @@ public class SettingsActivity extends AppCompatActivity {
             b5 = findViewById(R.id.account_change_email),
             b6 = findViewById(R.id.account_change_password),
             b7 = findViewById(R.id.account_logout),
-            b8 = findViewById(R.id.account_delete);
+            b8 = findViewById(R.id.account_delete),
+            b9 = findViewById(R.id.show_stats);
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,6 +198,14 @@ public class SettingsActivity extends AppCompatActivity {
                 });
 
                 dialog.show();
+            }
+        });
+
+        b9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SettingsActivity.this, StatisticsActivity.class);
+                startActivity(intent);
             }
         });
     }

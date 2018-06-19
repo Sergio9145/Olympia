@@ -6,13 +6,38 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/legal_title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Here should be terms of use and other stuff."/>
+            android:textAllCaps="true"
+            android:text="@string/menu_item_legal"/>
+
+        <TextView
+            android:id="@+id/legal_descr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/legal_descr"/>
+
+        <Button
+            android:id="@+id/privacyPolicy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bordered_button_blue"
+            android:text="@string/privacy_policy"/>
+
+        <Button
+            android:id="@+id/termsAndConditions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bordered_button_blue"
+            android:text="@string/termsAndConditions"/>
 
     </LinearLayout>
-
 </ScrollView>

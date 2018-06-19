@@ -48,6 +48,7 @@
     <string name="login_field_invalid">Username and password cannot be empty. Username must be unique and have at least %d characters. Password must be of at least %d characters</string>
     <string name="reset_password_field_invalid">Email must contain @. Password must be of at least %d characters. Passwords must match</string>
     <string name="category_exists">Category already exists</string>
+    <string name="category_needs_name">Please, enter the name for the category</string>
     <string name="enter_search_word">Please, enter the word to search</string>
 
     <!--Operations on words list-->
@@ -107,7 +108,21 @@
 
     <!--Statistics-->
     <string name="statistics_title">Statistics</string>
+    <string name="open_statistics">Go to quizzes statistics</string>
     <string name="last_score">Last score:</string>
     <string name="overall_score">Overall score:</string>
 
+    <!--Legal-->
+    <string name="legal_descr">Using this app you agree to our terms and conditions as well as rules regarding privacy.</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="termsAndConditions">Terms and conditions</string>
+
+    <!--About-->
+    <string name="about">About</string>
+    <string name="version">Version v0.02</string>
+    <string name="about_descr">Olympia is an Android dictionary app created as a Capstone Project in Mobile Solutions development Program. It allows not only use Oxford dictionary, but also manipulate words in different ways and make quizzes of them for self-check.</string>
+    <string name="send_feedback">Send feedback</string>
+    <string name="feedback_email">olympia8225@gmail.com</string>
+    <string name="feedback_title">Feedback on Olympia app</string>
+    <string name="send_email">Send email</string>
 </resources>

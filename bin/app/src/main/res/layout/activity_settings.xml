@@ -94,6 +94,22 @@
             style="@style/ButtonAsLinkDangerous"
             android:text="@string/account_delete"/>
 
+        <TextView
+            android:id="@+id/statistics_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textAllCaps="true"
+            android:text="@string/statistics_title"/>
+
+        <Button
+            android:id="@+id/show_stats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            style="@style/ButtonAsLinkRegular"
+            android:text="@string/open_statistics"/>
+
     </LinearLayout>
 
 </ScrollView>
