@@ -10,6 +10,7 @@ public class Vocabulary {
     public static ArrayList<Keyword> keywords = new ArrayList<>();
     public static ArrayList<Category> categories = new ArrayList<>();
     public static HashMap<Keyword, ArrayList<Category>> map = new HashMap<>();
+    public static Keyword currentKeyword = null;
 
     public static boolean containsWord(String w) {
         boolean result = false;

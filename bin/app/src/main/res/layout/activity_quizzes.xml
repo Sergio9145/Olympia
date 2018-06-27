@@ -7,34 +7,35 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp" >
+        android:padding="20dp" >
 
     <TextView
         android:id="@+id/number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:layout_margin="10dp"
         android:textAllCaps="true"/>
 
     <TextView
         android:id="@+id/question_descr"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"/>
 
     <EditText
         android:id="@+id/answer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="@string/your_answer"
         android:inputType="text"/>
 
     <Button
         android:id="@+id/next"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
         android:padding="10dp"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/bordered_button_blue"

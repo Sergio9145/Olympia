@@ -2,10 +2,13 @@ package com.olympia.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,9 +16,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.olympia.AdapterListString;
 import com.olympia.Globals;
 import com.olympia.MainActivity;
 import com.olympia.R;
+import com.olympia.RecyclerItemClickListener;
 import com.olympia.cloud9_api.ApiUtils;
 import com.olympia.cloud9_api.C9User;
 import com.olympia.cloud9_api.ICloud9;
@@ -24,6 +29,7 @@ import com.olympia.room_db.RoomDbFacade;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -36,6 +42,13 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        ArrayList<String> supportedLanguages = new ArrayList<>();
+        supportedLanguages.add(getResources().getString(R.string.lang_en));
+        supportedLanguages.add(getResources().getString(R.string.lang_ru));
+        ArrayList<String> supportedCodes = new ArrayList<>();
+        supportedCodes.add("en");
+        supportedCodes.add("ru");
+
         Button b1 = findViewById(R.id.save_to_db),
             b2 = findViewById(R.id.restore_from_db),
             b3 = findViewById(R.id.clear_from_db),
@@ -44,7 +57,8 @@ public class SettingsActivity extends AppCompatActivity {
             b6 = findViewById(R.id.account_change_password),
             b7 = findViewById(R.id.account_logout),
             b8 = findViewById(R.id.account_delete),
-            b9 = findViewById(R.id.show_stats);
+            b9 = findViewById(R.id.show_stats),
+            b10 = findViewById(R.id.change_ui_language);
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,6 +220,54 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(SettingsActivity.this, StatisticsActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        b10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                View w = getLayoutInflater().inflate(R.layout.dialog_select_language, null);
+                TextView header = w.findViewById(R.id.languages_select_label);
+                header.setText(getResources().getString(R.string.select_lang));
+                builder.setView(w);
+
+                RecyclerView languages = w.findViewById(R.id.languages_selection_list);
+                languages.setLayoutManager(new GridLayoutManager(v.getContext(), 1));
+                AlertDialog dialog = builder.create();
+
+                languages.addOnItemTouchListener(
+                        new RecyclerItemClickListener(v.getContext(), languages, new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override public void onItemClick(View view, int position) {
+                                Locale locale = new Locale(supportedCodes.get(position));
+                                Locale.setDefault(locale);
+                                Configuration config = getBaseContext().getResources().getConfiguration();
+                                config.locale = locale;
+                                getBaseContext().getResources().updateConfiguration(config,
+                                        getBaseContext().getResources().getDisplayMetrics());
+                                dialog.dismiss();
+                                recreate();
+                            }
+                            @Override public void onLongItemClick(View view, int position) {
+                                //* Do nothing
+                            }
+                        })
+                );
+                AdapterListString languagesAdapter = new AdapterListString(supportedLanguages);
+                languages.setAdapter(languagesAdapter);
+
+                //* IMPORTANT! DO NOT PLACE BEFORE SETTING ADAPTER!
+                languages.measure(0, 0);
+
+                Button negativeBtn = w.findViewById(R.id.button_negative);
+                negativeBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
             }
         });
     }

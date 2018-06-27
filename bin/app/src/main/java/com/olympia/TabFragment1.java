@@ -291,7 +291,8 @@ public class TabFragment1 extends Fragment {
                 Keyword k = new Keyword();
                 k.id = ++Keyword.last_id;
                 k.name = currentWord;
-                Vocabulary.keywords.add(k);
+                Vocabulary.currentKeyword = k;
+                Vocabulary.keywords.add(Vocabulary.currentKeyword);
                 sort();
             }
             openWordCard();
@@ -312,7 +313,6 @@ public class TabFragment1 extends Fragment {
 
     private void openWordCard() {
         Intent intent = new Intent(getActivity(), WordCardActivity.class);
-        intent.putExtra(Globals.WORD_CARD_EXTRA, currentWord);
         startActivityForResult(intent, Globals.WORD_CARD_ACTIVITY);
     }
 

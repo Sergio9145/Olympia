@@ -7,7 +7,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:padding="20dp">
 
         <TextView
             android:id="@+id/database_label"
@@ -47,7 +47,6 @@
                 android:layout_weight="1"
                 style="@style/ButtonAsLinkDangerous"
                 android:text="@string/database_clear"/>
-
         </LinearLayout>
 
         <TextView
@@ -110,6 +109,21 @@
             style="@style/ButtonAsLinkRegular"
             android:text="@string/open_statistics"/>
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/ui_settings_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textAllCaps="true"
+            android:text="@string/ui_title"/>
 
+        <Button
+            android:id="@+id/change_ui_language"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            style="@style/ButtonAsLinkRegular"
+            android:text="@string/change_ui_lang"/>
+
+    </LinearLayout>
 </ScrollView>
