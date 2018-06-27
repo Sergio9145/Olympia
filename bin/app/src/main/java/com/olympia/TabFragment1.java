@@ -1,10 +1,17 @@
 package com.olympia;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -17,10 +24,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.olympia.activities.WordCardActivity;
+import com.olympia.activities.WordsListActivity;
 import com.olympia.oxford_api.api.DictionaryEntriesApi;
 import com.olympia.oxford_api.api.LemmatronApi;
 import com.olympia.oxford_api.model.Entry;
@@ -28,6 +37,8 @@ import com.olympia.oxford_api.model.InflectionsListInner;
 import com.olympia.oxford_api.model.Lemmatron;
 import com.olympia.oxford_api.model.RetrieveEntry;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -36,6 +47,8 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+
+import static android.support.v4.app.ActivityCompat.checkSelfPermission;
 
 public class TabFragment1 extends Fragment {
     private RecyclerView wordsList;
@@ -49,6 +62,9 @@ public class TabFragment1 extends Fragment {
 
     private View v;
     private boolean error404 = false;
+
+    private TessOCR tessOCR;
+    private static final int CAMERA_PERMISSION_CODE = 100;
 
     public TabFragment1() {
         // Required empty public constructor
@@ -80,7 +96,10 @@ public class TabFragment1 extends Fragment {
 
         Button sortBtn = v.findViewById(R.id.button_sort),
                 filterBtn = v.findViewById(R.id.button_filter),
-                copyBtn = v.findViewById(R.id.button_copy);
+                copyBtn = v.findViewById(R.id.button_copy),
+                microphoneBtn = v.findViewById(R.id.button_mic),
+                cameraBtn = v.findViewById(R.id.button_cam);
+
         sortBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,7 +179,61 @@ public class TabFragment1 extends Fragment {
             }
         });
 
+        tessOCR = new TessOCR(getContext(), "eng");
+
+        cameraBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{ Manifest.permission.CAMERA }, CAMERA_PERMISSION_CODE);
+                } else {
+//                    File photoFile = null;
+//                    try {
+//                        photoFile = createImageFile();
+//                    } catch (IOException e) {
+//
+//                    }
+//                    if (photoFile != null) {
+                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                        startActivityForResult(cameraIntent, Globals.CAMERA_ACTIVITY);
+//                    }
+                }
+            }
+        });
         return v;
+    }
+
+    private File createImageFile() throws IOException {
+        long timeStamp = System.currentTimeMillis();
+        String imageFileName = "Pic";// + timeStamp;
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageFileName,".jpg", storageDir);
+        return image;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == CAMERA_PERMISSION_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, Globals.CAMERA_ACTIVITY);
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Globals.CAMERA_ACTIVITY && resultCode == Activity.RESULT_OK) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            ImageView imv = v.findViewById(R.id.img);
+            imv.setImageBitmap(photo);
+//            doOCR(photo);
+//            String srcText = tessOCR.getOCRResult(photo);
+//            search.setText(srcText);
+        }
     }
 
     private void performSearch(final String searchTerm) {
@@ -473,5 +546,23 @@ public class TabFragment1 extends Fragment {
         public int compare(Keyword left, Keyword right) {
             return right.name.compareTo(left.name);
         }
+    }
+
+    private void doOCR (final Bitmap bitmap) {
+        new Thread(new Runnable() {
+            public void run() {
+                String srcText = tessOCR.getOCRResult(bitmap);
+//                tessOCR.onDestroy();
+//                getActivity().runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        if (srcText != null && !srcText.equals("")) {
+//                            search.setText(srcText);
+//                        }
+//                        tessOCR.onDestroy();
+//                    }
+//                });
+            }
+        }).start();
     }
 }

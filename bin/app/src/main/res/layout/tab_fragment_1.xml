@@ -28,7 +28,7 @@
                 android:id="@+id/sort_order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="8dp"
                 android:layout_gravity="center_vertical" />
 
             <Button
@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="8dp"
                 android:padding="10dp"
                 android:drawableStart="@drawable/round_filter_list_white_24"
                 android:background="@drawable/bordered_button_blue" />
@@ -58,18 +58,24 @@
                 android:layout_height="wrap_content"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="8dp"
                 android:padding="10dp"
                 android:drawableStart="@drawable/round_file_copy_white_24"
                 android:background="@drawable/bordered_button_blue" />
 
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"/>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_of_recent_words"
             android:scrollbars="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:clipToPadding="false" />
 
     </LinearLayout>
@@ -85,11 +91,42 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp">
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/search"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/search"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:hint="@string/search_term" />
+
+            <Button
+                android:id="@+id/button_mic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="5dp"
+                android:padding="10dp"
+                android:drawableStart="@drawable/round_mic_white_24"
+                android:background="@drawable/bordered_button_blue" />
+
+            <Button
+                android:id="@+id/button_cam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="5dp"
+                android:padding="10dp"
+                android:drawableStart="@drawable/round_photo_camera_white_24"
+                android:background="@drawable/bordered_button_blue" />
+            </LinearLayout>
         </android.support.design.widget.TextInputLayout>
     </android.support.v7.widget.CardView>
 
