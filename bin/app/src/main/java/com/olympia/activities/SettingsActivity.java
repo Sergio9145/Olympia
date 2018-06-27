@@ -21,6 +21,7 @@ import com.olympia.Globals;
 import com.olympia.MainActivity;
 import com.olympia.R;
 import com.olympia.RecyclerItemClickListener;
+import com.olympia.Vocabulary;
 import com.olympia.cloud9_api.ApiUtils;
 import com.olympia.cloud9_api.C9User;
 import com.olympia.cloud9_api.ICloud9;
@@ -42,12 +43,21 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        ArrayList<String> supportedLanguages = new ArrayList<>();
-        supportedLanguages.add(getResources().getString(R.string.lang_en));
-        supportedLanguages.add(getResources().getString(R.string.lang_ru));
-        ArrayList<String> supportedCodes = new ArrayList<>();
-        supportedCodes.add("en");
-        supportedCodes.add("ru");
+        ArrayList<String> supportedUILanguages = new ArrayList<>();
+        supportedUILanguages.add(getResources().getString(R.string.lang_en));
+        supportedUILanguages.add(getResources().getString(R.string.lang_ru));
+        ArrayList<String> supportedUICodes = new ArrayList<>();
+        supportedUICodes.add("en");
+        supportedUICodes.add("ru");
+
+        ArrayList<String> supportedDictLanguages = new ArrayList<>();
+        supportedDictLanguages.add(getResources().getString(R.string.dict_lang_en));
+        supportedDictLanguages.add(getResources().getString(R.string.dict_lang_es));
+        supportedDictLanguages.add(getResources().getString(R.string.dict_lang_hi));
+        ArrayList<String> supportedDictCodes = new ArrayList<>();
+        supportedDictCodes.add("en");
+        supportedDictCodes.add("es");
+        supportedDictCodes.add("hi");
 
         Button b1 = findViewById(R.id.save_to_db),
             b2 = findViewById(R.id.restore_from_db),
@@ -58,7 +68,8 @@ public class SettingsActivity extends AppCompatActivity {
             b7 = findViewById(R.id.account_logout),
             b8 = findViewById(R.id.account_delete),
             b9 = findViewById(R.id.show_stats),
-            b10 = findViewById(R.id.change_ui_language);
+            b10 = findViewById(R.id.change_ui_language),
+            b11 = findViewById(R.id.change_dict_language);
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -239,7 +250,7 @@ public class SettingsActivity extends AppCompatActivity {
                 languages.addOnItemTouchListener(
                         new RecyclerItemClickListener(v.getContext(), languages, new RecyclerItemClickListener.OnItemClickListener() {
                             @Override public void onItemClick(View view, int position) {
-                                Locale locale = new Locale(supportedCodes.get(position));
+                                Locale locale = new Locale(supportedUICodes.get(position));
                                 Locale.setDefault(locale);
                                 Configuration config = getBaseContext().getResources().getConfiguration();
                                 config.locale = locale;
@@ -253,7 +264,49 @@ public class SettingsActivity extends AppCompatActivity {
                             }
                         })
                 );
-                AdapterListString languagesAdapter = new AdapterListString(supportedLanguages);
+                AdapterListString languagesAdapter = new AdapterListString(supportedUILanguages);
+                languages.setAdapter(languagesAdapter);
+
+                //* IMPORTANT! DO NOT PLACE BEFORE SETTING ADAPTER!
+                languages.measure(0, 0);
+
+                Button negativeBtn = w.findViewById(R.id.button_negative);
+                negativeBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
+            }
+        });
+
+        b11.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                View w = getLayoutInflater().inflate(R.layout.dialog_select_language, null);
+                TextView header = w.findViewById(R.id.languages_select_label);
+                header.setText(getResources().getString(R.string.select_lang));
+                builder.setView(w);
+
+                RecyclerView languages = w.findViewById(R.id.languages_selection_list);
+                languages.setLayoutManager(new GridLayoutManager(v.getContext(), 1));
+                AlertDialog dialog = builder.create();
+
+                languages.addOnItemTouchListener(
+                        new RecyclerItemClickListener(v.getContext(), languages, new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override public void onItemClick(View view, int position) {
+                                Vocabulary.currentDictLanguage = supportedDictCodes.get(position);
+                                dialog.dismiss();
+                            }
+                            @Override public void onLongItemClick(View view, int position) {
+                                //* Do nothing
+                            }
+                        })
+                );
+                AdapterListString languagesAdapter = new AdapterListString(supportedDictLanguages);
                 languages.setAdapter(languagesAdapter);
 
                 //* IMPORTANT! DO NOT PLACE BEFORE SETTING ADAPTER!

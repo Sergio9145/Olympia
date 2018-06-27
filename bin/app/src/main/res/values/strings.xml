@@ -120,6 +120,10 @@
     <string name="select_lang">Select language</string>
     <string name="lang_en">English</string>
     <string name="lang_ru">Русский</string>
+    <string name="change_dict_lang">Change dictionary language</string>
+    <string name="dict_lang_en">English</string>
+    <string name="dict_lang_es">Español</string>
+    <string name="dict_lang_hi">Hindi</string>
 
     <!--Legal-->
     <string name="legal_descr">Using this app you agree to our terms and conditions as well as rules regarding privacy.</string>

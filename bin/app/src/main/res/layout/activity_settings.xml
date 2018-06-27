@@ -125,5 +125,13 @@
             style="@style/ButtonAsLinkRegular"
             android:text="@string/change_ui_lang"/>
 
+        <Button
+            android:id="@+id/change_dict_language"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            style="@style/ButtonAsLinkRegular"
+            android:text="@string/change_dict_lang"/>
+
     </LinearLayout>
 </ScrollView>

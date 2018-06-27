@@ -237,7 +237,7 @@ public class TabFragment1 extends Fragment {
         search.setText("");
         error404 = false;
         //* TODO: for further usage:
-        lemmaApi.inflectionsSourceLangWordIdGet("en", searchTerm, BuildConfig.APP_ID, BuildConfig.APP_KEY)
+        lemmaApi.inflectionsSourceLangWordIdGet(Vocabulary.currentDictLanguage, searchTerm, BuildConfig.APP_ID, BuildConfig.APP_KEY)
                 .onErrorReturn((Throwable ex) -> {
 //                    error404 = true;
                     return new Lemmatron();
@@ -248,7 +248,7 @@ public class TabFragment1 extends Fragment {
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::getWord);
-        entriesApi.getDictionaryEntries("en", searchTerm, BuildConfig.APP_ID, BuildConfig.APP_KEY)
+        entriesApi.getDictionaryEntries(Vocabulary.currentDictLanguage, searchTerm, BuildConfig.APP_ID, BuildConfig.APP_KEY)
                 .onErrorReturn((Throwable ex) -> {
                     error404 = true;
                     return new RetrieveEntry();
@@ -309,6 +309,7 @@ public class TabFragment1 extends Fragment {
     }
 
     private void openWordCard() {
+        Vocabulary.currentKeyword = Vocabulary.getKeyword(currentWord);
         Intent intent = new Intent(getActivity(), WordCardActivity.class);
         startActivityForResult(intent, Globals.WORD_CARD_ACTIVITY);
     }
