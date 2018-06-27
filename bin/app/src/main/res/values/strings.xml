@@ -136,4 +136,9 @@
 
     <!--OCR-->
     <string name="no_data_file">OCR engine not ready</string>
+
+    <!--HowTo-->
+    <string name="howto_title">How to use</string>
+    <string name="howto_descr">Following gestures are supported:\n\nWORDS LIST\nTap - open the word card\nLong press - select categories for the word\nSwipe left or right - remove the word from the list\n\nCATEGORIES\nLong press - rename the category\nSwipe left or right - remove the category (with confirmation)</string>
+    <string name="ok">OK</string>
 </resources>

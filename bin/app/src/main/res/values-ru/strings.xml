@@ -136,4 +136,9 @@
 
     <!--OCR-->
     <string name="no_data_file">OCR движок не готов</string>
+
+    <!--HowTo-->
+    <string name="howto_title">Как использовать</string>
+    <string name="howto_descr">Поддерживаются следующие жесты:\n\nСЛОВАРЬ\nTap - открыть карточку слова\nLong press - выбор категорий для слова\nSwipe влево или вправо - удалить слово из списка\n\nКАТЕГОРИИ\nLong press - переименовать категорию\nSwipe влево или вправо - удалить категорию (с подтверждением)</string>
+    <string name="ok">OK</string>
 </resources>

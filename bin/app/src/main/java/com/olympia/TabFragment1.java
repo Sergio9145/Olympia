@@ -8,10 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -29,7 +27,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.olympia.activities.WordCardActivity;
-import com.olympia.activities.WordsListActivity;
 import com.olympia.oxford_api.api.DictionaryEntriesApi;
 import com.olympia.oxford_api.api.LemmatronApi;
 import com.olympia.oxford_api.model.Entry;

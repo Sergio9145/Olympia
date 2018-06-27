@@ -28,6 +28,14 @@
             android:text="@string/about_descr"/>
 
         <Button
+            android:id="@+id/manual"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@null"
+            android:text="@string/howto_title"/>
+
+        <Button
             android:id="@+id/send_feedback"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -14,8 +14,9 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
-        Button b = findViewById(R.id.send_feedback);
-        b.setOnClickListener(new View.OnClickListener() {
+        Button b1 = findViewById(R.id.send_feedback),
+                b2 = findViewById(R.id.manual);
+        b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
@@ -25,6 +26,12 @@ public class AboutActivity extends AppCompatActivity {
                 intent.putExtra(Intent.EXTRA_EMAIL, addresses);
                 intent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.feedback_title));
                 startActivity(Intent.createChooser(intent, getResources().getString(R.string.send_email)));
+            }
+        });
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WordsListActivity.showHowTo(AboutActivity.this);
             }
         });
     }
