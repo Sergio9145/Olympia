@@ -483,7 +483,11 @@ public class TabFragment1 extends Fragment {
                     if (Globals.filteredCategories.get(i).name.equalsIgnoreCase(Vocabulary.categories.get(j).name)) {
                         selectedCategories[j] = true;
                         View v1 = categories.getChildAt(j);
-                        v1.setBackground(getResources().getDrawable(R.drawable.bordered_button_yellow));
+                        TypedArray a = getContext().getTheme().obtainStyledAttributes(Globals.getTheme(), new int[] { R.attr.wordStyle2 });
+                        int attributeResourceId = a.getResourceId(0, 0);
+                        Drawable drawable = getResources().getDrawable(attributeResourceId);
+                        v1.setBackground(drawable);
+                        a.recycle();
                     }
                 }
             }
