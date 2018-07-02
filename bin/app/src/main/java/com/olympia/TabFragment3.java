@@ -1,6 +1,8 @@
 package com.olympia;
 
 import android.content.Intent;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -20,13 +22,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TabFragment3 extends Fragment {
-
-    private Category selectedCategory = null;
-
-    public TabFragment3() {
-        // Required empty public constructor
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,11 +57,16 @@ public class TabFragment3 extends Fragment {
                     @Override public void onItemClick(View view, int position) {
                         //* Switch between enabled/disabled
                         selectedCategories[position] = !selectedCategories[position];
+                        TypedArray a;
                         if (selectedCategories[position]) {
-                            view.setBackground(getResources().getDrawable(R.drawable.bordered_button_yellow));
+                            a = getContext().getTheme().obtainStyledAttributes(Globals.getTheme(), new int[] { R.attr.wordStyle2 });
                         } else {
-                            view.setBackground(getResources().getDrawable(R.drawable.bordered_button_grey));
+                            a = getContext().getTheme().obtainStyledAttributes(Globals.getTheme(), new int[] { R.attr.wordStyle1 });
                         }
+                        int attributeResourceId = a.getResourceId(0, 0);
+                        Drawable drawable = getResources().getDrawable(attributeResourceId);
+                        view.setBackground(drawable);
+                        a.recycle();
                     }
                     @Override public void onLongItemClick(View view, int position) {
                         //* Do nothing

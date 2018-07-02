@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.olympia.Globals;
 import com.olympia.MainActivity;
 import com.olympia.R;
 
@@ -19,6 +20,7 @@ public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Globals.loadTheme(this);
         super.onCreate(savedInstanceState);
 
         if (SKIP_INTRO) {

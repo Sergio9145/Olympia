@@ -25,6 +25,7 @@ public class WordsListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Globals.loadTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_words_list);
 
@@ -96,6 +97,10 @@ public class WordsListActivity extends AppCompatActivity {
                             break;
                         case Globals.DELETE_ACCOUNT_REQUESTED:
                             returnIntent.putExtra(Globals.WORDS_LIST_EXTRA, Globals.DELETE_ACCOUNT_REQUESTED);
+                            break;
+                        case Globals.CHANGE_THEME_REQUESTED:
+                            returnIntent.putExtra(Globals.WORDS_LIST_EXTRA, Globals.CHANGE_THEME_REQUESTED);
+                            break;
                         default:
                             break;
                     }

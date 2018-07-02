@@ -1,5 +1,7 @@
 package com.olympia;
 
+import android.support.v7.app.AppCompatActivity;
+
 import com.olympia.oxford_api.ApiClient;
 
 import java.util.ArrayList;
@@ -10,7 +12,8 @@ public class Globals {
     public final static ApiClient apiClient = new ApiClient();
 
     public final static ArrayList<Category> filteredCategories = new ArrayList<>();
-        public static int currentSorting = 0;
+    public static int currentSorting = 0;
+    public static int currentTheme = 0;
 
     public final static String TAG = "Olmp";
 
@@ -30,10 +33,33 @@ public class Globals {
 
     //* Params
     public final static String WORDS_LIST_EXTRA = "WORDS_LIST_EXTRA";
-    public final static String WORD_CARD_EXTRA = "WORD_CARD_EXTRA";
     public final static String SETTINGS_EXTRA = "SETTINGS_EXTRA";
 
     //* Results
     public final static int LOGOUT_REQUESTED = 42;
     public final static int DELETE_ACCOUNT_REQUESTED = 76;
+    public final static int CHANGE_THEME_REQUESTED = 101;
+
+    public static void loadTheme(AppCompatActivity a) {
+        switch (Globals.currentTheme){
+            case 0:
+                a.setTheme(R.style.Theme1);
+                break;
+            case 1:
+                a.setTheme(R.style.Theme2);
+                break;
+        }
+    }
+    public static int getTheme() {
+        int result = 0;
+        switch (Globals.currentTheme){
+            case 0:
+                result = R.style.Theme1;
+                break;
+            case 1:
+                result = R.style.Theme2;
+                break;
+        }
+        return result;
+    }
 }

@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.olympia.Category;
 import com.olympia.Definition;
+import com.olympia.Globals;
 import com.olympia.R;
 import com.olympia.Vocabulary;
 
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 public class WordCardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Globals.loadTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_word_card);
 

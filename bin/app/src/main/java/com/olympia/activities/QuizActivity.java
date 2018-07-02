@@ -21,6 +21,7 @@ public class QuizActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Globals.loadTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quizzes);
 

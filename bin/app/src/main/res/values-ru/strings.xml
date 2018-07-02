@@ -124,6 +124,10 @@
     <string name="dict_lang_en">English</string>
     <string name="dict_lang_es">Español</string>
     <string name="dict_lang_hi">Hindi</string>
+    <string name="change_theme">Сменить оформление</string>
+    <string name="select_theme">Выберите тему</string>
+    <string name="theme_1">Тема 1</string>
+    <string name="theme_2">Тема 2</string>
 
     <!--Legal-->
     <string name="legal_descr">Используя это приложение Вы соглашаетесь с нашими правилами использования и политикой конфиденциальности.</string>

@@ -40,6 +40,7 @@ import retrofit2.Response;
 public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Globals.loadTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
@@ -59,6 +60,10 @@ public class SettingsActivity extends AppCompatActivity {
         supportedDictCodes.add("es");
         supportedDictCodes.add("hi");
 
+        ArrayList<String> supportedThemes = new ArrayList<>();
+        supportedThemes.add(getResources().getString(R.string.theme_1));
+        supportedThemes.add(getResources().getString(R.string.theme_2));
+
         Button b1 = findViewById(R.id.save_to_db),
             b2 = findViewById(R.id.restore_from_db),
             b3 = findViewById(R.id.clear_from_db),
@@ -69,7 +74,8 @@ public class SettingsActivity extends AppCompatActivity {
             b8 = findViewById(R.id.account_delete),
             b9 = findViewById(R.id.show_stats),
             b10 = findViewById(R.id.change_ui_language),
-            b11 = findViewById(R.id.change_dict_language);
+            b11 = findViewById(R.id.change_dict_language),
+            b12 = findViewById(R.id.change_theme);
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -239,11 +245,11 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                 View w = getLayoutInflater().inflate(R.layout.dialog_select_language, null);
-                TextView header = w.findViewById(R.id.languages_select_label);
+                TextView header = w.findViewById(R.id.select_label);
                 header.setText(getResources().getString(R.string.select_lang));
                 builder.setView(w);
 
-                RecyclerView languages = w.findViewById(R.id.languages_selection_list);
+                RecyclerView languages = w.findViewById(R.id.selection_list);
                 languages.setLayoutManager(new GridLayoutManager(v.getContext(), 1));
                 AlertDialog dialog = builder.create();
 
@@ -287,11 +293,11 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                 View w = getLayoutInflater().inflate(R.layout.dialog_select_language, null);
-                TextView header = w.findViewById(R.id.languages_select_label);
+                TextView header = w.findViewById(R.id.select_label);
                 header.setText(getResources().getString(R.string.select_lang));
                 builder.setView(w);
 
-                RecyclerView languages = w.findViewById(R.id.languages_selection_list);
+                RecyclerView languages = w.findViewById(R.id.selection_list);
                 languages.setLayoutManager(new GridLayoutManager(v.getContext(), 1));
                 AlertDialog dialog = builder.create();
 
@@ -311,6 +317,52 @@ public class SettingsActivity extends AppCompatActivity {
 
                 //* IMPORTANT! DO NOT PLACE BEFORE SETTING ADAPTER!
                 languages.measure(0, 0);
+
+                Button negativeBtn = w.findViewById(R.id.button_negative);
+                negativeBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
+            }
+        });
+
+        b12.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                View w = getLayoutInflater().inflate(R.layout.dialog_select_language, null);
+                TextView header = w.findViewById(R.id.select_label);
+                header.setText(getResources().getString(R.string.select_theme));
+                builder.setView(w);
+
+                RecyclerView themes = w.findViewById(R.id.selection_list);
+                themes.setLayoutManager(new GridLayoutManager(v.getContext(), 1));
+                AlertDialog dialog = builder.create();
+
+                themes.addOnItemTouchListener(
+                        new RecyclerItemClickListener(v.getContext(), themes, new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override public void onItemClick(View view, int position) {
+                                Globals.currentTheme = position;
+                                Intent returnIntent = new Intent();
+                                returnIntent.putExtra(Globals.SETTINGS_EXTRA, Globals.CHANGE_THEME_REQUESTED);
+                                setResult(Activity.RESULT_OK, returnIntent);
+                                dialog.dismiss();
+                                finish();
+                            }
+                            @Override public void onLongItemClick(View view, int position) {
+                                //* Do nothing
+                            }
+                        })
+                );
+                AdapterListString languagesAdapter = new AdapterListString(supportedThemes);
+                themes.setAdapter(languagesAdapter);
+
+                //* IMPORTANT! DO NOT PLACE BEFORE SETTING ADAPTER!
+                themes.measure(0, 0);
 
                 Button negativeBtn = w.findViewById(R.id.button_negative);
                 negativeBtn.setOnClickListener(new View.OnClickListener() {

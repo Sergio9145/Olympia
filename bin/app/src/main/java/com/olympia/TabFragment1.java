@@ -7,7 +7,9 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -17,6 +19,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,10 +66,6 @@ public class TabFragment1 extends Fragment {
     private TessOCR tessOCR;
     private static final int CAMERA_PERMISSION_CODE = 100;
 
-    public TabFragment1() {
-        // Required empty public constructor
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +74,6 @@ public class TabFragment1 extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
         filter();
         sort();
     }
@@ -341,11 +339,16 @@ public class TabFragment1 extends Fragment {
                     @Override public void onItemClick(View view, int position) {
                         //* Switch between enabled/disabled
                         selectedCategories[position] = !selectedCategories[position];
+                        TypedArray a;
                         if (selectedCategories[position]) {
-                            view.setBackground(getResources().getDrawable(R.drawable.bordered_button_yellow));
+                            a = getContext().getTheme().obtainStyledAttributes(Globals.getTheme(), new int[] { R.attr.wordStyle2 });
                         } else {
-                            view.setBackground(getResources().getDrawable(R.drawable.bordered_button_grey));
+                            a = getContext().getTheme().obtainStyledAttributes(Globals.getTheme(), new int[] { R.attr.wordStyle1 });
                         }
+                        int attributeResourceId = a.getResourceId(0, 0);
+                        Drawable drawable = getResources().getDrawable(attributeResourceId);
+                        view.setBackground(drawable);
+                        a.recycle();
                     }
                     @Override public void onLongItemClick(View view, int position) {
                         //* Do nothing
@@ -366,7 +369,11 @@ public class TabFragment1 extends Fragment {
                     if (pickedCategories.get(i).name.equalsIgnoreCase(Vocabulary.categories.get(j).name)) {
                         selectedCategories[j] = true;
                         View v1 = categories.getChildAt(j);
-                        v1.setBackground(getResources().getDrawable(R.drawable.bordered_button_yellow));
+                        TypedArray a = getContext().getTheme().obtainStyledAttributes(Globals.getTheme(), new int[] { R.attr.wordStyle2 });
+                        int attributeResourceId = a.getResourceId(0, 0);
+                        Drawable drawable = getResources().getDrawable(attributeResourceId);
+                        v1.setBackground(drawable);
+                        a.recycle();
                     }
                 }
             }
@@ -447,11 +454,16 @@ public class TabFragment1 extends Fragment {
                     @Override public void onItemClick(View view, int position) {
                         //* Switch between enabled/disabled
                         selectedCategories[position] = !selectedCategories[position];
+                        TypedArray a;
                         if (selectedCategories[position]) {
-                            view.setBackground(getResources().getDrawable(R.drawable.bordered_button_yellow));
+                            a = getContext().getTheme().obtainStyledAttributes(Globals.getTheme(), new int[] { R.attr.wordStyle2 });
                         } else {
-                            view.setBackground(getResources().getDrawable(R.drawable.bordered_button_grey));
+                            a = getContext().getTheme().obtainStyledAttributes(Globals.getTheme(), new int[] { R.attr.wordStyle1 });
                         }
+                        int attributeResourceId = a.getResourceId(0, 0);
+                        Drawable drawable = getResources().getDrawable(attributeResourceId);
+                        view.setBackground(drawable);
+                        a.recycle();
                     }
                     @Override public void onLongItemClick(View view, int position) {
                         //* Do nothing

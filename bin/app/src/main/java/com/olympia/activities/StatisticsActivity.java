@@ -4,13 +4,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import com.olympia.Globals;
 import com.olympia.Quiz;
 import com.olympia.R;
 
 public class StatisticsActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Globals.loadTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
 
