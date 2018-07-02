@@ -2,10 +2,13 @@ package com.olympia.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,9 +16,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.olympia.AdapterListString;
 import com.olympia.Globals;
 import com.olympia.MainActivity;
 import com.olympia.R;
+import com.olympia.RecyclerItemClickListener;
+import com.olympia.Vocabulary;
 import com.olympia.cloud9_api.ApiUtils;
 import com.olympia.cloud9_api.C9User;
 import com.olympia.cloud9_api.ICloud9;
@@ -24,6 +30,7 @@ import com.olympia.room_db.RoomDbFacade;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -33,8 +40,29 @@ import retrofit2.Response;
 public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Globals.loadTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        ArrayList<String> supportedUILanguages = new ArrayList<>();
+        supportedUILanguages.add(getResources().getString(R.string.lang_en));
+        supportedUILanguages.add(getResources().getString(R.string.lang_ru));
+        ArrayList<String> supportedUICodes = new ArrayList<>();
+        supportedUICodes.add("en");
+        supportedUICodes.add("ru");
+
+        ArrayList<String> supportedDictLanguages = new ArrayList<>();
+        supportedDictLanguages.add(getResources().getString(R.string.dict_lang_en));
+        supportedDictLanguages.add(getResources().getString(R.string.dict_lang_es));
+        supportedDictLanguages.add(getResources().getString(R.string.dict_lang_hi));
+        ArrayList<String> supportedDictCodes = new ArrayList<>();
+        supportedDictCodes.add("en");
+        supportedDictCodes.add("es");
+        supportedDictCodes.add("hi");
+
+        ArrayList<String> supportedThemes = new ArrayList<>();
+        supportedThemes.add(getResources().getString(R.string.theme_1));
+        supportedThemes.add(getResources().getString(R.string.theme_2));
 
         Button b1 = findViewById(R.id.save_to_db),
             b2 = findViewById(R.id.restore_from_db),
@@ -44,7 +72,10 @@ public class SettingsActivity extends AppCompatActivity {
             b6 = findViewById(R.id.account_change_password),
             b7 = findViewById(R.id.account_logout),
             b8 = findViewById(R.id.account_delete),
-            b9 = findViewById(R.id.show_stats);
+            b9 = findViewById(R.id.show_stats),
+            b10 = findViewById(R.id.change_ui_language),
+            b11 = findViewById(R.id.change_dict_language),
+            b12 = findViewById(R.id.change_theme);
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,6 +237,145 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(SettingsActivity.this, StatisticsActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        b10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                View w = getLayoutInflater().inflate(R.layout.dialog_select_language, null);
+                TextView header = w.findViewById(R.id.select_label);
+                header.setText(getResources().getString(R.string.select_lang));
+                builder.setView(w);
+
+                RecyclerView languages = w.findViewById(R.id.selection_list);
+                languages.setLayoutManager(new GridLayoutManager(v.getContext(), 1));
+                AlertDialog dialog = builder.create();
+
+                languages.addOnItemTouchListener(
+                        new RecyclerItemClickListener(v.getContext(), languages, new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override public void onItemClick(View view, int position) {
+                                Locale locale = new Locale(supportedUICodes.get(position));
+                                Locale.setDefault(locale);
+                                Configuration config = getBaseContext().getResources().getConfiguration();
+                                config.locale = locale;
+                                getBaseContext().getResources().updateConfiguration(config,
+                                        getBaseContext().getResources().getDisplayMetrics());
+                                Intent returnIntent = new Intent();
+                                returnIntent.putExtra(Globals.SETTINGS_EXTRA, Globals.CHANGE_UI_LANGUAGE_REQUESTED);
+                                setResult(Activity.RESULT_OK, returnIntent);
+                                dialog.dismiss();
+                                finish();
+                            }
+                            @Override public void onLongItemClick(View view, int position) {
+                                //* Do nothing
+                            }
+                        })
+                );
+                AdapterListString languagesAdapter = new AdapterListString(supportedUILanguages);
+                languages.setAdapter(languagesAdapter);
+
+                //* IMPORTANT! DO NOT PLACE BEFORE SETTING ADAPTER!
+                languages.measure(0, 0);
+
+                Button negativeBtn = w.findViewById(R.id.button_negative);
+                negativeBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
+            }
+        });
+
+        b11.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                View w = getLayoutInflater().inflate(R.layout.dialog_select_language, null);
+                TextView header = w.findViewById(R.id.select_label);
+                header.setText(getResources().getString(R.string.select_lang));
+                builder.setView(w);
+
+                RecyclerView languages = w.findViewById(R.id.selection_list);
+                languages.setLayoutManager(new GridLayoutManager(v.getContext(), 1));
+                AlertDialog dialog = builder.create();
+
+                languages.addOnItemTouchListener(
+                        new RecyclerItemClickListener(v.getContext(), languages, new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override public void onItemClick(View view, int position) {
+                                Vocabulary.currentDictLanguage = supportedDictCodes.get(position);
+                                dialog.dismiss();
+                            }
+                            @Override public void onLongItemClick(View view, int position) {
+                                //* Do nothing
+                            }
+                        })
+                );
+                AdapterListString languagesAdapter = new AdapterListString(supportedDictLanguages);
+                languages.setAdapter(languagesAdapter);
+
+                //* IMPORTANT! DO NOT PLACE BEFORE SETTING ADAPTER!
+                languages.measure(0, 0);
+
+                Button negativeBtn = w.findViewById(R.id.button_negative);
+                negativeBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
+            }
+        });
+
+        b12.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                View w = getLayoutInflater().inflate(R.layout.dialog_select_language, null);
+                TextView header = w.findViewById(R.id.select_label);
+                header.setText(getResources().getString(R.string.select_theme));
+                builder.setView(w);
+
+                RecyclerView themes = w.findViewById(R.id.selection_list);
+                themes.setLayoutManager(new GridLayoutManager(v.getContext(), 1));
+                AlertDialog dialog = builder.create();
+
+                themes.addOnItemTouchListener(
+                        new RecyclerItemClickListener(v.getContext(), themes, new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override public void onItemClick(View view, int position) {
+                                Globals.currentTheme = position;
+                                Intent returnIntent = new Intent();
+                                returnIntent.putExtra(Globals.SETTINGS_EXTRA, Globals.CHANGE_THEME_REQUESTED);
+                                setResult(Activity.RESULT_OK, returnIntent);
+                                dialog.dismiss();
+                                finish();
+                            }
+                            @Override public void onLongItemClick(View view, int position) {
+                                //* Do nothing
+                            }
+                        })
+                );
+                AdapterListString languagesAdapter = new AdapterListString(supportedThemes);
+                themes.setAdapter(languagesAdapter);
+
+                //* IMPORTANT! DO NOT PLACE BEFORE SETTING ADAPTER!
+                themes.measure(0, 0);
+
+                Button negativeBtn = w.findViewById(R.id.button_negative);
+                negativeBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
             }
         });
     }

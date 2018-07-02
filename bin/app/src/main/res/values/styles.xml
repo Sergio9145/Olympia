@@ -1,22 +1,50 @@
 <resources>
-
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/dark_green</item>
         <item name="colorAccent">@color/yellow</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme1">
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/dark_green</item>
+        <item name="colorAccent">@color/yellow</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/light_grey</item>
+        <item name="backgroundColor">@color/white</item>
+        <item name="titleTextColor">@color/white</item>
+        <item name="colorDangerous">@color/red</item>
+        <item name="editTextStyle">@style/editText1</item>
+        <item name="buttonStyle1">@drawable/bordered_button_blue</item>
+        <item name="wordStyle1">@drawable/bordered_button_grey</item>
+        <item name="wordStyle2">@drawable/bordered_button_yellow</item>
+    </style>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-    <style name="SplashScreenTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="Theme2">
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorPrimaryDark">@color/purple</item>
+        <item name="colorAccent">@color/pink</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/white</item>
+        <item name="backgroundColor">@color/almost_black</item>
+        <item name="titleTextColor">@color/white</item>
+        <item name="colorDangerous">@color/red</item>
+        <item name="editTextStyle">@style/editText2</item>
+        <item name="buttonStyle1">@drawable/bordered_button_yellow</item>
+        <item name="wordStyle1">@drawable/bordered_button_pink</item>
+        <item name="wordStyle2">@drawable/bordered_button_blue</item>
+    </style>
+
+    <style name="editText1" parent="@android:style/Widget.EditText">
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="editText2" parent="@android:style/Widget.EditText">
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="ButtonAsLinkRegular" parent="@style/Base.Widget.AppCompat.Button.Borderless">
@@ -24,7 +52,7 @@
     </style>
 
     <style name="ButtonAsLinkDangerous" parent="@style/Base.Widget.AppCompat.Button.Borderless">
-        <item name="android:textColor">@color/red</item>
         <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">?attr/colorDangerous</item>
     </style>
 </resources>

@@ -24,7 +24,7 @@ public class AdapterListCategoriesSelect extends RecyclerView.Adapter<AdapterLis
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    AdapterListCategoriesSelect(ArrayList<Category> myDataset) {
+    public AdapterListCategoriesSelect(ArrayList<Category> myDataset) {
         mDataset = myDataset;
     }
 

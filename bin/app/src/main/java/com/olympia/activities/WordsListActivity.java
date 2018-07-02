@@ -5,9 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.olympia.Globals;
 import com.olympia.R;
@@ -17,9 +21,11 @@ import com.olympia.TabFragment3;
 import com.olympia.AdapterTabsPager;
 
 public class WordsListActivity extends AppCompatActivity {
+    static private boolean firstRun = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Globals.loadTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_words_list);
 
@@ -33,6 +39,10 @@ public class WordsListActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
+        if (firstRun) {
+            showHowTo(this);
+        }
     }
 
     @Override
@@ -74,22 +84,60 @@ public class WordsListActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Globals.SETTINGS_ACTIVITY) {
-            if (resultCode == Activity.RESULT_OK) {
-                int result = data.getIntExtra(Globals.SETTINGS_EXTRA, 0);
-                Intent returnIntent = new Intent();
-                switch (result) {
-                    case Globals.LOGOUT_REQUESTED:
-                        returnIntent.putExtra(Globals.WORDS_LIST_EXTRA, Globals.LOGOUT_REQUESTED);
-                        break;
-                    case Globals.DELETE_ACCOUNT_REQUESTED:
-                        returnIntent.putExtra(Globals.WORDS_LIST_EXTRA, Globals.DELETE_ACCOUNT_REQUESTED);
-                    default:
-                        break;
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case Globals.SETTINGS_ACTIVITY:
+                if (resultCode == Activity.RESULT_OK) {
+                    int result = data.getIntExtra(Globals.SETTINGS_EXTRA, 0);
+                    Intent returnIntent = new Intent();
+                    switch (result) {
+                        case Globals.LOGOUT_REQUESTED:
+                            returnIntent.putExtra(Globals.WORDS_LIST_EXTRA, Globals.LOGOUT_REQUESTED);
+                            break;
+                        case Globals.DELETE_ACCOUNT_REQUESTED:
+                            returnIntent.putExtra(Globals.WORDS_LIST_EXTRA, Globals.DELETE_ACCOUNT_REQUESTED);
+                            break;
+                        case Globals.CHANGE_UI_LANGUAGE_REQUESTED:
+                            returnIntent.putExtra(Globals.WORDS_LIST_EXTRA, Globals.CHANGE_UI_LANGUAGE_REQUESTED);
+                            break;
+                        case Globals.CHANGE_THEME_REQUESTED:
+                            returnIntent.putExtra(Globals.WORDS_LIST_EXTRA, Globals.CHANGE_THEME_REQUESTED);
+                            break;
+                        default:
+                            break;
+                    }
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
                 }
-                setResult(Activity.RESULT_OK, returnIntent);
-                finish();
-            }
+                break;
+            case Globals.CAMERA_ACTIVITY:
+                break;
         }
+    }
+
+    public static void showHowTo(AppCompatActivity activity) {
+        AlertDialog.Builder categoryBuilder = new AlertDialog.Builder(activity);
+        View w = activity.getLayoutInflater().inflate(R.layout.dialog_howto, null);
+        TextView title = w.findViewById(R.id.title),
+                descr = w.findViewById(R.id.descr);
+        title.setText(activity.getResources().getString(R.string.howto_title));
+        descr.setText(activity.getResources().getString(R.string.howto_descr));
+        categoryBuilder.setView(w);
+
+        AlertDialog dialog = categoryBuilder.create();
+
+        Button negativeBtn = w.findViewById(R.id.button_negative);
+        negativeBtn.setText(activity.getResources().getString(R.string.ok));
+
+        negativeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        firstRun = false;
+        dialog.show();
     }
 }

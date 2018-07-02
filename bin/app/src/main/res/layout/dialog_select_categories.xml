@@ -2,17 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="?attr/backgroundColor">
 
     <TextView
         android:id="@+id/categories_select_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/green"
-        android:textColor="@color/white"
+        android:background="?attr/colorPrimary"
+        android:textColor="?attr/titleTextColor"
         android:textSize="20sp"
         android:padding="10dp" />
-
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/categories_selection_list"

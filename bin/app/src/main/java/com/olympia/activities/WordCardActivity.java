@@ -17,26 +17,26 @@ import java.util.ArrayList;
 public class WordCardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Globals.loadTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_word_card);
 
-        Intent intent = getIntent();
-        String keyword = intent.getStringExtra(Globals.WORD_CARD_EXTRA);
-
         //* 1
         TextView keywordLabel = findViewById(R.id.wordEntry);
-        keywordLabel.setText(keyword.toUpperCase());
+        keywordLabel.setText(Vocabulary.currentKeyword.name.toUpperCase());
 
         //* 2
         StringBuffer toSet1 = new StringBuffer();
         TextView categories = findViewById(R.id.wordCategories);
-        ArrayList<Category> categoriesN = Vocabulary.map.get(keyword);
+        ArrayList<Category> categoriesN = Vocabulary.map.get(Vocabulary.currentKeyword);
         if (categoriesN != null && !categoriesN.isEmpty()) {
             categories.setVisibility(View.VISIBLE);
-            toSet1.append("Categories: ");
-            for (Category c : categoriesN) {
-                toSet1.append(c.name)
-                .append(", ");
+            toSet1.append(getResources().getString(R.string.word_card_categories));
+            for (int i = 0; i < categoriesN.size(); i++) {
+                toSet1.append(categoriesN.get(i).name);
+                if (i < categoriesN.size() - 1) {
+                    toSet1.append(", ");
+                }
             }
             categories.setText(toSet1);
         }
@@ -45,7 +45,7 @@ public class WordCardActivity extends AppCompatActivity {
         StringBuffer toSet2 = new StringBuffer();
         TextView entry = findViewById(R.id.wordDefinition);
         if (Vocabulary.nodes != null && !Vocabulary.nodes.isEmpty()) {
-            for (Definition s : Vocabulary.nodes.get(keyword).definitions) {
+            for (Definition s : Vocabulary.nodes.get(Vocabulary.currentKeyword.name).definitions) {
                 if (s != null && s.getDefiniton() != null) {
                     toSet2.append(s.getCategory())
                             .append(":\n")

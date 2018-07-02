@@ -1,0 +1,152 @@
+<resources>
+    <string name="app_name">Olympia</string>
+    <string name="search_term">Искать слово</string>
+    <string name="register">Зарегистрироваться</string>
+    <string name="registration">Регистрация</string>
+    <string name="forgot_password">Забыли пароль?</string>
+    <string name="reset_password">Восстановить пароль</string>
+    <string name="signin">Вход</string>
+    <string name="back">Назад</string>
+    <string name="username">Пользователь</string>
+    <string name="password">Пароль</string>
+    <string name="repeat_password">Повторите пароль</string>
+    <string name="new_password">Новый пароль</string>
+    <string name="email">Электронная почта (скрыта по-умолчанию)</string>
+    <string name="first_name">Имя</string>
+    <string name="last_name">Фамилия</string>
+
+    <string name="tab1_label">Словарь</string>
+    <string name="tab2_label">Категории</string>
+    <string name="tab3_label">Упражнения</string>
+
+    <!--Menu-->
+    <string name="menu_item_settings">Настройки</string>
+    <string name="menu_item_legal">Соглашение</string>
+    <string name="menu_item_about">О программе</string>
+
+    <string name="logo_descr">Логотип Olympia</string>
+
+    <!--Alert dialogs-->
+    <string name="create_category">Добавить категорию</string>
+    <string name="rename_category">Переименовать категорию</string>
+    <string name="select_category">Выбрать категории</string>
+
+    <!--Categories-->
+    <string name="category_name">Имя категории</string>
+    <string name="create">Создать</string>
+    <string name="rename">Переименовать</string>
+    <string name="cancel">Отмена</string>
+    <string name="select">Выбрать</string>
+    <string name="delete">Удалить</string>
+
+    <string name="deleting_category_title">Удаление категории</string>
+    <string name="deleting_category_descr">Вы уверены, что хотите удалить эту категорию? Она будет удалена со всех слов, к которым привязана. Сами слова не будут затронуты.</string>
+
+    <!--Toast messages-->
+    <string name="registration_field_invalid">Все поля должны быть заполнены. Имя пользователя должно быть уникальным и содержать хотя бы %d символов. Электронная почта должна содержать @. Пароль должен сожержать не менее %d символов. Пароли должны совпадать</string>
+    <string name="login_field_invalid">Имя пользователя и пароль не должны быть пустыми. Имя пользователя должно быть уникальным и содержать хотя бы %d символов. Пароль должен сожержать не менее %d символов</string>
+    <string name="reset_password_field_invalid">Электронная почта должна содержать @. Пароль должен сожержать не менее %d символов. Пароли должны совпадать</string>
+    <string name="category_exists">Категория уже существует</string>
+    <string name="category_needs_name">Пожалуйста, введите имя категории</string>
+    <string name="enter_search_word">Пожалуйста, введите слово для поиска</string>
+
+    <!--Word card-->
+    <string name="word_card_categories">Категории:\u00A0</string>
+
+    <!--Operations on words list-->
+    <string name="sort">Сортировка</string>
+    <string name="sort_ascending">А-Я</string>
+    <string name="sort_descending">Я-А</string>
+    <string name="sort_newer_first">Новые первыми</string>
+    <string name="sort_older_first">Старые первыми</string>
+    <string name="filter">Фильтровать</string>
+    <string name="filter_by">Фильтрация по категориям</string>
+    <string name="copy">Копировать</string>
+    <string name="copied">Скопировано в буфер обмена</string>
+    <string name="not_copied">Копировать нечего</string>
+
+    <!--Settings page-->
+    <string name="database_label">Операции с базой данных:</string>
+    <string name="database_save">Сохранить</string>
+    <string name="database_saved">Текущее состояние слов и категорий сохранено в базу данных</string>
+    <string name="database_restore">Восстановить</string>
+    <string name="database_restored">Предыдущее состояние слов и категорий было восстановлено из базы данных</string>
+    <string name="database_clear">Очистить</string>
+    <string name="database_cleared">Все записи были удалены из базы данных</string>
+    <string name="account_label">Операции с учетной записью:</string>
+    <string name="account_change_names">Смена имени и фамилии</string>
+    <string name="account_change_name">Сменить имя</string>
+    <string name="account_change_email">Сменить электронную почту</string>
+    <string name="account_change_password">Сменить пароль</string>
+    <string name="account_logout">Выйти</string>
+    <string name="account_delete">Удалить учетную запись</string>
+
+    <string name="new_first_name">Новое имя</string>
+    <string name="new_last_name">Новая фамилия</string>
+    <string name="current_password">Текущий пароль</string>
+    <string name="new_email">Новая электронная почта</string>
+    <string name="set_new_password">Установить новый пароль</string>
+    <string name="set_password_error">Все пароли должны быть не менее %d символов в длину. Новый пароль необходимо повторить. Новый и старый пароли должны отличаться</string>
+
+    <string name="deleting_account_title">Удаление учетной записи</string>
+    <string name="deleting_account_descr">Вы уверены, что хотите удалить учетную запись? Это действие необратимо! Введите текущий пароль для продолжения:</string>
+
+    <!--Errors handling-->
+    <string name="no_such_word">Слово не найдено в словаре</string>
+    <string name="account_change_names_success">Имя и фамилия пользователя сменены на %s %s</string>
+    <string name="account_change_email_success">Электронная почта пользователя сменена на %s</string>
+    <string name="account_change_password_success">Пароль был успешно сменен</string>
+    <string name="error_server_unreachable">Сервер недоступен</string>
+    <string name="error_failed_attempt">Невозможно отправить серверу %s запрос</string>
+
+    <!--Quizzes-->
+    <string name="quiz_description">Упражнения это инструмент самопроверки, в котором Вам даются определения слов, а Вы должны их правильно написать. Правильные ответы дают больше очков!</string>
+    <string name="start_quiz">Начать упражнение</string>
+    <string name="quiz_select_categories">Выберите категории</string>
+    <string name="next">Далее</string>
+    <string name="your_answer">Ваш ответ</string>
+    <string name="quiz_list_is_empty">Не могу начать упражнение - список слов пуст</string>
+    <string name="quiz_node_not_found">ОШИБКА: определение не найдено!</string>
+
+    <!--Statistics-->
+    <string name="statistics_title">Статистика</string>
+    <string name="open_statistics">Перейти к статистике упражнений</string>
+    <string name="last_score">Последний счет:</string>
+    <string name="overall_score">Общий счет:</string>
+
+    <!--UI-->
+    <string name="ui_title">Настройки интерфейса</string>
+    <string name="change_ui_lang">Сменить язык интерфейса</string>
+    <string name="select_lang">Выберите язык</string>
+    <string name="lang_en">English</string>
+    <string name="lang_ru">Русский</string>
+    <string name="change_dict_lang">Сменить язык словаря</string>
+    <string name="dict_lang_en">English</string>
+    <string name="dict_lang_es">Español</string>
+    <string name="dict_lang_hi">Hindi</string>
+    <string name="change_theme">Сменить оформление</string>
+    <string name="select_theme">Выберите тему</string>
+    <string name="theme_1">Тема 1</string>
+    <string name="theme_2">Тема 2</string>
+
+    <!--Legal-->
+    <string name="legal_descr">Используя это приложение Вы соглашаетесь с нашими правилами использования и политикой конфиденциальности.</string>
+    <string name="privacy_policy">Политика конфиденциальности</string>
+    <string name="termsAndConditions">Правила использования</string>
+
+    <!--About-->
+    <string name="version">Версия v0.02</string>
+    <string name="about_descr">Olympia это приложение-словарь для Android, созданное в рамках выпускного проекта программы Mobile Solutions Development. Оно позволяет не только использовать Оксфордский онлайн словарь, но и управлять списком изученных слов и создавать на их основе упражнения для самопроверки.</string>
+    <string name="send_feedback">Отправить отзыв</string>
+    <string name="feedback_email">olympia8225@gmail.com</string>
+    <string name="feedback_title">Отзыв о приложении Olympia</string>
+    <string name="send_email">Отправить письмо</string>
+
+    <!--OCR-->
+    <string name="no_data_file">OCR движок не готов</string>
+
+    <!--HowTo-->
+    <string name="howto_title">Как использовать</string>
+    <string name="howto_descr">Поддерживаются следующие жесты:\n\nСЛОВАРЬ\nTap - открыть карточку слова\nLong press - выбор категорий для слова\nSwipe влево или вправо - удалить слово из списка\n\nКАТЕГОРИИ\nLong press - переименовать категорию\nSwipe влево или вправо - удалить категорию (с подтверждением)</string>
+    <string name="ok">OK</string>
+</resources>
