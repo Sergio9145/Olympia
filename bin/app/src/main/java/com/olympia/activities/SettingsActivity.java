@@ -262,8 +262,11 @@ public class SettingsActivity extends AppCompatActivity {
                                 config.locale = locale;
                                 getBaseContext().getResources().updateConfiguration(config,
                                         getBaseContext().getResources().getDisplayMetrics());
+                                Intent returnIntent = new Intent();
+                                returnIntent.putExtra(Globals.SETTINGS_EXTRA, Globals.CHANGE_UI_LANGUAGE_REQUESTED);
+                                setResult(Activity.RESULT_OK, returnIntent);
                                 dialog.dismiss();
-                                recreate();
+                                finish();
                             }
                             @Override public void onLongItemClick(View view, int position) {
                                 //* Do nothing

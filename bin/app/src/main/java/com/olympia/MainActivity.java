@@ -326,7 +326,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = getSharedPreferences(OLYMPIA_PREFERENCES, MODE_PRIVATE).edit();
         editor.putString(USERNAME, username);
         editor.putString(LOGIN_TOKEN, token);
-        editor.apply();
+        editor.commit();
     }
 
     private String readToken () {
@@ -340,7 +340,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = getSharedPreferences(OLYMPIA_PREFERENCES, MODE_PRIVATE).edit();
         editor.remove(USERNAME);
         editor.remove(LOGIN_TOKEN);
-        editor.apply();
+        editor.commit();
     }
 
     @Override
@@ -354,6 +354,7 @@ public class MainActivity extends AppCompatActivity {
                         deleteToken();
                         gotoLogin(null);
                         break;
+                    case Globals.CHANGE_UI_LANGUAGE_REQUESTED:
                     case Globals.CHANGE_THEME_REQUESTED:
                         recreate();
                         break;

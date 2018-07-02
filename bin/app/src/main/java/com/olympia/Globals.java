@@ -38,6 +38,7 @@ public class Globals {
     //* Results
     public final static int LOGOUT_REQUESTED = 42;
     public final static int DELETE_ACCOUNT_REQUESTED = 76;
+    public final static int CHANGE_UI_LANGUAGE_REQUESTED = 83;
     public final static int CHANGE_THEME_REQUESTED = 101;
 
     public static void loadTheme(AppCompatActivity a) {

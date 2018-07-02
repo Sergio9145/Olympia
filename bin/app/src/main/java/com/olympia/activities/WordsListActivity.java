@@ -98,6 +98,9 @@ public class WordsListActivity extends AppCompatActivity {
                         case Globals.DELETE_ACCOUNT_REQUESTED:
                             returnIntent.putExtra(Globals.WORDS_LIST_EXTRA, Globals.DELETE_ACCOUNT_REQUESTED);
                             break;
+                        case Globals.CHANGE_UI_LANGUAGE_REQUESTED:
+                            returnIntent.putExtra(Globals.WORDS_LIST_EXTRA, Globals.CHANGE_UI_LANGUAGE_REQUESTED);
+                            break;
                         case Globals.CHANGE_THEME_REQUESTED:
                             returnIntent.putExtra(Globals.WORDS_LIST_EXTRA, Globals.CHANGE_THEME_REQUESTED);
                             break;
