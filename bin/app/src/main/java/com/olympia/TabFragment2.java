@@ -18,13 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class TabFragment2 extends Fragment {
-
     private AdapterListCategories categoriesAdapter;
     private View v;
-
-    public TabFragment2() {
-        // Required empty public constructor
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

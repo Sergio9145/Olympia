@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Globals.loadTheme(this);
         super.onCreate(savedInstanceState);
 
         cloud9service = ApiUtils.getAPIService();
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         resetPasswordView = findViewById(R.id.reset_password_view);
 
         String token = readToken();
-        if ((token != null && !currentUsername.isEmpty())|| QUICK_LAUNCH) {
+        if ((token != null && !currentUsername.isEmpty()) || QUICK_LAUNCH) {
             Intent intent = new Intent(MainActivity.this, WordsListActivity.class);
             startActivityForResult(intent, Globals.WORDS_LIST_ACTIVITY);
         }
@@ -325,7 +326,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = getSharedPreferences(OLYMPIA_PREFERENCES, MODE_PRIVATE).edit();
         editor.putString(USERNAME, username);
         editor.putString(LOGIN_TOKEN, token);
-        editor.apply();
+        editor.commit();
     }
 
     private String readToken () {
@@ -339,7 +340,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = getSharedPreferences(OLYMPIA_PREFERENCES, MODE_PRIVATE).edit();
         editor.remove(USERNAME);
         editor.remove(LOGIN_TOKEN);
-        editor.apply();
+        editor.commit();
     }
 
     @Override
@@ -352,6 +353,10 @@ public class MainActivity extends AppCompatActivity {
                     case Globals.DELETE_ACCOUNT_REQUESTED:
                         deleteToken();
                         gotoLogin(null);
+                        break;
+                    case Globals.CHANGE_UI_LANGUAGE_REQUESTED:
+                    case Globals.CHANGE_THEME_REQUESTED:
+                        recreate();
                         break;
                     default:
                         break;

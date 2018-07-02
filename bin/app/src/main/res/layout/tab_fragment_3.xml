@@ -3,21 +3,21 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:padding="20dp">
 
     <TextView
         android:id="@+id/quiz_descr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:text="@string/quiz_description" />
 
     <Button
         android:id="@+id/start_quiz"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/bordered_button_blue"
+        android:background="?attr/buttonStyle1"
         android:text="@string/start_quiz" />
 </LinearLayout>

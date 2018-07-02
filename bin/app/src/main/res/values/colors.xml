@@ -5,12 +5,17 @@
     <color name="yellow">#ffb732</color>
     <color name="light_yellow">#ffd384</color>
     <color name="red">#ff3919</color>
+    <color name="pink">#ff1493</color>
+    <color name="orange">#ffa500</color>
     <color name="light_red">#ffbdb2</color>
     <color name="blue">#1e90ff</color>
     <color name="light_blue">#8ec7ff</color>
+    <color name="purple">#60308c</color>
+    <color name="almost_black">#666666</color>
     <color name="dark_grey">#999999</color>
     <color name="light_grey">#d3d3d3</color>
     <color name="lightest_grey">#e4e4e4</color>
     <color name="white">#ffffff</color>
     <color name="white_transparent">#ffffffff</color>
+    <color name="black">#000000</color>
 </resources>

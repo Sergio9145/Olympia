@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.olympia.Globals;
 import com.olympia.MainActivity;
 import com.olympia.R;
 
@@ -24,10 +25,11 @@ public class SplashActivity extends AppCompatActivity {
 
     //* Skip intro:
     final static boolean SKIP_INTRO = false;
-
+    static final  int BACK_PRESS = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Globals.loadTheme(this);
         super.onCreate(savedInstanceState);
 
         if (SKIP_INTRO) {
@@ -43,28 +45,6 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
-
-   public void buildDialog() {
-
-       AlertDialog.Builder categoryBuilder = new AlertDialog.Builder(this);
-       View mView = getLayoutInflater().inflate(R.layout.dialog_check_internet_connection, null);
-       categoryBuilder.setView(mView);
-       AlertDialog dialog = categoryBuilder.create();
-       dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-       dialog.show();
-
-       Button positiveBtn = mView.findViewById(R.id.button_ok);
-
-       positiveBtn.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               Intent intent=new Intent(Settings.ACTION_WIRELESS_SETTINGS);
-               startActivity(intent);
-               finish();
-           }
-       });
-
-   }
    public void launchSplashScreen(){
         setContentView(R.layout.activity_splash_screen);
 
@@ -101,6 +81,39 @@ public  boolean isConnected(){
     } else
      return false;
 }
+    public void buildDialog() {
+        AlertDialog.Builder alertdialogBuilder = new AlertDialog.Builder(this);
+        View mView = getLayoutInflater().inflate(R.layout.dialog_check_internet_connection, null);
+        alertdialogBuilder.setView(mView);
+        AlertDialog dialog = alertdialogBuilder.create();
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        dialog.show();
+
+        Button positiveBtn = mView.findViewById(R.id.button_ok);
+
+        positiveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+                // startActivity(intent);
+                //finish();
+                startActivityForResult(intent, BACK_PRESS);
+                dialog.dismiss();
+            }
+        });
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == BACK_PRESS) {
+            if (isConnected()) {
+                launchSplashScreen();
+            }
+            else{
+                buildDialog();
+            }
+        }
+    }
 }
 
 

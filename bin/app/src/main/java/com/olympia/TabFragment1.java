@@ -1,10 +1,17 @@
 package com.olympia;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -12,11 +19,13 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +37,8 @@ import com.olympia.oxford_api.model.InflectionsListInner;
 import com.olympia.oxford_api.model.Lemmatron;
 import com.olympia.oxford_api.model.RetrieveEntry;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -36,6 +47,8 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+
+import static android.support.v4.app.ActivityCompat.checkSelfPermission;
 
 public class TabFragment1 extends Fragment {
     private RecyclerView wordsList;
@@ -50,9 +63,8 @@ public class TabFragment1 extends Fragment {
     private View v;
     private boolean error404 = false;
 
-    public TabFragment1() {
-        // Required empty public constructor
-    }
+    private TessOCR tessOCR;
+    private static final int CAMERA_PERMISSION_CODE = 100;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,7 +74,6 @@ public class TabFragment1 extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
         filter();
         sort();
     }
@@ -80,7 +91,10 @@ public class TabFragment1 extends Fragment {
 
         Button sortBtn = v.findViewById(R.id.button_sort),
                 filterBtn = v.findViewById(R.id.button_filter),
-                copyBtn = v.findViewById(R.id.button_copy);
+                copyBtn = v.findViewById(R.id.button_copy),
+                microphoneBtn = v.findViewById(R.id.button_mic),
+                cameraBtn = v.findViewById(R.id.button_cam);
+
         sortBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,14 +174,68 @@ public class TabFragment1 extends Fragment {
             }
         });
 
+        tessOCR = new TessOCR(getContext(), "eng");
+
+        cameraBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{ Manifest.permission.CAMERA }, CAMERA_PERMISSION_CODE);
+                } else {
+//                    File photoFile = null;
+//                    try {
+//                        photoFile = createImageFile();
+//                    } catch (IOException e) {
+//
+//                    }
+//                    if (photoFile != null) {
+                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                        startActivityForResult(cameraIntent, Globals.CAMERA_ACTIVITY);
+//                    }
+                }
+            }
+        });
         return v;
+    }
+
+    private File createImageFile() throws IOException {
+        long timeStamp = System.currentTimeMillis();
+        String imageFileName = "Pic";// + timeStamp;
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageFileName,".jpg", storageDir);
+        return image;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == CAMERA_PERMISSION_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, Globals.CAMERA_ACTIVITY);
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Globals.CAMERA_ACTIVITY && resultCode == Activity.RESULT_OK) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            ImageView imv = v.findViewById(R.id.img);
+            imv.setImageBitmap(photo);
+//            doOCR(photo);
+//            String srcText = tessOCR.getOCRResult(photo);
+//            search.setText(srcText);
+        }
     }
 
     private void performSearch(final String searchTerm) {
         search.setText("");
         error404 = false;
         //* TODO: for further usage:
-        lemmaApi.inflectionsSourceLangWordIdGet("en", searchTerm, BuildConfig.APP_ID, BuildConfig.APP_KEY)
+        lemmaApi.inflectionsSourceLangWordIdGet(Vocabulary.currentDictLanguage, searchTerm, BuildConfig.APP_ID, BuildConfig.APP_KEY)
                 .onErrorReturn((Throwable ex) -> {
 //                    error404 = true;
                     return new Lemmatron();
@@ -178,7 +246,7 @@ public class TabFragment1 extends Fragment {
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::getWord);
-        entriesApi.getDictionaryEntries("en", searchTerm, BuildConfig.APP_ID, BuildConfig.APP_KEY)
+        entriesApi.getDictionaryEntries(Vocabulary.currentDictLanguage, searchTerm, BuildConfig.APP_ID, BuildConfig.APP_KEY)
                 .onErrorReturn((Throwable ex) -> {
                     error404 = true;
                     return new RetrieveEntry();
@@ -218,7 +286,8 @@ public class TabFragment1 extends Fragment {
                 Keyword k = new Keyword();
                 k.id = ++Keyword.last_id;
                 k.name = currentWord;
-                Vocabulary.keywords.add(k);
+                Vocabulary.currentKeyword = k;
+                Vocabulary.keywords.add(Vocabulary.currentKeyword);
                 sort();
             }
             openWordCard();
@@ -238,8 +307,8 @@ public class TabFragment1 extends Fragment {
     }
 
     private void openWordCard() {
+        Vocabulary.currentKeyword = Vocabulary.getKeyword(currentWord);
         Intent intent = new Intent(getActivity(), WordCardActivity.class);
-        intent.putExtra(Globals.WORD_CARD_EXTRA, currentWord);
         startActivityForResult(intent, Globals.WORD_CARD_ACTIVITY);
     }
 
@@ -270,11 +339,16 @@ public class TabFragment1 extends Fragment {
                     @Override public void onItemClick(View view, int position) {
                         //* Switch between enabled/disabled
                         selectedCategories[position] = !selectedCategories[position];
+                        TypedArray a;
                         if (selectedCategories[position]) {
-                            view.setBackground(getResources().getDrawable(R.drawable.bordered_button_yellow));
+                            a = getContext().getTheme().obtainStyledAttributes(Globals.getTheme(), new int[] { R.attr.wordStyle2 });
                         } else {
-                            view.setBackground(getResources().getDrawable(R.drawable.bordered_button_grey));
+                            a = getContext().getTheme().obtainStyledAttributes(Globals.getTheme(), new int[] { R.attr.wordStyle1 });
                         }
+                        int attributeResourceId = a.getResourceId(0, 0);
+                        Drawable drawable = getResources().getDrawable(attributeResourceId);
+                        view.setBackground(drawable);
+                        a.recycle();
                     }
                     @Override public void onLongItemClick(View view, int position) {
                         //* Do nothing
@@ -295,7 +369,11 @@ public class TabFragment1 extends Fragment {
                     if (pickedCategories.get(i).name.equalsIgnoreCase(Vocabulary.categories.get(j).name)) {
                         selectedCategories[j] = true;
                         View v1 = categories.getChildAt(j);
-                        v1.setBackground(getResources().getDrawable(R.drawable.bordered_button_yellow));
+                        TypedArray a = getContext().getTheme().obtainStyledAttributes(Globals.getTheme(), new int[] { R.attr.wordStyle2 });
+                        int attributeResourceId = a.getResourceId(0, 0);
+                        Drawable drawable = getResources().getDrawable(attributeResourceId);
+                        v1.setBackground(drawable);
+                        a.recycle();
                     }
                 }
             }
@@ -376,11 +454,16 @@ public class TabFragment1 extends Fragment {
                     @Override public void onItemClick(View view, int position) {
                         //* Switch between enabled/disabled
                         selectedCategories[position] = !selectedCategories[position];
+                        TypedArray a;
                         if (selectedCategories[position]) {
-                            view.setBackground(getResources().getDrawable(R.drawable.bordered_button_yellow));
+                            a = getContext().getTheme().obtainStyledAttributes(Globals.getTheme(), new int[] { R.attr.wordStyle2 });
                         } else {
-                            view.setBackground(getResources().getDrawable(R.drawable.bordered_button_grey));
+                            a = getContext().getTheme().obtainStyledAttributes(Globals.getTheme(), new int[] { R.attr.wordStyle1 });
                         }
+                        int attributeResourceId = a.getResourceId(0, 0);
+                        Drawable drawable = getResources().getDrawable(attributeResourceId);
+                        view.setBackground(drawable);
+                        a.recycle();
                     }
                     @Override public void onLongItemClick(View view, int position) {
                         //* Do nothing
@@ -400,7 +483,11 @@ public class TabFragment1 extends Fragment {
                     if (Globals.filteredCategories.get(i).name.equalsIgnoreCase(Vocabulary.categories.get(j).name)) {
                         selectedCategories[j] = true;
                         View v1 = categories.getChildAt(j);
-                        v1.setBackground(getResources().getDrawable(R.drawable.bordered_button_yellow));
+                        TypedArray a = getContext().getTheme().obtainStyledAttributes(Globals.getTheme(), new int[] { R.attr.wordStyle2 });
+                        int attributeResourceId = a.getResourceId(0, 0);
+                        Drawable drawable = getResources().getDrawable(attributeResourceId);
+                        v1.setBackground(drawable);
+                        a.recycle();
                     }
                 }
             }
@@ -473,5 +560,23 @@ public class TabFragment1 extends Fragment {
         public int compare(Keyword left, Keyword right) {
             return right.name.compareTo(left.name);
         }
+    }
+
+    private void doOCR (final Bitmap bitmap) {
+        new Thread(new Runnable() {
+            public void run() {
+                String srcText = tessOCR.getOCRResult(bitmap);
+//                tessOCR.onDestroy();
+//                getActivity().runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        if (srcText != null && !srcText.equals("")) {
+//                            search.setText(srcText);
+//                        }
+//                        tessOCR.onDestroy();
+//                    }
+//                });
+            }
+        }).start();
     }
 }

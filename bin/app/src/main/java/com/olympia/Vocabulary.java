@@ -10,6 +10,8 @@ public class Vocabulary {
     public static ArrayList<Keyword> keywords = new ArrayList<>();
     public static ArrayList<Category> categories = new ArrayList<>();
     public static HashMap<Keyword, ArrayList<Category>> map = new HashMap<>();
+    public static Keyword currentKeyword = null;
+    public static String currentDictLanguage = "en";
 
     public static boolean containsWord(String w) {
         boolean result = false;
@@ -37,6 +39,17 @@ public class Vocabulary {
         Keyword result = null;
         for (Keyword k : keywords) {
             if (k.id == id) {
+                result = k;
+                break;
+            }
+        }
+        return result;
+    }
+
+    public static Keyword getKeyword(String word) {
+        Keyword result = null;
+        for (Keyword k : keywords) {
+            if (k.name.equalsIgnoreCase(word)) {
                 result = k;
                 break;
             }
