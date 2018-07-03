@@ -48,9 +48,11 @@ public class SettingsActivity extends AppCompatActivity {
         ArrayList<String> supportedUILanguages = new ArrayList<>();
         supportedUILanguages.add(getResources().getString(R.string.lang_en));
         supportedUILanguages.add(getResources().getString(R.string.lang_ru));
+        supportedUILanguages.add(getResources().getString(R.string.lang_hi));
         ArrayList<String> supportedUICodes = new ArrayList<>();
         supportedUICodes.add("en");
         supportedUICodes.add("ru");
+        supportedUICodes.add("hi");
 
         ArrayList<String> supportedDictLanguages = new ArrayList<>();
         supportedDictLanguages.add(getResources().getString(R.string.dict_lang_en));
