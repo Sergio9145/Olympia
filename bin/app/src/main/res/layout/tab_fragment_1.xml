@@ -65,12 +65,6 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/img"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"/>
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_of_recent_words"
             android:scrollbars="vertical"

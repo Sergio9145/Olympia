@@ -139,7 +139,7 @@
     <string name="termsAndConditions">Правила использования</string>
 
     <!--About-->
-    <string name="version">Версия v0.02</string>
+    <string name="version">Версия v0.03</string>
     <string name="about_descr">Olympia это приложение-словарь для Android, созданное в рамках выпускного проекта программы Mobile Solutions Development. Оно позволяет не только использовать Оксфордский онлайн словарь, но и управлять списком изученных слов и создавать на их основе упражнения для самопроверки.</string>
     <string name="send_feedback">Отправить отзыв</string>
     <string name="feedback_email">olympia8225@gmail.com</string>

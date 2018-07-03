@@ -8,11 +8,11 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Environment;
 import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -26,10 +26,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.googlecode.tesseract.android.TessBaseAPI;
 import com.olympia.activities.WordCardActivity;
 import com.olympia.oxford_api.api.DictionaryEntriesApi;
 import com.olympia.oxford_api.api.LemmatronApi;
@@ -39,7 +39,11 @@ import com.olympia.oxford_api.model.Lemmatron;
 import com.olympia.oxford_api.model.RetrieveEntry;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -59,13 +63,14 @@ public class TabFragment1 extends Fragment {
     private LemmatronApi lemmaApi;
     private AdapterListWords wordsAdapter;
     private String currentWord;
+    private TessBaseAPI mTess;
+    String datapath = "";
 
     public final static ArrayList<Keyword> filteredWords = new ArrayList<>();
 
     private View v;
     private boolean error404 = false;
 
-    private TessOCR tessOCR;
     private static final int CAMERA_PERMISSION_CODE = 100;
 
     @Override
@@ -191,7 +196,13 @@ public class TabFragment1 extends Fragment {
             }
         });
 
-        tessOCR = new TessOCR(getContext(), "eng");
+        datapath = getActivity().getFilesDir() + "/tesseract/";
+        mTess = new TessBaseAPI();
+
+        checkFile(new File(datapath + "tessdata/"));
+
+        mTess.init(datapath, "eng");
+
 
         cameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,31 +210,13 @@ public class TabFragment1 extends Fragment {
                 if (checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(new String[]{ Manifest.permission.CAMERA }, CAMERA_PERMISSION_CODE);
                 } else {
-//                    File photoFile = null;
-//                    try {
-//                        photoFile = createImageFile();
-//                    } catch (IOException e) {
-//
-//                    }
-//                    if (photoFile != null) {
-                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-//                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-                        startActivityForResult(cameraIntent, Globals.CAMERA_ACTIVITY);
-//                    }
+                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(cameraIntent, Globals.CAMERA_ACTIVITY);
                 }
             }
         });
         return v;
     }
-
-    private File createImageFile() throws IOException {
-        long timeStamp = System.currentTimeMillis();
-        String imageFileName = "Pic";// + timeStamp;
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(imageFileName,".jpg", storageDir);
-        return image;
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -242,11 +235,10 @@ public class TabFragment1 extends Fragment {
             switch (requestCode) {
                 case Globals.CAMERA_ACTIVITY:
                     Bitmap photo = (Bitmap) data.getExtras().get("data");
-                    ImageView imv = v.findViewById(R.id.img);
-                    imv.setImageBitmap(photo);
-//            doOCR(photo);
-//            String srcText = tessOCR.getOCRResult(photo);
-//            search.setText(srcText);
+                    String OCRresult = null;
+                    mTess.setImage(photo);
+                    OCRresult = mTess.getUTF8Text();
+                    search.setText(OCRresult);
                     break;
                 case Globals.SPEECH_ACTIVITY:
                     ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
@@ -589,21 +581,46 @@ public class TabFragment1 extends Fragment {
         }
     }
 
-    private void doOCR (final Bitmap bitmap) {
-        new Thread(new Runnable() {
-            public void run() {
-                String srcText = tessOCR.getOCRResult(bitmap);
-//                tessOCR.onDestroy();
-//                getActivity().runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        if (srcText != null && !srcText.equals("")) {
-//                            search.setText(srcText);
-//                        }
-//                        tessOCR.onDestroy();
-//                    }
-//                });
+    private void checkFile(File dir) {
+        if (!dir.exists()&& dir.mkdirs()){
+            copyFiles();
+        }
+        if(dir.exists()) {
+            String datafilepath = datapath + "/tessdata/eng.traineddata";
+            File datafile = new File(datafilepath);
+
+            if (!datafile.exists()) {
+                copyFiles();
             }
-        }).start();
+        }
+    }
+
+    private void copyFiles() {
+        try {
+            String filepath = datapath + "/tessdata/eng.traineddata";
+            AssetManager assetManager = getActivity().getAssets();
+
+            InputStream instream = assetManager.open("tessdata/eng.traineddata");
+            OutputStream outstream = new FileOutputStream(filepath);
+
+            byte[] buffer = new byte[1024];
+            int read;
+            while ((read = instream.read(buffer)) != -1) {
+                outstream.write(buffer, 0, read);
+            }
+
+            outstream.flush();
+            outstream.close();
+            instream.close();
+
+            File file = new File(filepath);
+            if (!file.exists()) {
+                throw new FileNotFoundException();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

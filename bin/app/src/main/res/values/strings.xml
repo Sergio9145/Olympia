@@ -139,7 +139,7 @@
     <string name="termsAndConditions">Terms and conditions</string>
 
     <!--About-->
-    <string name="version">Version v0.02</string>
+    <string name="version">Version v0.03</string>
     <string name="about_descr">Olympia is an Android dictionary app created as a Capstone Project in Mobile Solutions development Program. It allows not only use Oxford dictionary, but also manipulate words in different ways and make quizzes of them for self-check.</string>
     <string name="send_feedback">Send feedback</string>
     <string name="feedback_email">olympia8225@gmail.com</string>
