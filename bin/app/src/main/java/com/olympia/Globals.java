@@ -30,6 +30,7 @@ public class Globals {
     public final static int CHANGE_PASSWORD_ACTIVITY = 700;
     public final static int QUIZ_ACTIVITY = 800;
     public final static int CAMERA_ACTIVITY = 900;
+    public final static int SPEECH_ACTIVITY = 1000;
 
     //* Params
     public final static String WORDS_LIST_EXTRA = "WORDS_LIST_EXTRA";

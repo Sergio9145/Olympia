@@ -64,6 +64,8 @@
     <string name="copy">Копировать</string>
     <string name="copied">Скопировано в буфер обмена</string>
     <string name="not_copied">Копировать нечего</string>
+    <string name="speech_prompt">Скажите что-нибудь&#8230;</string>
+    <string name="speech_not_supported">Извините! Ваше устройство не поддерживает голосовой ввод</string>
 
     <!--Settings page-->
     <string name="database_label">Операции с базой данных:</string>
