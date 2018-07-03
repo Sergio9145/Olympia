@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -75,7 +76,8 @@ public class SettingsActivity extends AppCompatActivity {
             b9 = findViewById(R.id.show_stats),
             b10 = findViewById(R.id.change_ui_language),
             b11 = findViewById(R.id.change_dict_language),
-            b12 = findViewById(R.id.change_theme);
+            b12 = findViewById(R.id.change_theme),
+            b13 = findViewById(R.id.font_size);
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -376,6 +378,14 @@ public class SettingsActivity extends AppCompatActivity {
                 });
 
                 dialog.show();
+            }
+        });
+
+        b13.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Settings.ACTION_DISPLAY_SETTINGS);
+                startActivityForResult(intent, 0);
             }
         });
     }

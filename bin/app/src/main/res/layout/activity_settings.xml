@@ -141,5 +141,13 @@
             style="@style/ButtonAsLinkRegular"
             android:text="@string/change_theme"/>
 
+        <Button
+            android:id="@+id/font_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            style="@style/ButtonAsLinkRegular"
+            android:text="@string/font_size_label"/>
+
     </LinearLayout>
 </ScrollView>

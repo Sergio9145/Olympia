@@ -80,6 +80,7 @@
     <string name="account_change_password">Сменить пароль</string>
     <string name="account_logout">Выйти</string>
     <string name="account_delete">Удалить учетную запись</string>
+    <string name="font_size_label">Сменить размер шрифта</string>
 
     <string name="new_first_name">Новое имя</string>
     <string name="new_last_name">Новая фамилия</string>

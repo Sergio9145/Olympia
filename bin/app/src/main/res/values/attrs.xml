@@ -7,5 +7,4 @@
     <attr name="buttonStyle1" format="reference" />
     <attr name="wordStyle1" format="reference" />
     <attr name="wordStyle2" format="reference" />
-    <attr name="textSize" format="dimension" />
 </resources>

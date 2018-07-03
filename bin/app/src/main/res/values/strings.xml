@@ -80,6 +80,7 @@
     <string name="account_change_password">Change password</string>
     <string name="account_logout">Logout</string>
     <string name="account_delete">Delete account</string>
+    <string name="font_size_label">Change font size</string>
 
     <string name="new_first_name">New first name</string>
     <string name="new_last_name">New last name</string>
