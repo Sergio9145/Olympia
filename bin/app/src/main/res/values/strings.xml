@@ -157,4 +157,5 @@
     <string name="no_internet_title">No connection</string>
     <string name="no_internet_descr">Application cannot work without access to the Internet. Please make sure you are connected.</string>
     <string name="open_settings">Open settings</string>
+    <string name="no_tts_support">This language is not supported</string>
 </resources>

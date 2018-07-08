@@ -7,4 +7,6 @@
     <attr name="buttonStyle1" format="reference" />
     <attr name="wordStyle1" format="reference" />
     <attr name="wordStyle2" format="reference" />
+    <attr name="speakIcon" format="reference" />
+    <attr name="stopIcon" format="reference" />
 </resources>

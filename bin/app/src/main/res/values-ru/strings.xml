@@ -157,4 +157,5 @@
     <string name="no_internet_title">Нет соединения</string>
     <string name="no_internet_descr">Приложение не может работать без доступа к интернету. Пожалуйста, проверьте подключение.</string>
     <string name="open_settings">Открыть настройки</string>
+    <string name="no_tts_support">Этот язык не поддерживается</string>
 </resources>
