@@ -23,14 +23,33 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"/>
 
-        <EditText
-            android:id="@+id/answer"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:ems="10"
-            android:hint="@string/your_answer"
-            android:inputType="text"/>
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/answer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="@string/your_answer"
+                android:inputType="text"/>
+
+            <Button
+                android:id="@+id/button_mic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="5dp"
+                android:padding="10dp"
+                android:drawableStart="@drawable/round_mic_white_24"
+                android:background="?attr/buttonStyle1" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/next"
