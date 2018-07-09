@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
-import android.speech.tts.UtteranceProgressListener;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -19,14 +18,10 @@ import com.olympia.R;
 import com.olympia.Vocabulary;
 
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.UUID;
 
-public class WordCardActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
-    private TextToSpeech tts;
+public class WordCardActivity extends AppCompatActivity {
     private StringBuffer text;
-    boolean tts_enabled = false,
-        is_speaking = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,22 +29,27 @@ public class WordCardActivity extends AppCompatActivity implements TextToSpeech.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_word_card);
 
-        tts = new TextToSpeech(WordCardActivity.this, WordCardActivity.this);
         text = new StringBuffer();
 
-        Button btn = findViewById(R.id.button_tts);
-        btn.setOnClickListener(new View.OnClickListener() {
+        Button btn_tts = findViewById(R.id.button_tts);
+        btn_tts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (tts_enabled) {
+                if (Globals.tts_enabled) {
                     TypedArray a;
-                    if (!is_speaking) {
+                    if (!Globals.is_speaking) {
                         String utteranceId = UUID.randomUUID().toString();
-                        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, utteranceId);
+                        Globals.tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, utteranceId);
+                        a = getTheme().obtainStyledAttributes(Globals.getTheme(), new int[] { R.attr.stopIcon });
                     } else {
-                        tts.stop();
-                        is_speaking = false;
+                        Globals.tts.stop();
+                        Globals.is_speaking = false;
+                        a = getTheme().obtainStyledAttributes(Globals.getTheme(), new int[] { R.attr.speakIcon });
                     }
+                    int attributeResourceId = a.getResourceId(0, 0);
+                    Drawable drawable = getResources().getDrawable(attributeResourceId);
+                    btn_tts.setBackground(drawable);
+                    a.recycle();
                 } else {
                     Toast.makeText(WordCardActivity.this, getString(R.string.no_tts_support), Toast.LENGTH_SHORT).show();
                 }
@@ -60,7 +60,6 @@ public class WordCardActivity extends AppCompatActivity implements TextToSpeech.
         TextView keywordLabel = findViewById(R.id.wordEntry);
         keywordLabel.setText(Vocabulary.currentKeyword.name.toUpperCase());
         text.append(keywordLabel.getText());
-        text.append("/n");
 
         //* 2
         StringBuffer toSet1 = new StringBuffer();
@@ -78,7 +77,6 @@ public class WordCardActivity extends AppCompatActivity implements TextToSpeech.
             categories.setText(toSet1);
         }
         text.append(toSet1);
-        text.append("/n");
 
         //* 3
         StringBuffer toSet2 = new StringBuffer();
@@ -102,43 +100,5 @@ public class WordCardActivity extends AppCompatActivity implements TextToSpeech.
         Intent intent = new Intent();
         setResult(RESULT_OK, intent);
         finish();
-    }
-
-    @Override
-    public void onInit(int status) {
-        Locale language = Locale.ENGLISH;
-        if (language == null) {
-            this.tts_enabled = false;
-            Toast.makeText(this, "Not language selected", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        int result = tts.setLanguage(language);
-        if (result == TextToSpeech.LANG_MISSING_DATA) {
-            this.tts_enabled = false;
-            Toast.makeText(this, "Missing language data", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (result == TextToSpeech.LANG_NOT_SUPPORTED) {
-            this.tts_enabled = false;
-            Toast.makeText(this, "Language not supported", Toast.LENGTH_SHORT).show();
-            return;
-        } else {
-            this.tts_enabled = true;
-            Locale currentLanguage = tts.getVoice().getLocale();
-            Toast.makeText(this, "Language " + currentLanguage, Toast.LENGTH_SHORT).show();
-            tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
-                @Override
-                public void onDone(String utteranceId) {
-                    is_speaking = false;
-                }
-
-                @Override
-                public void onError(String utteranceId) { }
-
-                @Override
-                public void onStart(String utteranceId) {
-                    is_speaking = true;
-                }
-            });
-        }
     }
 }

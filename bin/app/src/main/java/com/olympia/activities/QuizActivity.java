@@ -5,6 +5,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,7 @@ import com.olympia.Vocabulary;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.UUID;
 
 public class QuizActivity extends AppCompatActivity {
     TextView number, question;
@@ -37,6 +39,7 @@ public class QuizActivity extends AppCompatActivity {
         answer = findViewById(R.id.answer);
 
         Button btn = findViewById(R.id.next),
+            btn_tts = findViewById(R.id.button_tts),
             microphoneBtn = findViewById(R.id.button_mic);
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -48,6 +51,23 @@ public class QuizActivity extends AppCompatActivity {
         });
 
         setTask(pos++);
+
+        btn_tts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Globals.tts_enabled) {
+                    if (!Globals.is_speaking) {
+                        String utteranceId = UUID.randomUUID().toString();
+                        Globals.tts.speak(question.getText(), TextToSpeech.QUEUE_FLUSH, null, utteranceId);
+                    } else {
+                        Globals.tts.stop();
+                        Globals.is_speaking = false;
+                    }
+                } else {
+                    Toast.makeText(QuizActivity.this, getString(R.string.no_tts_support), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         microphoneBtn.setOnClickListener(new View.OnClickListener() {
             @Override

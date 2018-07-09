@@ -7,6 +7,8 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -16,12 +18,15 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.olympia.Globals;
 import com.olympia.MainActivity;
 import com.olympia.R;
 
-public class SplashActivity extends AppCompatActivity {
+import java.util.Locale;
+
+public class SplashActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
 
     //* Skip intro:
     final static boolean SKIP_INTRO = false;
@@ -32,6 +37,8 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_splash_screen);
+
+        Globals.tts = new TextToSpeech(this, this);
 
         TextView textView = findViewById(R.id.splash_screen_text);
         ImageView imageView = findViewById(R.id.splash_screen_img);
@@ -56,6 +63,52 @@ public class SplashActivity extends AppCompatActivity {
             handler.post(r);
         } else {
             handler.postDelayed(r, 3000);
+        }
+    }
+
+    @Override
+    public void onInit(int status) {
+        Locale language = Locale.ENGLISH;
+        if (language == null) {
+            Globals.tts_enabled = false;
+            Toast.makeText(this, "Not language selected", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        int result = Globals.tts.setLanguage(language);
+        if (result == TextToSpeech.LANG_MISSING_DATA) {
+            Globals.tts_enabled = false;
+            Toast.makeText(this, "Missing language data", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (result == TextToSpeech.LANG_NOT_SUPPORTED) {
+            Globals.tts_enabled = false;
+            Toast.makeText(this, "Language not supported", Toast.LENGTH_SHORT).show();
+            return;
+        } else {
+            Globals.tts_enabled = true;
+            Locale currentLanguage = Globals.tts.getVoice().getLocale();
+            Toast.makeText(this, "TTS Language set to " + currentLanguage, Toast.LENGTH_SHORT).show();
+            Globals.tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                @Override
+                public void onDone(String utteranceId) {
+                    Globals.is_speaking = false;
+                }
+
+                @Override
+                public void onError(String utteranceId) { }
+
+                @Override
+                public void onStart(String utteranceId) {
+                    Globals.is_speaking = true;
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (isConnected()) {
+            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -104,13 +157,5 @@ public class SplashActivity extends AppCompatActivity {
             }
         }
         return result;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (isConnected()) {
-            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-            startActivity(intent);
-        }
     }
 }

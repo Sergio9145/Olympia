@@ -1,5 +1,6 @@
 package com.olympia;
 
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 
 import com.olympia.oxford_api.ApiClient;
@@ -18,6 +19,9 @@ public class Globals {
     public final static String TAG = "Olmp";
 
     public final static int MIN_USERNAME_LENGTH = 5, MIN_PASSWORD_LENGTH = 4;
+
+    public static TextToSpeech tts = null;
+    public static boolean tts_enabled = false, is_speaking = false;
 
     //* Intents
     public final static int WORDS_LIST_ACTIVITY = 50;
