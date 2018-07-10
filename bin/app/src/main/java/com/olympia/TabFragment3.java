@@ -1,7 +1,6 @@
 package com.olympia;
 
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,6 +21,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TabFragment3 extends Fragment {
+    private Drawable drawable1, drawable2;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +32,10 @@ public class TabFragment3 extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab_fragment_3, container, false);
+
+        drawable1 = getContext().getDrawable(R.drawable.rect_bg2);
+        drawable2 = getContext().getDrawable(R.drawable.rect_bg3);
+
         Button b = v.findViewById(R.id.start_quiz);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,16 +62,11 @@ public class TabFragment3 extends Fragment {
                     @Override public void onItemClick(View view, int position) {
                         //* Switch between enabled/disabled
                         selectedCategories[position] = !selectedCategories[position];
-                        TypedArray a;
                         if (selectedCategories[position]) {
-                            a = getContext().getTheme().obtainStyledAttributes(Globals.getTheme(), new int[] { R.attr.wordStyle2 });
+                            view.setBackground(drawable2);
                         } else {
-                            a = getContext().getTheme().obtainStyledAttributes(Globals.getTheme(), new int[] { R.attr.wordStyle1 });
+                            view.setBackground(drawable1);
                         }
-                        int attributeResourceId = a.getResourceId(0, 0);
-                        Drawable drawable = getResources().getDrawable(attributeResourceId);
-                        view.setBackground(drawable);
-                        a.recycle();
                     }
                     @Override public void onLongItemClick(View view, int position) {
                         //* Do nothing

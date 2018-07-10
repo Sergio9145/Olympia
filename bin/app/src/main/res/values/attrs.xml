@@ -4,11 +4,17 @@
     <attr name="textColor" format="color" />
     <attr name="titleTextColor" format="color" />
     <attr name="colorDangerous" format="color" />
-    <attr name="buttonStyle1" format="reference" />
-    <attr name="wordStyle1" format="reference" />
-    <attr name="wordStyle2" format="reference" />
 
     <attr name="btnColor" format="color" />
     <attr name="btnColorBg" format="color" />
     <attr name="btnColorEdge" format="color" />
+
+    <attr name="rectColorBg1" format="color" />
+    <attr name="rectColorEdge1" format="color" />
+
+    <attr name="rectColorBg2" format="color" />
+    <attr name="rectColorEdge2" format="color" />
+
+    <attr name="rectColorBg3" format="color" />
+    <attr name="rectColorEdge3" format="color" />
 </resources>

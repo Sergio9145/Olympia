@@ -20,13 +20,19 @@
         <item name="titleTextColor">@color/white</item>
         <item name="colorDangerous">@color/red</item>
         <item name="editTextStyle">@style/editText1</item>
-        <item name="buttonStyle1">@drawable/bordered_button_blue</item>
-        <item name="wordStyle1">@drawable/bordered_button_grey</item>
-        <item name="wordStyle2">@drawable/bordered_button_yellow</item>
 
         <item name="btnColor">@color/white</item>
         <item name="btnColorBg">@color/light_blue</item>
         <item name="btnColorEdge">@color/blue</item>
+
+        <item name="rectColorBg1">@color/light_blue</item>
+        <item name="rectColorEdge1">@color/blue</item>
+
+        <item name="rectColorBg2">@color/lightest_grey</item>
+        <item name="rectColorEdge2">@color/light_grey</item>
+
+        <item name="rectColorBg3">@color/light_yellow</item>
+        <item name="rectColorEdge3">@color/yellow</item>
     </style>
 
     <style name="Theme2">
@@ -39,13 +45,19 @@
         <item name="titleTextColor">@color/white</item>
         <item name="colorDangerous">@color/red</item>
         <item name="editTextStyle">@style/editText2</item>
-        <item name="buttonStyle1">@drawable/bordered_button_yellow</item>
-        <item name="wordStyle1">@drawable/bordered_button_pink</item>
-        <item name="wordStyle2">@drawable/bordered_button_blue</item>
 
         <item name="btnColor">@color/white</item>
         <item name="btnColorBg">@color/light_yellow</item>
         <item name="btnColorEdge">@color/yellow</item>
+
+        <item name="rectColorBg1">@color/light_yellow</item>
+        <item name="rectColorEdge1">@color/yellow</item>
+
+        <item name="rectColorBg2">@color/pink</item>
+        <item name="rectColorEdge2">@color/purple</item>
+
+        <item name="rectColorBg3">@color/light_blue</item>
+        <item name="rectColorEdge3">@color/blue</item>
     </style>
 
     <style name="editText1" parent="@android:style/Widget.EditText">

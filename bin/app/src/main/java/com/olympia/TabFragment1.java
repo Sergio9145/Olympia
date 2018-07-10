@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -64,7 +63,8 @@ public class TabFragment1 extends Fragment {
     private AdapterListWords wordsAdapter;
     private String currentWord;
     private TessBaseAPI mTess;
-    String datapath = "";
+    private String datapath = "";
+    private Drawable drawable1, drawable2;
 
     public final static ArrayList<Keyword> filteredWords = new ArrayList<>();
 
@@ -95,6 +95,9 @@ public class TabFragment1 extends Fragment {
 
         search = v.findViewById(R.id.search);
         sortLabel = v.findViewById(R.id.sort_order);
+
+        drawable1 = getContext().getDrawable(R.drawable.rect_bg2);
+        drawable2 = getContext().getDrawable(R.drawable.rect_bg3);
 
         Button sortBtn = v.findViewById(R.id.button_sort),
                 filterBtn = v.findViewById(R.id.button_filter),
@@ -358,16 +361,11 @@ public class TabFragment1 extends Fragment {
                     @Override public void onItemClick(View view, int position) {
                         //* Switch between enabled/disabled
                         selectedCategories[position] = !selectedCategories[position];
-                        TypedArray a;
                         if (selectedCategories[position]) {
-                            a = getContext().getTheme().obtainStyledAttributes(Globals.getTheme(), new int[] { R.attr.wordStyle2 });
+                            view.setBackground(drawable2);
                         } else {
-                            a = getContext().getTheme().obtainStyledAttributes(Globals.getTheme(), new int[] { R.attr.wordStyle1 });
+                            view.setBackground(drawable1);
                         }
-                        int attributeResourceId = a.getResourceId(0, 0);
-                        Drawable drawable = getResources().getDrawable(attributeResourceId);
-                        view.setBackground(drawable);
-                        a.recycle();
                     }
                     @Override public void onLongItemClick(View view, int position) {
                         //* Do nothing
@@ -388,11 +386,7 @@ public class TabFragment1 extends Fragment {
                     if (pickedCategories.get(i).name.equalsIgnoreCase(Vocabulary.categories.get(j).name)) {
                         selectedCategories[j] = true;
                         View v1 = categories.getChildAt(j);
-                        TypedArray a = getContext().getTheme().obtainStyledAttributes(Globals.getTheme(), new int[] { R.attr.wordStyle2 });
-                        int attributeResourceId = a.getResourceId(0, 0);
-                        Drawable drawable = getResources().getDrawable(attributeResourceId);
-                        v1.setBackground(drawable);
-                        a.recycle();
+                        v1.setBackground(drawable2);
                     }
                 }
             }
@@ -473,16 +467,11 @@ public class TabFragment1 extends Fragment {
                     @Override public void onItemClick(View view, int position) {
                         //* Switch between enabled/disabled
                         selectedCategories[position] = !selectedCategories[position];
-                        TypedArray a;
                         if (selectedCategories[position]) {
-                            a = getContext().getTheme().obtainStyledAttributes(Globals.getTheme(), new int[] { R.attr.wordStyle2 });
+                            view.setBackground(drawable2);
                         } else {
-                            a = getContext().getTheme().obtainStyledAttributes(Globals.getTheme(), new int[] { R.attr.wordStyle1 });
+                            view.setBackground(drawable1);
                         }
-                        int attributeResourceId = a.getResourceId(0, 0);
-                        Drawable drawable = getResources().getDrawable(attributeResourceId);
-                        view.setBackground(drawable);
-                        a.recycle();
                     }
                     @Override public void onLongItemClick(View view, int position) {
                         //* Do nothing
@@ -502,11 +491,7 @@ public class TabFragment1 extends Fragment {
                     if (Globals.filteredCategories.get(i).name.equalsIgnoreCase(Vocabulary.categories.get(j).name)) {
                         selectedCategories[j] = true;
                         View v1 = categories.getChildAt(j);
-                        TypedArray a = getContext().getTheme().obtainStyledAttributes(Globals.getTheme(), new int[] { R.attr.wordStyle2 });
-                        int attributeResourceId = a.getResourceId(0, 0);
-                        Drawable drawable = getResources().getDrawable(attributeResourceId);
-                        v1.setBackground(drawable);
-                        a.recycle();
+                        v1.setBackground(drawable2);
                     }
                 }
             }

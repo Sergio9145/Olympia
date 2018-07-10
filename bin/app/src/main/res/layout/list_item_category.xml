@@ -7,7 +7,7 @@
     android:paddingBottom="10dp"
     android:paddingStart="15dp"
     android:paddingEnd="15dp"
-    android:background="?attr/wordStyle2"
+    android:background="@drawable/rect_bg3"
     android:layout_marginTop="10dp"
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp" />

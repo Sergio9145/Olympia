@@ -22,6 +22,7 @@ import java.util.UUID;
 
 public class WordCardActivity extends AppCompatActivity {
     private StringBuffer text;
+    private Drawable drawable1, drawable2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,25 +32,23 @@ public class WordCardActivity extends AppCompatActivity {
 
         text = new StringBuffer();
 
+        drawable1 = getDrawable(R.drawable.btn_speak);
+        drawable2 = getDrawable(R.drawable.btn_stop);
+
         Button btn_tts = findViewById(R.id.button_tts);
         btn_tts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (Globals.tts_enabled) {
-                    TypedArray a;
                     if (!Globals.is_speaking) {
                         String utteranceId = UUID.randomUUID().toString();
                         Globals.tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, utteranceId);
-                        a = getTheme().obtainStyledAttributes(Globals.getTheme(), new int[] { R.attr.stopIcon });
+                        btn_tts.setBackground(drawable2);
                     } else {
                         Globals.tts.stop();
                         Globals.is_speaking = false;
-                        a = getTheme().obtainStyledAttributes(Globals.getTheme(), new int[] { R.attr.speakIcon });
+                        btn_tts.setBackground(drawable1);
                     }
-                    int attributeResourceId = a.getResourceId(0, 0);
-                    Drawable drawable = getResources().getDrawable(attributeResourceId);
-                    btn_tts.setBackground(drawable);
-                    a.recycle();
                 } else {
                     Toast.makeText(WordCardActivity.this, getString(R.string.no_tts_support), Toast.LENGTH_SHORT).show();
                 }

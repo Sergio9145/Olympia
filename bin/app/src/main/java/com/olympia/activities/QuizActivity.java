@@ -3,6 +3,7 @@ package com.olympia.activities;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
@@ -24,9 +25,10 @@ import java.util.Locale;
 import java.util.UUID;
 
 public class QuizActivity extends AppCompatActivity {
-    TextView number, question;
-    EditText answer;
-    int pos = -1, score = 0;
+    private TextView number, question;
+    private EditText answer;
+    private int pos = -1, score = 0;
+    private Drawable drawable1, drawable2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,9 @@ public class QuizActivity extends AppCompatActivity {
         number = findViewById(R.id.number);
         question = findViewById(R.id.question_descr);
         answer = findViewById(R.id.answer);
+
+        drawable1 = getDrawable(R.drawable.btn_speak);
+        drawable2 = getDrawable(R.drawable.btn_stop);
 
         Button btn = findViewById(R.id.next),
             btn_tts = findViewById(R.id.button_tts),
@@ -59,9 +64,12 @@ public class QuizActivity extends AppCompatActivity {
                     if (!Globals.is_speaking) {
                         String utteranceId = UUID.randomUUID().toString();
                         Globals.tts.speak(question.getText(), TextToSpeech.QUEUE_FLUSH, null, utteranceId);
+                        btn_tts.setBackground(drawable2);
+
                     } else {
                         Globals.tts.stop();
                         Globals.is_speaking = false;
+                        btn_tts.setBackground(drawable1);
                     }
                 } else {
                     Toast.makeText(QuizActivity.this, getString(R.string.no_tts_support), Toast.LENGTH_SHORT).show();

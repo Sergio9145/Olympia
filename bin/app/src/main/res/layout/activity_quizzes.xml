@@ -74,7 +74,7 @@
             android:layout_marginTop="10dp"
             android:padding="10dp"
             android:layout_gravity="center_horizontal"
-            android:background="?attr/buttonStyle1"
+            android:background="@drawable/rect_bg1"
             android:text="@string/next" />
     </LinearLayout>
 
