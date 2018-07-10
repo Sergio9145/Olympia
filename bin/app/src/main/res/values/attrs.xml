@@ -7,6 +7,8 @@
     <attr name="buttonStyle1" format="reference" />
     <attr name="wordStyle1" format="reference" />
     <attr name="wordStyle2" format="reference" />
-    <attr name="speakIcon" format="reference" />
-    <attr name="stopIcon" format="reference" />
+
+    <attr name="btnColor" format="color" />
+    <attr name="btnColorBg" format="color" />
+    <attr name="btnColorEdge" format="color" />
 </resources>

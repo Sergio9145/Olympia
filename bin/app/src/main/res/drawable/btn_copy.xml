@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item>
+        <shape android:shape="rectangle" android:padding="10dp" >
+            <solid android:color="?attr/btnColorBg" />
+            <stroke android:width="1dip" android:color="?attr/btnColorEdge"/>
+            <corners android:radius="2dp"/>
+        </shape>
+    </item>
+    <item android:drawable="@drawable/round_file_copy_24"
+        android:bottom="10dp"
+        android:left="10dp"
+        android:right="10dp"
+        android:top="10dp"/>
+</layer-list>

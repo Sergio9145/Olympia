@@ -29,8 +29,7 @@
                 android:minHeight="0dp"
                 android:layout_marginStart="8dp"
                 android:padding="10dp"
-                android:drawableStart="@drawable/round_volume_up_white_24"
-                android:background="?attr/buttonStyle1" />
+                android:background="@drawable/btn_speak" />
         </LinearLayout>
 
         <TextView

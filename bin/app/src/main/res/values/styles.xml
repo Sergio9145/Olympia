@@ -23,8 +23,10 @@
         <item name="buttonStyle1">@drawable/bordered_button_blue</item>
         <item name="wordStyle1">@drawable/bordered_button_grey</item>
         <item name="wordStyle2">@drawable/bordered_button_yellow</item>
-        <item name="speakIcon">@drawable/round_volume_up_white_24</item>
-        <item name="stopIcon">@drawable/round_stop_white_24</item>
+
+        <item name="btnColor">@color/white</item>
+        <item name="btnColorBg">@color/light_blue</item>
+        <item name="btnColorEdge">@color/blue</item>
     </style>
 
     <style name="Theme2">
@@ -40,8 +42,10 @@
         <item name="buttonStyle1">@drawable/bordered_button_yellow</item>
         <item name="wordStyle1">@drawable/bordered_button_pink</item>
         <item name="wordStyle2">@drawable/bordered_button_blue</item>
-        <item name="speakIcon">@drawable/round_volume_up_white_24</item>
-        <item name="stopIcon">@drawable/round_stop_white_24</item>
+
+        <item name="btnColor">@color/white</item>
+        <item name="btnColorBg">@color/light_yellow</item>
+        <item name="btnColorEdge">@color/yellow</item>
     </style>
 
     <style name="editText1" parent="@android:style/Widget.EditText">
