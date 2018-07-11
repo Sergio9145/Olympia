@@ -72,7 +72,7 @@ public class QuizActivity extends AppCompatActivity {
                         btn_tts.setBackground(drawable1);
                     }
                 } else {
-                    Toast.makeText(QuizActivity.this, getString(R.string.no_tts_support), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(QuizActivity.this, getString(R.string.tts_not_supported), Toast.LENGTH_SHORT).show();
                 }
             }
         });

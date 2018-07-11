@@ -52,6 +52,10 @@
     <string name="change_name_field_invalid">First name, last name and password cannot be empty. Password must be of at least %d characters</string>
     <string name="change_email_field_invalid">Email must contain @. Password must be of at least %d characters</string>
     <string name="change_password_error">All passwords must be of at least %d characters. New password must be repeated. Old password and new password cannot be the same</string>
+    <string name="tts_no_lang">No language selected</string>
+    <string name="tts_missing_data">Missing language data</string>
+    <string name="tts_not_supported">Language not supported</string>
+    <string name="tts_set_to">TTS language set to: %s</string>
 
     <!--Word card-->
     <string name="word_card_categories">Categories:\u00A0</string>
@@ -158,8 +162,8 @@
     <string name="howto_descr">Following gestures are supported:\n\nWORDS LIST\nTap - open the word card\nLong press - select categories for the word\nSwipe left or right - remove the word from the list\n\nCATEGORIES\nLong press - rename the category\nSwipe left or right - remove the category (with confirmation)</string>
     <string name="ok">OK</string>
 
+    <!--No Internet-->
     <string name="no_internet_title">No connection</string>
     <string name="no_internet_descr">Application cannot work without access to the Internet. Please make sure you are connected.</string>
     <string name="open_settings">Open settings</string>
-    <string name="no_tts_support">This language is not supported</string>
 </resources>

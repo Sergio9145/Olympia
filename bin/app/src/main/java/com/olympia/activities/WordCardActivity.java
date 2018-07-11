@@ -50,7 +50,7 @@ public class WordCardActivity extends AppCompatActivity {
                         btn_tts.setBackground(drawable1);
                     }
                 } else {
-                    Toast.makeText(WordCardActivity.this, getString(R.string.no_tts_support), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WordCardActivity.this, getString(R.string.tts_not_supported), Toast.LENGTH_SHORT).show();
                 }
             }
         });

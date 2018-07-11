@@ -52,6 +52,10 @@
     <string name="change_name_field_invalid">Имя и фамилия пользователя, а также пароль не могут быть пустыми. Пароль должен сожержать не менее %d символов</string>
     <string name="change_email_field_invalid">Электронная почта должна содержать @. Пароль должен сожержать не менее %d символов</string>
     <string name="change_password_error">Все пароли должны быть не менее %d символов в длину. Новый пароль необходимо повторить. Новый и старый пароли должны отличаться</string>
+    <string name="tts_no_lang">Нет такого языка</string>
+    <string name="tts_missing_data">Отсутствует библиотека языка</string>
+    <string name="tts_not_supported">Этот язык не поддерживается</string>
+    <string name="tts_set_to">Инициализирован язык TTS: %s</string>
 
     <!--Word card-->
     <string name="word_card_categories">Категории:\u00A0</string>
@@ -158,8 +162,8 @@
     <string name="howto_descr">Поддерживаются следующие жесты:\n\nСЛОВАРЬ\nTap - открыть карточку слова\nLong press - выбор категорий для слова\nSwipe влево или вправо - удалить слово из списка\n\nКАТЕГОРИИ\nLong press - переименовать категорию\nSwipe влево или вправо - удалить категорию (с подтверждением)</string>
     <string name="ok">OK</string>
 
+    <!--No Internet-->
     <string name="no_internet_title">Нет соединения</string>
     <string name="no_internet_descr">Приложение не может работать без доступа к интернету. Пожалуйста, проверьте подключение.</string>
     <string name="open_settings">Открыть настройки</string>
-    <string name="no_tts_support">Этот язык не поддерживается</string>
 </resources>

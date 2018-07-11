@@ -71,22 +71,23 @@ public class SplashActivity extends AppCompatActivity implements TextToSpeech.On
         Locale language = Locale.ENGLISH;
         if (language == null) {
             Globals.tts_enabled = false;
-            Toast.makeText(this, "Not language selected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SplashActivity.this, getResources().getString(R.string.tts_no_lang), Toast.LENGTH_SHORT).show();
             return;
         }
         int result = Globals.tts.setLanguage(language);
         if (result == TextToSpeech.LANG_MISSING_DATA) {
             Globals.tts_enabled = false;
-            Toast.makeText(this, "Missing language data", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SplashActivity.this, getResources().getString(R.string.tts_missing_data), Toast.LENGTH_SHORT).show();
             return;
         } else if (result == TextToSpeech.LANG_NOT_SUPPORTED) {
             Globals.tts_enabled = false;
-            Toast.makeText(this, "Language not supported", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SplashActivity.this, getResources().getString(R.string.tts_not_supported), Toast.LENGTH_SHORT).show();
             return;
         } else {
             Globals.tts_enabled = true;
             Locale currentLanguage = Globals.tts.getVoice().getLocale();
-            Toast.makeText(this, "TTS Language set to " + currentLanguage, Toast.LENGTH_SHORT).show();
+            String s = String.format(Locale.ENGLISH, getResources().getString(R.string.tts_set_to), currentLanguage);
+            Toast.makeText(SplashActivity.this, s, Toast.LENGTH_SHORT).show();
             Globals.tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
                 @Override
                 public void onDone(String utteranceId) {
