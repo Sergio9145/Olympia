@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="backgroundColor" format="color" />
-    <attr name="textColor" format="color" />
     <attr name="titleTextColor" format="color" />
     <attr name="colorDangerous" format="color" />
 
     <attr name="floatingBtnColor" format="color" />
+    <attr name="separatorColor" format="color" />
 
     <attr name="btnColor" format="color" />
     <attr name="btnColorBg" format="color" />
