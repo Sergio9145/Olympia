@@ -49,6 +49,9 @@
     <string name="category_exists">Категория уже существует</string>
     <string name="category_needs_name">Пожалуйста, введите имя категории</string>
     <string name="enter_search_word">Пожалуйста, введите слово для поиска</string>
+    <string name="change_name_field_invalid">Имя и фамилия пользователя, а также пароль не могут быть пустыми. Пароль должен сожержать не менее %d символов</string>
+    <string name="change_email_field_invalid">Электронная почта должна содержать @. Пароль должен сожержать не менее %d символов</string>
+    <string name="change_password_error">Все пароли должны быть не менее %d символов в длину. Новый пароль необходимо повторить. Новый и старый пароли должны отличаться</string>
 
     <!--Word card-->
     <string name="word_card_categories">Категории:\u00A0</string>
@@ -89,7 +92,6 @@
     <string name="current_password">Текущий пароль</string>
     <string name="new_email">Новая электронная почта</string>
     <string name="set_new_password">Установить новый пароль</string>
-    <string name="set_password_error">Все пароли должны быть не менее %d символов в длину. Новый пароль необходимо повторить. Новый и старый пароли должны отличаться</string>
 
     <string name="deleting_account_title">Удаление учетной записи</string>
     <string name="deleting_account_descr">Вы уверены, что хотите удалить учетную запись? Это действие необратимо! Введите текущий пароль для продолжения:</string>

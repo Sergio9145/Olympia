@@ -49,6 +49,9 @@
     <string name="category_exists">Category already exists</string>
     <string name="category_needs_name">Please, enter the name for the category</string>
     <string name="enter_search_word">Please, enter the word to search</string>
+    <string name="change_name_field_invalid">First name, last name and password cannot be empty. Password must be of at least %d characters</string>
+    <string name="change_email_field_invalid">Email must contain @. Password must be of at least %d characters</string>
+    <string name="change_password_error">All passwords must be of at least %d characters. New password must be repeated. Old password and new password cannot be the same</string>
 
     <!--Word card-->
     <string name="word_card_categories">Categories:\u00A0</string>
@@ -89,7 +92,6 @@
     <string name="current_password">Current password</string>
     <string name="new_email">New email</string>
     <string name="set_new_password">Set new password</string>
-    <string name="set_password_error">All passwords must be of at least %d characters. New password must be repeated. Old password and new password cannot be the same</string>
 
     <string name="deleting_account_title">Deleting account</string>
     <string name="deleting_account_descr">Are you sure you want to delete your account? This action is irreversible! Input your password to proceed:</string>

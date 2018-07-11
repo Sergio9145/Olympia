@@ -2,7 +2,6 @@ package com.olympia.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,13 +24,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ChangePasswordActivity extends AppCompatActivity {
+    EditText currentPassword, newPassword, repeatPassword;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Globals.loadTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
 
-        EditText currentPassword, newPassword, repeatPassword;
         currentPassword = findViewById(R.id.currentPassword);
         newPassword = findViewById(R.id.newPassword);
         repeatPassword = findViewById(R.id.repeatPassword);
@@ -40,22 +40,11 @@ public class ChangePasswordActivity extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String cp, np, npr;
-                cp = currentPassword.getText().toString();
-                np = newPassword.getText().toString();
-                npr = repeatPassword.getText().toString();
-
-                if (TextUtils.isEmpty(cp) || TextUtils.isEmpty(np) || TextUtils.isEmpty(npr)
-                        || cp.length() < Globals.MIN_PASSWORD_LENGTH
-                        || np.length() < Globals.MIN_PASSWORD_LENGTH
-                        || npr.length() < Globals.MIN_PASSWORD_LENGTH
-                        || !np.equals(npr) || cp.equals(np)) {
-                    Toast.makeText(getApplicationContext(), String.format(Locale.ENGLISH,
-                            getResources().getString(R.string.set_password_error),
-                            Globals.MIN_PASSWORD_LENGTH), Toast.LENGTH_LONG).show();
-                } else {
+                if (inputIsValid()) {
                     ICloud9 cloud9service = ApiUtils.getAPIService();
-                    cloud9service.changePassword(MainActivity.currentUsername, cp, np)
+                    cloud9service.changePassword(MainActivity.currentUsername,
+                            currentPassword.getText().toString(),
+                            newPassword.getText().toString())
                         .enqueue(new Callback<C9NewPassword>() {
 
                             @Override
@@ -89,5 +78,21 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    boolean inputIsValid() {
+        boolean result = false;
+        if (currentPassword.getText().length() >= Globals.MIN_PASSWORD_LENGTH
+                && newPassword.getText().length() >= Globals.MIN_PASSWORD_LENGTH
+                && repeatPassword.getText().length() >= Globals.MIN_PASSWORD_LENGTH
+                && newPassword.getText().toString().equals(repeatPassword.getText().toString())
+                && !newPassword.getText().toString().equals(currentPassword.getText().toString())) {
+            result = true;
+        } else {
+            Toast.makeText(getApplicationContext(), String.format(Locale.ENGLISH,
+                    getResources().getString(R.string.change_password_error),
+                    Globals.MIN_PASSWORD_LENGTH), Toast.LENGTH_LONG).show();
+        }
+        return result;
     }
 }
