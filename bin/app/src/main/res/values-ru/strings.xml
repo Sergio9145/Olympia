@@ -132,6 +132,8 @@
     <string name="select_theme">Выберите тему</string>
     <string name="theme_1">Тема 1</string>
     <string name="theme_2">Тема 2</string>
+    <string name="theme_3">Контрастная 1</string>
+    <string name="theme_4">Контрастная 2</string>
 
     <!--Legal-->
     <string name="legal_descr">Используя это приложение Вы соглашаетесь с нашими правилами использования и политикой конфиденциальности.</string>

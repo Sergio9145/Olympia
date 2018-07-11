@@ -14,12 +14,17 @@
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/dark_green</item>
         <item name="colorAccent">@color/yellow</item>
+
         <item name="android:textColor">@color/black</item>
         <item name="android:textColorHint">@color/light_grey</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back_24</item>
+
         <item name="backgroundColor">@color/white</item>
         <item name="titleTextColor">@color/white</item>
         <item name="colorDangerous">@color/red</item>
         <item name="editTextStyle">@style/editText1</item>
+
+        <item name="floatingBtnColor">@color/black</item>
 
         <item name="btnColor">@color/white</item>
         <item name="btnColorBg">@color/light_blue</item>
@@ -39,12 +44,17 @@
         <item name="colorPrimary">@color/purple</item>
         <item name="colorPrimaryDark">@color/purple</item>
         <item name="colorAccent">@color/pink</item>
+
         <item name="android:textColor">@color/white</item>
         <item name="android:textColorHint">@color/white</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back_24</item>
+
         <item name="backgroundColor">@color/almost_black</item>
         <item name="titleTextColor">@color/white</item>
         <item name="colorDangerous">@color/red</item>
         <item name="editTextStyle">@style/editText2</item>
+
+        <item name="floatingBtnColor">@color/white</item>
 
         <item name="btnColor">@color/white</item>
         <item name="btnColorBg">@color/light_yellow</item>
@@ -54,10 +64,70 @@
         <item name="rectColorEdge1">@color/yellow</item>
 
         <item name="rectColorBg2">@color/pink</item>
-        <item name="rectColorEdge2">@color/purple</item>
+        <item name="rectColorEdge2">@color/dark_pink</item>
 
-        <item name="rectColorBg3">@color/light_blue</item>
-        <item name="rectColorEdge3">@color/blue</item>
+        <item name="rectColorBg3">@color/green</item>
+        <item name="rectColorEdge3">@color/dark_green</item>
+    </style>
+
+    <style name="Theme3">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/almost_black</item>
+        <item name="colorAccent">@color/black</item>
+
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/almost_black</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back_24</item>
+
+        <item name="backgroundColor">@color/white</item>
+        <item name="titleTextColor">@color/black</item>
+        <item name="colorDangerous">@color/orange</item>
+        <item name="editTextStyle">@style/editText1</item>
+
+        <item name="floatingBtnColor">@color/white</item>
+
+        <item name="btnColor">@color/black</item>
+        <item name="btnColorBg">@color/white</item>
+        <item name="btnColorEdge">@color/black</item>
+
+        <item name="rectColorBg1">@color/white</item>
+        <item name="rectColorEdge1">@color/black</item>
+
+        <item name="rectColorBg2">@color/white</item>
+        <item name="rectColorEdge2">@color/black</item>
+
+        <item name="rectColorBg3">@color/orange</item>
+        <item name="rectColorEdge3">@color/black</item>
+    </style>
+
+    <style name="Theme4">
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="colorAccent">@color/pure_green</item>
+
+        <item name="android:textColor">@color/pure_green</item>
+        <item name="android:textColorHint">@color/pure_green</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back_24</item>
+
+        <item name="backgroundColor">@color/black</item>
+        <item name="titleTextColor">@color/pure_green</item>
+        <item name="colorDangerous">@color/red</item>
+        <item name="editTextStyle">@style/editText2</item>
+
+        <item name="floatingBtnColor">@color/black</item>
+
+        <item name="btnColor">@color/pure_green</item>
+        <item name="btnColorBg">@color/dark_green</item>
+        <item name="btnColorEdge">@color/pure_green</item>
+
+        <item name="rectColorBg1">@color/dark_green</item>
+        <item name="rectColorEdge1">@color/pure_green</item>
+
+        <item name="rectColorBg2">@color/black</item>
+        <item name="rectColorEdge2">@color/pure_green</item>
+
+        <item name="rectColorBg3">@color/dark_green</item>
+        <item name="rectColorEdge3">@color/pure_green</item>
     </style>
 
     <style name="editText1" parent="@android:style/Widget.EditText">

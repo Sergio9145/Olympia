@@ -41,7 +41,7 @@ public class WordsListActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         if (firstRun) {
-            showHowTo(this);
+            showHowTo(WordsListActivity.this);
         }
     }
 

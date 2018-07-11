@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 public class TabFragment2 extends Fragment {
     private AdapterListCategories categoriesAdapter;
-    private View v;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,7 +28,7 @@ public class TabFragment2 extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.tab_fragment_2, container, false);
+        View v = inflater.inflate(R.layout.tab_fragment_2, container, false);
 
         RecyclerView categoryList = v.findViewById(R.id.categories_list);
         categoryList.setLayoutManager(new GridLayoutManager(getContext(), 1));

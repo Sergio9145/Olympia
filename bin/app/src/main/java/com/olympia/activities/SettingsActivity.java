@@ -66,6 +66,8 @@ public class SettingsActivity extends AppCompatActivity {
         ArrayList<String> supportedThemes = new ArrayList<>();
         supportedThemes.add(getResources().getString(R.string.theme_1));
         supportedThemes.add(getResources().getString(R.string.theme_2));
+        supportedThemes.add(getResources().getString(R.string.theme_3));
+        supportedThemes.add(getResources().getString(R.string.theme_4));
 
         Button b1 = findViewById(R.id.save_to_db),
             b2 = findViewById(R.id.restore_from_db),

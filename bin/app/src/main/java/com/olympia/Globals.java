@@ -54,18 +54,12 @@ public class Globals {
             case 1:
                 a.setTheme(R.style.Theme2);
                 break;
-        }
-    }
-    public static int getTheme() {
-        int result = 0;
-        switch (Globals.currentTheme){
-            case 0:
-                result = R.style.Theme1;
+            case 2:
+                a.setTheme(R.style.Theme3);
                 break;
-            case 1:
-                result = R.style.Theme2;
+            case 3:
+                a.setTheme(R.style.Theme4);
                 break;
         }
-        return result;
     }
 }

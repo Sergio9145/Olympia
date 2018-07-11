@@ -5,6 +5,8 @@
     <attr name="titleTextColor" format="color" />
     <attr name="colorDangerous" format="color" />
 
+    <attr name="floatingBtnColor" format="color" />
+
     <attr name="btnColor" format="color" />
     <attr name="btnColorBg" format="color" />
     <attr name="btnColorEdge" format="color" />

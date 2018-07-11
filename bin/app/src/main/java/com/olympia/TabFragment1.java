@@ -66,9 +66,8 @@ public class TabFragment1 extends Fragment {
     private String datapath = "";
     private Drawable drawable1, drawable2;
 
-    public final static ArrayList<Keyword> filteredWords = new ArrayList<>();
+    private final static ArrayList<Keyword> filteredWords = new ArrayList<>();
 
-    private View v;
     private boolean error404 = false;
 
     private static final int CAMERA_PERMISSION_CODE = 100;
@@ -88,7 +87,7 @@ public class TabFragment1 extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.tab_fragment_1, container, false);
+        View v = inflater.inflate(R.layout.tab_fragment_1, container, false);
 
         entriesApi = Globals.apiClient.get(DictionaryEntriesApi.class);
         lemmaApi = Globals.apiClient.get(LemmatronApi.class);

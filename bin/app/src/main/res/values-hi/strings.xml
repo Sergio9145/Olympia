@@ -132,6 +132,8 @@
     <string name="select_theme">Select theme</string>
     <string name="theme_1">Theme 1</string>
     <string name="theme_2">Theme 2</string>
+    <string name="theme_3">Contrast 1</string>
+    <string name="theme_4">Contrast 2</string>
 
     <!--Legal-->
     <string name="legal_descr">Using this app you agree to our terms and conditions as well as rules regarding privacy.</string>
