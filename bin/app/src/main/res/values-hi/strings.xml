@@ -159,8 +159,15 @@
 
     <!--HowTo-->
     <string name="howto_title">कैसे इस्तेमाल करे</string>
-    <string name="howto_descr">निम्नलिखित संकेतों का समर्थन किया जाता है:\n\nशब्द सूची\nटैप - शब्द कार्ड खोलें\n लंबी प्रेस - शब्द के लिए श्रेणियों का चयन करें\nबाएं या दाएं स्वाइप करें - सूची से शब्द को हटाएं\n\nश्रेणियां\nलंबी प्रेस - श्रेणी का नाम बदलें\nबाएं या दाएं स्वाइप करें - श्रेणी को हटाएं (पुष्टि के साथ)</string>
     <string name="ok">OK</string>
+    <string name="line1">Welcome to Olympia!</string>
+    <string name="line2">To search a word in the dictionary simply enter it in the search field and then hit the search button.</string>
+    <string name="line3">A word card for one of previously met words can be opened by tapping on it:</string>
+    <string name="img3">Illustration how to tap</string>
+    <string name="line4">To put a word in any of the categories touch and hold on the word:</string>
+    <string name="img4">Illustration how to press and hold</string>
+    <string name="line5">If you wish to remove the word from the list simply swipe it to the left or right:</string>
+    <string name="img5">Illustration how to swipe</string>
 
     <!--No Internet-->
     <string name="no_internet_title">कोई कनेक्शन नहीं</string>

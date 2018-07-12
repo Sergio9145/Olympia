@@ -159,8 +159,15 @@
 
     <!--HowTo-->
     <string name="howto_title">How to use</string>
-    <string name="howto_descr">Following gestures are supported:\n\nWORDS LIST\nTap - open the word card\nLong press - select categories for the word\nSwipe left or right - remove the word from the list\n\nCATEGORIES\nLong press - rename the category\nSwipe left or right - remove the category (with confirmation)</string>
     <string name="ok">OK</string>
+    <string name="line1">Welcome to Olympia!</string>
+    <string name="line2">To search a word in the dictionary simply enter it in the search field and then hit the search button.</string>
+    <string name="line3">A word card for one of previously met words can be opened by tapping on it:</string>
+    <string name="img3">Illustration how to tap</string>
+    <string name="line4">To put a word in any of the categories touch and hold on the word:</string>
+    <string name="img4">Illustration how to press and hold</string>
+    <string name="line5">If you wish to remove the word from the list simply swipe it to the left or right:</string>
+    <string name="img5">Illustration how to swipe</string>
 
     <!--No Internet-->
     <string name="no_internet_title">No connection</string>

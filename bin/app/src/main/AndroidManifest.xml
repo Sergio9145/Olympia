@@ -71,5 +71,9 @@
             android:parentActivityName=".activities.WordsListActivity">
         </activity>
 
+        <activity android:name=".activities.HowToActivity"
+            android:parentActivityName=".activities.WordsListActivity">
+        </activity>
+
     </application>
 </manifest>

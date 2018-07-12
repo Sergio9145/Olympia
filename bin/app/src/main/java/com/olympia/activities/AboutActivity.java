@@ -33,7 +33,8 @@ public class AboutActivity extends AppCompatActivity {
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WordsListActivity.showHowTo(AboutActivity.this);
+                Intent intent = new Intent(AboutActivity.this, HowToActivity.class);
+                startActivity(intent);
             }
         });
     }

@@ -1,8 +1,6 @@
 <resources>
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryDark">@color/dark_green</item>
-        <item name="colorAccent">@color/yellow</item>
+        <!--<item name="android:fontFamily">@font/georgia</item>-->
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">
