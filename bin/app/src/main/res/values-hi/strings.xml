@@ -1,169 +1,169 @@
 <resources>
     <string name="app_name">Olympia</string>
-    <string name="search_term">Search Term</string>
-    <string name="register">Register</string>
-    <string name="registration">Registration</string>
-    <string name="forgot_password">Forgot password?</string>
-    <string name="reset_password">Reset password</string>
-    <string name="signin">Sign in</string>
-    <string name="back">Back</string>
-    <string name="username">Username</string>
-    <string name="password">Password</string>
-    <string name="repeat_password">Repeat password</string>
-    <string name="new_password">New password</string>
-    <string name="email">Email (will be private by default)</string>
-    <string name="first_name">First name</string>
-    <string name="last_name">Last name</string>
+    <string name="search_term">शब्द को खोजें</string>
+    <string name="register">रजिस्टर</string>
+    <string name="registration">पंजीकरण</string>
+    <string name="forgot_password">पासवर्ड भूल गए?</string>
+    <string name="reset_password">पासवर्ड रीसेट</string>
+    <string name="signin">साइन इन करें</string>
+    <string name="back">वापस</string>
+    <string name="username">उपयोगकर्ता नाम</string>
+    <string name="password">पारण शब्द</string>
+    <string name="repeat_password">पासवर्ड दोहराए</string>
+    <string name="new_password">नया पासवर्ड</string>
+    <string name="email">ईमेल (डिफ़ॉल्ट रूप से निजी होगा)</string>
+    <string name="first_name">पहला नाम</string>
+    <string name="last_name">अंतिम नाम</string>
 
-    <string name="tab1_label">Vocabulary</string>
-    <string name="tab2_label">Categories</string>
-    <string name="tab3_label">Quizzes</string>
+    <string name="tab1_label">शब्दावली</string>
+    <string name="tab2_label">श्रेणियाँ</string>
+    <string name="tab3_label">क्विज़</string>
 
     <!--Menu-->
-    <string name="menu_item_settings">Settings</string>
-    <string name="menu_item_legal">Terms of use</string>
-    <string name="menu_item_about">About</string>
+    <string name="menu_item_settings">सेटिंग्स</string>
+    <string name="menu_item_legal">उपयोग की शर्तें</string>
+    <string name="menu_item_about">के बारे में</string>
 
-    <string name="logo_descr">Olympia logo</string>
+    <string name="logo_descr">ओलंपिया लोगो</string>
 
     <!--Alert dialogs-->
-    <string name="create_category">Create category</string>
-    <string name="rename_category">Rename category</string>
-    <string name="select_category">Select category(-ies)</string>
+    <string name="create_category">श्रेणी बनाएं</string>
+    <string name="rename_category">श्रेणी का नाम बदलें</string>
+    <string name="select_category">श्रेणी का चयन करें</string>
 
     <!--Categories-->
-    <string name="category_name">Category name</string>
-    <string name="create">Create</string>
-    <string name="rename">Rename</string>
-    <string name="cancel">Cancel</string>
-    <string name="select">Select</string>
-    <string name="delete">Delete</string>
+    <string name="category_name">श्रेणी नाम</string>
+    <string name="create">निर्माण</string>
+    <string name="rename">नाम बदलें</string>
+    <string name="cancel">रद्द करना</string>
+    <string name="select">चुनते हैं</string>
+    <string name="delete">हटाना</string>
 
-    <string name="deleting_category_title">Deleting a category</string>
-    <string name="deleting_category_descr">Are you sure you want to delete this category? It will be removed from all the words it is mapped to. The words will not be affected.</string>
+    <string name="deleting_category_title">एक श्रेणी हटाना</string>
+    <string name="deleting_category_descr">क्या आप वाकई इस श्रेणी को मिटाना चाहते हैं? इसे उन सभी शब्दों से हटा दिया जाएगा जिन्हें मैप किया गया है। शब्द प्रभावित नहीं होंगे।</string>
 
     <!--Toast messages-->
-    <string name="registration_field_invalid">None of the fields can be empty. Username must be unique and have at least %d characters. Email must contain @. Password must be of at least %d characters. Passwords must match</string>
-    <string name="login_field_invalid">Username and password cannot be empty. Username must be unique and have at least %d characters. Password must be of at least %d characters</string>
-    <string name="reset_password_field_invalid">Email must contain @. Password must be of at least %d characters. Passwords must match</string>
-    <string name="category_exists">Category already exists</string>
-    <string name="category_needs_name">Please, enter the name for the category</string>
-    <string name="enter_search_word">Please, enter the word to search</string>
-    <string name="change_name_field_invalid">First name, last name and password cannot be empty. Password must be of at least %d characters</string>
-    <string name="change_email_field_invalid">Email must contain @. Password must be of at least %d characters</string>
-    <string name="change_password_error">All passwords must be of at least %d characters. New password must be repeated. Old password and new password cannot be the same</string>
-    <string name="tts_no_lang">No language selected</string>
-    <string name="tts_missing_data">Missing language data</string>
-    <string name="tts_not_supported">Language not supported</string>
-    <string name="tts_set_to">TTS language set to: %s</string>
+    <string name="registration_field_invalid">खेतों में से कोई भी खाली नहीं हो सकता है। उपयोगकर्ता नाम अद्वितीय होना चाहिए और कम से कम %d वर्ण होना चाहिए। ईमेल में @ होना चाहिए। पासवर्ड कम से कम %d वर्णों का होना चाहिए। पासवर्डों को मेल खाना चाहिए</string>
+    <string name="login_field_invalid">उपयोगकर्ता नाम और पासवर्ड खाली नहीं हो सकता है। उपयोगकर्ता नाम अद्वितीय होना चाहिए और कम से कम %d वर्ण होना चाहिए। पासवर्ड कम से कम %d वर्णों का होना चाहिए</string>
+    <string name="reset_password_field_invalid">ईमेल में @ होना चाहिए। पासवर्ड कम से कम %d वर्णों का होना चाहिए। पासवर्डों को मेल खाना चाहिए</string>
+    <string name="category_exists">श्रेणी पहले से मौजूद है</string>
+    <string name="category_needs_name">कृपया, श्रेणी के लिए नाम दर्ज करें</string>
+    <string name="enter_search_word">कृपया खोज करने के लिए शब्द दर्ज करें</string>
+    <string name="change_name_field_invalid">पहला नाम, अंतिम नाम और पासवर्ड खाली नहीं हो सकता है। पासवर्ड कम से कम %d वर्णों का होना चाहिए</string>
+    <string name="change_email_field_invalid">ईमेल में @ होना चाहिए। पासवर्ड कम से कम %d वर्णों का होना चाहिए</string>
+    <string name="change_password_error">सभी पासवर्ड कम से कम% d वर्णों का होना चाहिए। नया पासवर्ड दोहराया जाना चाहिए। पुराना पासवर्ड और नया पासवर्ड समान नहीं हो सकता है</string>
+    <string name="tts_no_lang">कोई भाषा नहीं चुनी गई</string>
+    <string name="tts_missing_data">गुम भाषा डेटा</string>
+    <string name="tts_not_supported">भाषा समर्थित नहीं है</string>
+    <string name="tts_set_to">टीटीएस भाषा सेट करने के लिए: %s</string>
 
     <!--Word card-->
-    <string name="word_card_categories">Categories:\u00A0</string>
+    <string name="word_card_categories">श्रेणियाँ:\u00A0</string>
 
     <!--Operations on words list-->
-    <string name="sort">Sort</string>
+    <string name="sort">तरह</string>
     <string name="sort_ascending">A-Z</string>
     <string name="sort_descending">Z-A</string>
-    <string name="sort_newer_first">Newer first</string>
-    <string name="sort_older_first">Older first</string>
-    <string name="filter">Filter</string>
-    <string name="filter_by">Filter by category(-ies)</string>
-    <string name="copy">Copy</string>
-    <string name="copied">Copied to clipboard</string>
-    <string name="not_copied">Nothing to copy</string>
-    <string name="speech_prompt">Say something&#8230;</string>
-    <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
+    <string name="sort_newer_first">पहले नया</string>
+    <string name="sort_older_first">पहले सबसे पुराना</string>
+    <string name="filter">फ़िल्टर</string>
+    <string name="filter_by">श्रेणी के आधार पर फ़िल्टर करें</string>
+    <string name="copy">प्रतिलिपि</string>
+    <string name="copied">क्लिपबोर्ड पर नकल</string>
+    <string name="not_copied">कॉपी करने के लिए कुछ नहीं</string>
+    <string name="speech_prompt">आप कुछ बोलो&#8230;</string>
+    <string name="speech_not_supported">माफ़ कीजिये! आपका डिवाइस भाषण इनपुट का समर्थन नहीं करता है</string>
 
     <!--Settings page-->
-    <string name="database_label">Operations with database:</string>
-    <string name="database_save">Save</string>
-    <string name="database_saved">Current state of words and categories was saved to database</string>
-    <string name="database_restore">Restore</string>
-    <string name="database_restored">Previous state of words and categories was restored from database</string>
-    <string name="database_clear">Clear</string>
-    <string name="database_cleared">All the records purged from database</string>
-    <string name="account_label">Account operations:</string>
-    <string name="account_change_names">Change name and surname</string>
-    <string name="account_change_name">Change name</string>
-    <string name="account_change_email">Change email</string>
-    <string name="account_change_password">Change password</string>
-    <string name="account_logout">Logout</string>
-    <string name="account_delete">Delete account</string>
-    <string name="font_size_label">Change font size</string>
+    <string name="database_label">डेटाबेस के साथ संचालन:</string>
+    <string name="database_save">बचाना</string>
+    <string name="database_saved">शब्दों और श्रेणियों की वर्तमान स्थिति डेटाबेस में सहेजी गई थी</string>
+    <string name="database_restore">पुनर्स्थापित</string>
+    <string name="database_restored">डेटाबेस और शब्दों की पिछली स्थिति डेटाबेस से बहाल की गई थी</string>
+    <string name="database_clear">स्पष्ट</string>
+    <string name="database_cleared">डेटाबेस से शुद्ध सभी रिकॉर्ड</string>
+    <string name="account_label">खाता संचालन:</string>
+    <string name="account_change_names">नाम और उपनाम बदलें</string>
+    <string name="account_change_name">नाम परिवर्तित करें</string>
+    <string name="account_change_email">ई - मेल बदलें</string>
+    <string name="account_change_password">पासवर्ड बदलें</string>
+    <string name="account_logout">लोग आउट</string>
+    <string name="account_delete">खाता हटा दो</string>
+    <string name="font_size_label">फॉण्ट आकार बदलें</string>
 
-    <string name="new_first_name">New first name</string>
-    <string name="new_last_name">New last name</string>
-    <string name="current_password">Current password</string>
-    <string name="new_email">New email</string>
-    <string name="set_new_password">Set new password</string>
+    <string name="new_first_name">नया पहला नाम</string>
+    <string name="new_last_name">नया अंतिम नाम</string>
+    <string name="current_password">वर्तमान पासवर्ड</string>
+    <string name="new_email">नई ईमेल</string>
+    <string name="set_new_password">नया पासवर्ड सेट करें</string>
 
-    <string name="deleting_account_title">Deleting account</string>
-    <string name="deleting_account_descr">Are you sure you want to delete your account? This action is irreversible! Input your password to proceed:</string>
+    <string name="deleting_account_title">खाता हटाना</string>
+    <string name="deleting_account_descr">क्या आप इस खाते को हटाने के लिए सुनिश्चित हैं? यह क्रिया अपरिवर्तनीय है! आगे बढ़ने के लिए अपना पासवर्ड इनपुट करें:</string>
 
     <!--Errors handling-->
-    <string name="no_such_word">There is no such word in the dictionary</string>
-    <string name="account_change_names_success">User\'s first name and last name were changed to %s %s</string>
-    <string name="account_change_email_success">User\'s email was changed to %s</string>
-    <string name="account_change_password_success">User\'s password was successfully changed</string>
-    <string name="error_server_unreachable">Server unreachable</string>
-    <string name="error_failed_attempt">Unable to submit %s request to the server</string>
+    <string name="no_such_word">शब्दकोश में ऐसा कोई शब्द नहीं है</string>
+    <string name="account_change_names_success">उपयोगकर्ता का पहला नाम और अंतिम नाम बदल दिया गया था %s %s</string>
+    <string name="account_change_email_success">उपयोगकर्ता का ईमेल बदल दिया गया था %s</string>
+    <string name="account_change_password_success">उपयोगकर्ता का पासवर्ड सफलतापूर्वक बदल दिया गया था</string>
+    <string name="error_server_unreachable">सर्वर पहुँच से बाहर</string>
+    <string name="error_failed_attempt">सर्वर पर %s अनुरोध जमा करने में असमर्थ</string>
 
     <!--Quizzes-->
-    <string name="quiz_description">Quiz is a self-checking tool in which you are given a definition of the word and must spell it correctly. Answer correctly and get higher score!</string>
-    <string name="start_quiz">Start the quiz</string>
-    <string name="quiz_select_categories">Select category(-ies)</string>
-    <string name="next">Next</string>
-    <string name="your_answer">Your answer here</string>
-    <string name="quiz_list_is_empty">Cannot start a quiz with an empty list of words</string>
-    <string name="quiz_node_not_found">ERROR: definition not found!</string>
+    <string name="quiz_description">प्रश्नोत्तरी एक स्व-जांच उपकरण है जिसमें आपको शब्द की परिभाषा दी जाती है और उसे सही ढंग से वर्तनी करनी चाहिए। सही ढंग से जवाब दें और उच्च स्कोर प्राप्त करें!</string>
+    <string name="start_quiz">प्रश्नोत्तरी शुरू करें</string>
+    <string name="quiz_select_categories">श्रेणी का चयन करें</string>
+    <string name="next">आगामी</string>
+    <string name="your_answer">आपका जवाब यहाँ</string>
+    <string name="quiz_list_is_empty">शब्दों की एक खाली सूची के साथ प्रश्नोत्तरी शुरू नहीं कर सकता</string>
+    <string name="quiz_node_not_found">त्रुटि: परिभाषा नहीं मिली!</string>
 
     <!--Statistics-->
-    <string name="statistics_title">Statistics</string>
-    <string name="open_statistics">Go to quizzes statistics</string>
-    <string name="last_score">Last score:</string>
-    <string name="overall_score">Overall score:</string>
+    <string name="statistics_title">आंकड़े</string>
+    <string name="open_statistics">प्रश्नोत्तरी आंकड़ों पर जाएं</string>
+    <string name="last_score">अंतिम स्कोर:</string>
+    <string name="overall_score">कुल मिलाकर स्कोर:</string>
 
     <!--UI-->
-    <string name="ui_title">UI settings</string>
-    <string name="change_ui_lang">Change UI language</string>
-    <string name="select_lang">Select language</string>
+    <string name="ui_title">यूआई सेटिंग्स</string>
+    <string name="change_ui_lang">यूआई भाषा बदलें</string>
+    <string name="select_lang">भाषा चुनिए</string>
     <string name="lang_en">English</string>
     <string name="lang_ru">Русский</string>
-    <string name="lang_hi">Hindi</string>
-    <string name="change_dict_lang">Change dictionary language</string>
+    <string name="lang_hi">हिंदी</string>
+    <string name="change_dict_lang">शब्दकोश भाषा बदलें</string>
     <string name="dict_lang_en">English</string>
     <string name="dict_lang_es">Español</string>
-    <string name="dict_lang_hi">Hindi</string>
-    <string name="change_theme">Change theme</string>
-    <string name="select_theme">Select theme</string>
-    <string name="theme_1">Theme 1</string>
-    <string name="theme_2">Theme 2</string>
-    <string name="theme_3">Contrast 1</string>
-    <string name="theme_4">Contrast 2</string>
+    <string name="dict_lang_hi">हिंदी</string>
+    <string name="change_theme">थीम बदलें</string>
+    <string name="select_theme">चुनिंदा विषय</string>
+    <string name="theme_1">थीम 1</string>
+    <string name="theme_2">थीम 2</string>
+    <string name="theme_3">कंट्रास्ट 1</string>
+    <string name="theme_4">कंट्रास्ट 2</string>
 
     <!--Legal-->
-    <string name="legal_descr">Using this app you agree to our terms and conditions as well as rules regarding privacy.</string>
-    <string name="privacy_policy">Privacy policy</string>
-    <string name="termsAndConditions">Terms and conditions</string>
+    <string name="legal_descr">इस ऐप का उपयोग करके आप हमारे नियमों और शर्तों के साथ-साथ गोपनीयता के नियमों से सहमत होते हैं।</string>
+    <string name="privacy_policy">गोपनीयता नीति</string>
+    <string name="termsAndConditions">नियम और शर्तें</string>
 
     <!--About-->
-    <string name="version">Version v0.03</string>
-    <string name="about_descr">Olympia is an Android dictionary app created as a Capstone Project in Mobile Solutions development Program. It allows not only use Oxford dictionary, but also manipulate words in different ways and make quizzes of them for self-check.</string>
-    <string name="send_feedback">Send feedback</string>
+    <string name="version">संस्करण v0.03</string>
+    <string name="about_descr">ओलंपिया एक एंड्रॉइड डिक्शनरी ऐप है जो मोबाइल सॉल्यूशंस डेवलपमेंट प्रोग्राम में कैपस्टोन प्रोजेक्ट के रूप में बनाया गया है। यह न केवल ऑक्सफोर्ड शब्दकोश का उपयोग करता है, बल्कि विभिन्न तरीकों से शब्दों का उपयोग भी करता है और स्वयं की जांच के लिए उनमें से प्रश्नोत्तरी करता है।</string>
+    <string name="send_feedback">प्रतिक्रिया भेजें</string>
     <string name="feedback_email">olympia8225@gmail.com</string>
-    <string name="feedback_title">Feedback on Olympia app</string>
-    <string name="send_email">Send email</string>
+    <string name="feedback_title">ओलंपिया ऐप पर प्रतिक्रिया</string>
+    <string name="send_email">ईमेल भेजें</string>
 
     <!--OCR-->
-    <string name="no_data_file">OCR engine not ready</string>
+    <string name="no_data_file">ओसीआर इंजन तैयार नहीं है</string>
 
     <!--HowTo-->
-    <string name="howto_title">How to use</string>
-    <string name="howto_descr">Following gestures are supported:\n\nWORDS LIST\nTap - open the word card\nLong press - select categories for the word\nSwipe left or right - remove the word from the list\n\nCATEGORIES\nLong press - rename the category\nSwipe left or right - remove the category (with confirmation)</string>
+    <string name="howto_title">कैसे इस्तेमाल करे</string>
+    <string name="howto_descr">निम्नलिखित संकेतों का समर्थन किया जाता है:\n\nशब्द सूची\nटैप - शब्द कार्ड खोलें\n लंबी प्रेस - शब्द के लिए श्रेणियों का चयन करें\nबाएं या दाएं स्वाइप करें - सूची से शब्द को हटाएं\n\nश्रेणियां\nलंबी प्रेस - श्रेणी का नाम बदलें\nबाएं या दाएं स्वाइप करें - श्रेणी को हटाएं (पुष्टि के साथ)</string>
     <string name="ok">OK</string>
 
     <!--No Internet-->
-    <string name="no_internet_title">No connection</string>
-    <string name="no_internet_descr">Application cannot work without access to the Internet. Please make sure you are connected.</string>
-    <string name="open_settings">Open settings</string>
+    <string name="no_internet_title">कोई कनेक्शन नहीं</string>
+    <string name="no_internet_descr">एप्लिकेशन इंटरनेट तक पहुंच के बिना काम नहीं कर सकता है। कृपया सुनिश्चित करें कि आप जुड़े हुए हैं।</string>
+    <string name="open_settings">सेटिंग्स खोलें</string>
 </resources>
