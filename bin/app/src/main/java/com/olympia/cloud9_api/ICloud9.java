@@ -61,4 +61,10 @@ public interface ICloud9 {
             @Field("username") String username,
             @Field("password") String password
     );
+
+    @FormUrlEncoded
+    @POST("/getkey")
+    Call<C9Key> getKey(
+            @Field("username") String username
+    );
 }

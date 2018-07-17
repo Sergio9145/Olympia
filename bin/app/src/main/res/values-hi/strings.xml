@@ -5,6 +5,7 @@
     <string name="registration">पंजीकरण</string>
     <string name="forgot_password">पासवर्ड भूल गए?</string>
     <string name="reset_password">पासवर्ड रीसेट</string>
+    <string name="get_key">Get key</string>
     <string name="signin">साइन इन करें</string>
     <string name="back">वापस</string>
     <string name="username">उपयोगकर्ता नाम</string>
@@ -107,6 +108,7 @@
     <string name="account_change_password_success">उपयोगकर्ता का पासवर्ड सफलतापूर्वक बदल दिया गया था</string>
     <string name="error_server_unreachable">सर्वर पहुँच से बाहर</string>
     <string name="error_failed_attempt">सर्वर पर %s अनुरोध जमा करने में असमर्थ</string>
+    <string name="error_key_expired">Your key has expired</string>
 
     <!--Quizzes-->
     <string name="quiz_description">प्रश्नोत्तरी एक स्व-जांच उपकरण है जिसमें आपको शब्द की परिभाषा दी जाती है और उसे सही ढंग से वर्तनी करनी चाहिए। सही ढंग से जवाब दें और उच्च स्कोर प्राप्त करें!</string>
@@ -147,7 +149,7 @@
     <string name="termsAndConditions">नियम और शर्तें</string>
 
     <!--About-->
-    <string name="version">संस्करण v0.03</string>
+    <string name="version">संस्करण v0.04</string>
     <string name="about_descr">ओलंपिया एक एंड्रॉइड डिक्शनरी ऐप है जो मोबाइल सॉल्यूशंस डेवलपमेंट प्रोग्राम में कैपस्टोन प्रोजेक्ट के रूप में बनाया गया है। यह न केवल ऑक्सफोर्ड शब्दकोश का उपयोग करता है, बल्कि विभिन्न तरीकों से शब्दों का उपयोग भी करता है और स्वयं की जांच के लिए उनमें से प्रश्नोत्तरी करता है।</string>
     <string name="send_feedback">प्रतिक्रिया भेजें</string>
     <string name="feedback_email">olympia8225@gmail.com</string>

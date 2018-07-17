@@ -5,6 +5,7 @@
     <string name="registration">Регистрация</string>
     <string name="forgot_password">Забыли пароль?</string>
     <string name="reset_password">Восстановить пароль</string>
+    <string name="get_key">Получить ключ</string>
     <string name="signin">Вход</string>
     <string name="back">Назад</string>
     <string name="username">Пользователь</string>
@@ -107,6 +108,7 @@
     <string name="account_change_password_success">Пароль был успешно сменен</string>
     <string name="error_server_unreachable">Сервер недоступен</string>
     <string name="error_failed_attempt">Невозможно отправить серверу %s запрос</string>
+    <string name="error_key_expired">Срок действия вашего ключа истек</string>
 
     <!--Quizzes-->
     <string name="quiz_description">Упражнения это инструмент самопроверки, в котором Вам даются определения слов, а Вы должны их правильно написать. Правильные ответы дают больше очков!</string>
@@ -147,7 +149,7 @@
     <string name="termsAndConditions">Правила использования</string>
 
     <!--About-->
-    <string name="version">Версия v0.03</string>
+    <string name="version">Версия v0.04</string>
     <string name="about_descr">Olympia это приложение-словарь для Android, созданное в рамках выпускного проекта программы Mobile Solutions Development. Оно позволяет не только использовать Оксфордский онлайн словарь, но и управлять списком изученных слов и создавать на их основе упражнения для самопроверки.</string>
     <string name="send_feedback">Отправить отзыв</string>
     <string name="feedback_email">olympia8225@gmail.com</string>

@@ -14,12 +14,15 @@ import android.widget.Toast;
 
 import com.olympia.activities.WordsListActivity;
 import com.olympia.cloud9_api.ApiUtils;
+import com.olympia.cloud9_api.C9Key;
 import com.olympia.cloud9_api.C9Token;
 import com.olympia.cloud9_api.C9User;
 import com.olympia.cloud9_api.ICloud9;
 
 import org.json.JSONObject;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -36,6 +39,13 @@ public class MainActivity extends AppCompatActivity {
     public static String currentUsername = "";
 
     private ICloud9 cloud9service;
+
+    private class Key {
+        public String UUID;
+        public Date expiresDate;
+    }
+
+    private Key key = new Key();
 
     private View loginView, registrationView, resetPasswordView;
 
@@ -56,9 +66,13 @@ public class MainActivity extends AppCompatActivity {
         resetPasswordView = findViewById(R.id.reset_password_view);
 
         String token = readToken();
-        if ((token != null && !currentUsername.isEmpty()) || QUICK_LAUNCH) {
+        if (QUICK_LAUNCH) {
             Intent intent = new Intent(MainActivity.this, WordsListActivity.class);
             startActivityForResult(intent, Globals.WORDS_LIST_ACTIVITY);
+        } else if (token != null && !currentUsername.isEmpty()) {
+            sendKeyRequest();
+        } else {
+            Toast.makeText(getApplicationContext(), "Not ready!", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -313,6 +327,49 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                     }
                 });
+    }
+
+    public void sendKeyRequest() {
+        if (currentUsername != null && !currentUsername.isEmpty()) {
+            cloud9service.getKey(currentUsername)
+                    .enqueue(new Callback<C9Key>() {
+
+                        @Override
+                        public void onResponse(Call<C9Key> call, Response<C9Key> response) {
+                            if (response.isSuccessful()) {
+                                key.UUID = response.body().key;
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.setTimeInMillis(Long.parseLong(response.body().expiresDate));
+                                key.expiresDate = calendar.getTime();
+                                Date now = new Date();
+                                if (key.expiresDate.after(now)) {
+                                    Intent intent = new Intent(MainActivity.this, WordsListActivity.class);
+                                    startActivityForResult(intent, Globals.WORDS_LIST_ACTIVITY);
+                                } else {
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_key_expired), Toast.LENGTH_LONG).show();
+                                }
+                            } else {
+                                try {
+                                    JSONObject error = new JSONObject(response.errorBody().string());
+                                    Log.e(Globals.TAG, error.getString("msg"));
+                                    Toast.makeText(getApplicationContext(), error.getString("msg"), Toast.LENGTH_LONG).show();
+                                } catch (Exception e) {
+                                    String s = getResources().getString(R.string.error_server_unreachable);
+                                    Log.e(Globals.TAG, s);
+                                    Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<C9Key> call, Throwable t) {
+                            String s = String.format(Locale.ENGLISH, getResources().getString(R.string.error_failed_attempt),
+                                    getResources().getString(R.string.get_key));
+                            Log.e(Globals.TAG, s);
+                            Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                        }
+                    });
+        }
     }
 
     @Override

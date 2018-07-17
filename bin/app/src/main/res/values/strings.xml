@@ -5,6 +5,7 @@
     <string name="registration">Registration</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="reset_password">Reset password</string>
+    <string name="get_key">Get key</string>
     <string name="signin">Sign in</string>
     <string name="back">Back</string>
     <string name="username">Username</string>
@@ -107,6 +108,7 @@
     <string name="account_change_password_success">User\'s password was successfully changed</string>
     <string name="error_server_unreachable">Server unreachable</string>
     <string name="error_failed_attempt">Unable to submit %s request to the server</string>
+    <string name="error_key_expired">Your key has expired</string>
 
     <!--Quizzes-->
     <string name="quiz_description">Quiz is a self-checking tool in which you are given a definition of the word and must spell it correctly. Answer correctly and get higher score!</string>
@@ -147,7 +149,7 @@
     <string name="termsAndConditions">Terms and conditions</string>
 
     <!--About-->
-    <string name="version">Version v0.03</string>
+    <string name="version">Version v0.04</string>
     <string name="about_descr">Olympia is an Android dictionary app created as a Capstone Project in Mobile Solutions development Program. It allows not only use Oxford dictionary, but also manipulate words in different ways and make quizzes of them for self-check.</string>
     <string name="send_feedback">Send feedback</string>
     <string name="feedback_email">olympia8225@gmail.com</string>
