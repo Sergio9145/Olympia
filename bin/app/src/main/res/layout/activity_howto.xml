@@ -13,10 +13,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/transitions_container1">
+            android:id="@+id/transitions_container10">
 
             <TextView
-                android:id="@+id/line1"
+                android:id="@+id/line10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
@@ -24,7 +24,7 @@
                 android:fontFamily="@font/georgia"
                 android:gravity="center"
                 android:visibility="gone"
-                android:text="@string/line1"
+                android:text="@string/line10"
                 android:textAllCaps="true"
                 android:textSize="32sp" />
         </LinearLayout>
@@ -32,36 +32,60 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/transitions_container2">
+            android:orientation="vertical"
+            android:id="@+id/transitions_container20">
 
             <TextView
-                android:id="@+id/line2"
+                android:id="@+id/line20"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                android:text="@string/line2" />
+                android:text="@string/line20" />
+
+            <ImageView
+                android:id="@+id/img20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/img40"
+                android:visibility="gone"
+                android:src="@drawable/tabs" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/transitions_container30">
+
+            <TextView
+                android:id="@+id/line30"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="@string/line30" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:id="@+id/transitions_container3">
+            android:id="@+id/transitions_container40">
 
             <TextView
-                android:id="@+id/line3"
+                android:id="@+id/line40"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:visibility="gone"
-                android:text="@string/line3" />
+                android:text="@string/line40" />
 
             <ImageView
-                android:id="@+id/img3"
+                android:id="@+id/img40"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:contentDescription="@string/img3"
+                android:contentDescription="@string/img40"
                 android:visibility="gone"
                 android:src="@drawable/tap" />
         </LinearLayout>
@@ -70,22 +94,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:id="@+id/transitions_container4">
+            android:id="@+id/transitions_container50">
 
             <TextView
-                android:id="@+id/line4"
+                android:id="@+id/line50"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:visibility="gone"
-                android:text="@string/line4" />
+                android:text="@string/line50" />
 
             <ImageView
-                android:id="@+id/img4"
+                android:id="@+id/img50"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:contentDescription="@string/img4"
+                android:contentDescription="@string/img50"
                 android:visibility="gone"
                 android:src="@drawable/longpress" />
         </LinearLayout>
@@ -94,22 +118,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:id="@+id/transitions_container5">
+            android:id="@+id/transitions_container60">
 
             <TextView
-                android:id="@+id/line5"
+                android:id="@+id/line60"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:visibility="gone"
-                android:text="@string/line5" />
+                android:text="@string/line60" />
 
             <ImageView
-                android:id="@+id/img5"
+                android:id="@+id/img60"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:contentDescription="@string/img5"
+                android:contentDescription="@string/img60"
                 android:visibility="gone"
                 android:src="@drawable/swipe" />
         </LinearLayout>
@@ -117,7 +141,56 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/transitions_container6">
+            android:orientation="vertical"
+            android:id="@+id/transitions_container70">
+
+            <TextView
+                android:id="@+id/line70"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:visibility="gone"
+                android:text="@string/line70" />
+
+            <ImageView
+                android:id="@+id/img70"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/img70"
+                android:visibility="gone"
+                android:src="@drawable/longpress2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/transitions_container80">
+
+            <TextView
+                android:id="@+id/line80"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:visibility="gone"
+                android:text="@string/line80" />
+
+            <ImageView
+                android:id="@+id/img80"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/img80"
+                android:visibility="gone"
+                android:src="@drawable/swipe2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/transitions_container90">
 
             <Button
                 android:id="@+id/ok"
