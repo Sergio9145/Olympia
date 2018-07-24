@@ -12,6 +12,7 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -23,12 +24,14 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
+import com.olympia.activities.SplashActivity;
 import com.olympia.activities.WordCardActivity;
 import com.olympia.oxford_api.api.DictionaryEntriesApi;
 import com.olympia.oxford_api.api.LemmatronApi;
@@ -316,14 +319,47 @@ public class TabFragment1 extends Fragment {
     }
 
     private void decideWhatToDo() {
+        boolean need_search = false;
         if (Vocabulary.nodes.get(currentWord) != null) {
             if (Vocabulary.nodes.get(currentWord).definitions.isEmpty()) {
-                performSearch(currentWord);
+                need_search = true;
             } else {
                 openWordCard();
             }
         } else {
-            performSearch(currentWord);
+            need_search = true;
+        }
+
+        if (need_search) {
+            if (SplashActivity.isConnected(getContext())) {
+                performSearch(currentWord);
+            } else {
+                AlertDialog.Builder categoryBuilder = new AlertDialog.Builder(getContext());
+                View mView = getLayoutInflater().inflate(R.layout.dialog_check_internet_connection, null);
+                categoryBuilder.setView(mView);
+
+                AlertDialog dialog = categoryBuilder.create();
+                dialog.setCancelable(false);
+                dialog.show();
+
+                Button positiveBtn = mView.findViewById(R.id.button_positive);
+                Button negativeBtn = mView.findViewById(R.id.button_negative);
+
+                positiveBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+                        startActivityForResult(intent, 0);
+                    }
+                });
+
+                negativeBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+            }
         }
     }
 

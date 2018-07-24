@@ -50,7 +50,7 @@ public class SplashActivity extends AppCompatActivity implements TextToSpeech.On
 
         final Runnable r = new Runnable() {
             public void run() {
-                if (isConnected()) {
+                if (isConnected(SplashActivity.this)) {
                     Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else {
@@ -107,7 +107,7 @@ public class SplashActivity extends AppCompatActivity implements TextToSpeech.On
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (isConnected()) {
+        if (isConnected(SplashActivity.this)) {
             Intent intent = new Intent(SplashActivity.this, MainActivity.class);
             startActivity(intent);
         }
@@ -120,7 +120,6 @@ public class SplashActivity extends AppCompatActivity implements TextToSpeech.On
 
         AlertDialog dialog = categoryBuilder.create();
         dialog.setCancelable(false);
-        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         dialog.show();
 
         Button positiveBtn = mView.findViewById(R.id.button_positive);
@@ -142,9 +141,9 @@ public class SplashActivity extends AppCompatActivity implements TextToSpeech.On
         });
     }
 
-    public boolean isConnected() {
+    public static boolean isConnected(Context c) {
         boolean result = false;
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         if (connectivityManager != null) {
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
