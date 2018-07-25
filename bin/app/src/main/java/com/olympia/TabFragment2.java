@@ -21,7 +21,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.olympia.activities.QuizActivity;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 
 public class TabFragment2 extends Fragment {
@@ -43,7 +46,18 @@ public class TabFragment2 extends Fragment {
         categoryList.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), categoryList ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-
+                        Quiz.filteredWords.clear();
+                        for (HashMap.Entry<Keyword, ArrayList<Category>> entry : Vocabulary.map.entrySet()) {
+                            if (entry.getValue().contains(Vocabulary.categories.get(position))) {
+                                Quiz.filteredWords.add(entry.getKey());
+                            }
+                        }
+                        if (Quiz.filteredWords.isEmpty()) {
+                            Toast.makeText(getContext(), getResources().getString(R.string.quiz_list_is_empty), Toast.LENGTH_LONG).show();
+                        } else {
+                            Intent intent = new Intent(getActivity(), QuizActivity.class);
+                            startActivityForResult(intent, Globals.QUIZ_ACTIVITY);
+                        }
                     }
 
                     @Override public void onLongItemClick(View view, int position) {
