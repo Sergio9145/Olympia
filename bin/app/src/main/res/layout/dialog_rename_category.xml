@@ -15,15 +15,33 @@
         android:padding="10dp"
         android:text="@string/rename_category" />
 
-    <EditText
-        android:id="@+id/category_name"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/category_name"
-        android:layout_margin="10dp"
-        android:selectAllOnFocus="true"
-        android:ems="10"
-        android:inputType="textPersonName" />
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/category_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/category_name"
+            android:layout_margin="10dp"
+            android:selectAllOnFocus="true"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/button_mic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            android:padding="10dp"
+            android:background="@drawable/btn_mic" />
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

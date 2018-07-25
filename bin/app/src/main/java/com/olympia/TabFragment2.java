@@ -1,6 +1,10 @@
 package com.olympia;
 
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -17,8 +21,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Locale;
+
 public class TabFragment2 extends Fragment {
     private AdapterListCategories categoriesAdapter;
+    EditText textField = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,16 +53,17 @@ public class TabFragment2 extends Fragment {
                         AlertDialog dialog = categoryBuilder.create();
                         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
-                        EditText renamedCategory = mView.findViewById(R.id.category_name);
-                        renamedCategory.setText(Vocabulary.categories.get(position).name);
+                        textField = mView.findViewById(R.id.category_name);
+                        textField.setText(Vocabulary.categories.get(position).name);
 
-                        Button positiveBtn = mView.findViewById(R.id.button_positive);
-                        Button negativeBtn = mView.findViewById(R.id.button_negative);
+                        Button positiveBtn = mView.findViewById(R.id.button_positive),
+                                negativeBtn = mView.findViewById(R.id.button_negative),
+                                micBtn = mView.findViewById(R.id.button_mic);
 
                         positiveBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                String categoryName = renamedCategory.getText().toString();
+                                String categoryName = textField.getText().toString();
                                 if (categoryName.isEmpty()) {
                                     Toast.makeText(getContext(), getResources().getString(R.string.category_needs_name), Toast.LENGTH_SHORT).show();
                                 } else {
@@ -72,6 +81,20 @@ public class TabFragment2 extends Fragment {
                             @Override
                             public void onClick(View v) {
                                 dialog.dismiss();
+                            }
+                        });
+                        micBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+                                intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.speech_prompt));
+                                try {
+                                    startActivityForResult(intent, Globals.SPEECH_ACTIVITY);
+                                } catch (ActivityNotFoundException a) {
+                                    Toast.makeText(getContext(), getString(R.string.speech_not_supported), Toast.LENGTH_SHORT).show();
+                                }
                             }
                         });
 
@@ -141,14 +164,15 @@ public class TabFragment2 extends Fragment {
                 AlertDialog dialog = categoryBuilder.create();
                 dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
-                EditText addedCategory = mView.findViewById(R.id.category_name);
-                Button positiveBtn = mView.findViewById(R.id.button_positive);
-                Button negativeBtn = mView.findViewById(R.id.button_negative);
+                textField = mView.findViewById(R.id.category_name);
+                Button positiveBtn = mView.findViewById(R.id.button_positive),
+                        negativeBtn = mView.findViewById(R.id.button_negative),
+                        micBtn = mView.findViewById(R.id.button_mic);
 
                 positiveBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String categoryName = addedCategory.getText().toString();
+                        String categoryName = textField.getText().toString();
                         if (categoryName.isEmpty()) {
                             Toast.makeText(getContext(), getResources().getString(R.string.category_needs_name), Toast.LENGTH_SHORT).show();
                         } else {
@@ -171,11 +195,42 @@ public class TabFragment2 extends Fragment {
                         dialog.dismiss();
                     }
                 });
+                micBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+                        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.speech_prompt));
+                        try {
+                            startActivityForResult(intent, Globals.SPEECH_ACTIVITY);
+                        } catch (ActivityNotFoundException a) {
+                            Toast.makeText(getContext(), getString(R.string.speech_not_supported), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
                 dialog.show();
             }
         });
 
         return v;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case Globals.SPEECH_ACTIVITY:
+                    ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    if (!result.isEmpty() && textField != null) {
+                        textField.setText(result.get(0));
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
